@@ -9,7 +9,7 @@ const UserOrder = require('./userOrder')
  *    BlogPost.belongsTo(User)
  */
 User.hasMany(Order)
-Order.hasOne(User)
+Order.belongsTo(User)
 Order.belongsToMany(Product, {through: 'UserOrder'})
 Product.belongsToMany(Order, {through: 'UserOrder'})
 
