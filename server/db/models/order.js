@@ -4,7 +4,7 @@ const db = require('../db')
 const Order = db.define('order', {
   purchased: {
     type: Sequelize.BOOLEAN,
-    allowNull: false,
+    allowNull: false
   }
 })
 
@@ -13,11 +13,12 @@ const Order = db.define('order', {
 //for each product, multipliy quantity * unit price
 //add up total for each product for grand total
 
-Order.prototype.getTotal = async () => {
-  const products = await Order.getProducts();
-  return products.map(product =>
-    product.quantity * product.unitPrice
-  ).reduce((accum, current) => accum + current);
+Order.prototype.getTotal = async function() {
+  // console.log(Object.keys(this.__proto__));
+  const products = await this.getProducts()
+  return products
+    .map(product => product.quantity * product.unitPrice)
+    .reduce((accum, current) => accum + current)
 }
 
 module.exports = Order

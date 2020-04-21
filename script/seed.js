@@ -1,5 +1,4 @@
 'use strict'
-
 const db = require('../server/db')
 const {
   User,
@@ -24,7 +23,7 @@ async function seed() {
       firstName: 'Murphy',
       lastName: 'Potter',
       email: 'murphy@email.com',
-      password: '123'
+      password: '345'
     }),
     User.create({
       firstName: 'Rubeus',
@@ -134,10 +133,16 @@ async function seed() {
     purchased: false
   })
 
-  await codyOrder.setUser(cody)
-  await codyOrder.addProduct({id: 4, quantity: 2, unitPrice: 16000})
-  await codyOrder.addProduct({id: 6, quantity: 5, unitPrice: 200})
+  const orderProduct = await OrderProduct.create({
+    productId: 4,
+    orderId: codyOrder.id,
+    quantity: 2,
+    unitPrice: 16000
+  })
 
+  codyOrder.setUser(cody)
+  console.log('codyOrder', codyOrder)
+  console.log('codyOrder total:', await codyOrder.getTotal())
   const murphy = await User.findOne({
     where: {
       email: 'murphy@email.com'
@@ -148,9 +153,9 @@ async function seed() {
     purchased: false
   })
 
-  await murphyOrder.setUser(murphy)
-  await murphyOrder.addProduct({id: 5, quantity: 4, unitPrice: 200})
-  await murphyOrder.addProduct({id: 2, quantity: 1, unitPrice: 125})
+  murphyOrder.setUser(murphy)
+  // murphyOrder.addProduct({id: 5, quantity: 4, unitPrice: 200})
+  // murphyOrder.addProduct({id: 2, quantity: 1, unitPrice: 125})
 
   await murphyOrder.update({purchased: true})
 
