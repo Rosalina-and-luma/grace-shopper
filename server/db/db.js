@@ -1,3 +1,5 @@
+//test: this is from Jennifer
+
 const Sequelize = require('sequelize')
 const pkg = require('../../package.json')
 
