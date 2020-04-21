@@ -2,10 +2,6 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const Product = db.define('product', {
-  id: {
-    type: Sequelize.NUMBER,
-    unique: true
-  },
   name: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -15,22 +11,20 @@ const Product = db.define('product', {
   },
   imgUrl: {
     type: Sequelize.TEXT,
+    defaultValue: 'https://www.kindpng.com/picc/m/474-4746854_hogwarts-logo-png-hogwarts-crest-harry-potter-coloring.png'
   },
   description: {
     type: Sequelize.TEXT
   },
   price: {
-    type: Sequelize.FLOAT
+    type: Sequelize.FLOAT,
+    allowNull: false
   },
   category: {
-    type: Sequelize.ENUM('wand', 'broom', 'robe', 'misc'),
-    allowNull: false,
-    validate: {
-      notEmpty: true
-    }
+    type: Sequelize.ENUM('wands', 'brooms', 'robes', 'misc')
   },
   inventory: {
-    type: Sequelize.NUMBER,
+    type: Sequelize.INTEGER,
     allowNull: false,
     validate: {
       min: 0
