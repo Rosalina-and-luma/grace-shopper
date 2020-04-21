@@ -130,19 +130,20 @@ async function seed() {
   })
 
   const codyOrder = await Order.create({
+    userId: cody.id,
     purchased: false
   })
 
-  const orderProduct = await OrderProduct.create({
+  await OrderProduct.create({
     productId: 4,
     orderId: codyOrder.id,
     quantity: 2,
     unitPrice: 16000
   })
 
-  codyOrder.setUser(cody)
-  console.log('codyOrder', codyOrder)
-  console.log('codyOrder total:', await codyOrder.getTotal())
+  // await codyOrder.setUser(cody)
+  // console.log('codyOrder', codyOrder)
+  // console.log('codyOrder total:', await codyOrder.getTotal())
   const murphy = await User.findOne({
     where: {
       email: 'murphy@email.com'
@@ -150,10 +151,16 @@ async function seed() {
   })
 
   const murphyOrder = await Order.create({
+    userId: murphy.id,
     purchased: false
   })
 
-  murphyOrder.setUser(murphy)
+  await OrderProduct.create({
+    orderId: murphyOrder.id,
+    productId: 5,
+    quantity: 4,
+    unitPrice: 200
+  })
   // murphyOrder.addProduct({id: 5, quantity: 4, unitPrice: 200})
   // murphyOrder.addProduct({id: 2, quantity: 1, unitPrice: 125})
 
