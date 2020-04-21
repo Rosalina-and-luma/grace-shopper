@@ -2,7 +2,7 @@ import {combineReducers} from 'redux'
 import productsReducer from './allProds'
 
 const appReducer = combineReducers({
-  products: productsReducer
+  allProducts: productsReducer
 })
 
 export default appReducer

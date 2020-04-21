@@ -9,12 +9,23 @@ class AllProducts extends React.Component {
   }
 
   render() {
-    const {products} = this.props
-    console.log(products)
+    const {products, isLoading} = this.props
+
+    if (isLoading) return <h1>loading....</h1>
 
     return (
       <div>
         <h1>All Products</h1>
+        {products.map(product => {
+          return (
+            <div key={product.id}>
+              <img src={product.imgUrl} height="50px" />
+              <p>{product.name}</p>
+              <p>{product.price}</p>
+              <button>Buy</button>
+            </div>
+          )
+        })}
       </div>
     )
   }
@@ -22,7 +33,8 @@ class AllProducts extends React.Component {
 
 const mapState = state => {
   return {
-    products: state.products
+    products: state.allProducts.products,
+    isLoading: state.allProducts.isLoading
   }
 }
 
