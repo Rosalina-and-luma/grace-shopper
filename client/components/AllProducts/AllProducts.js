@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {fetchProductsFromServer} from '../../reducer/allProds'
+import {Link} from 'react-router-dom'
 
 class AllProducts extends React.Component {
   componentDidMount() {
@@ -20,9 +21,11 @@ class AllProducts extends React.Component {
           return (
             <div key={product.id}>
               <img src={product.imgUrl} height="50px" />
-              <p>{product.name}</p>
+              <Link to={`products/${product.id}`}>
+                <p>{product.name}</p>
+              </Link>
               <p>{product.price}</p>
-              <button>Buy</button>
+              <button type="button">Buy</button>
             </div>
           )
         })}
