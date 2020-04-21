@@ -2,19 +2,9 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const Order = db.define('order', {
-  status: {
-    type: Sequelize.STRING,
+  purchased: {
+    type: Sequelize.BOOLEAN,
     allowNull: false,
-    validate: {
-      isIn: [['open', 'closed']]
-    }
-  },
-  total: {
-    type: Sequelize.FLOAT,
-    allowNull: false,
-    validate: {
-      min: 0
-    }
   }
 })
 

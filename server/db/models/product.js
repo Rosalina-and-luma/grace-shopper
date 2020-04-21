@@ -20,9 +20,6 @@ const Product = db.define('product', {
     type: Sequelize.FLOAT,
     allowNull: false
   },
-  category: {
-    type: Sequelize.ENUM('wands', 'brooms', 'robes', 'misc')
-  },
   inventory: {
     type: Sequelize.INTEGER,
     allowNull: false,
