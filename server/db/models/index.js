@@ -11,10 +11,10 @@ const OrderProduct = require('./orderProduct')
  */
 User.hasMany(Order)
 Order.belongsTo(User)
-Product.hasOne(Category)
-Category.belongsTo(Product)
-Order.belongsToMany(Product, {through: 'UserOrder'})
-Product.belongsToMany(Order, {through: 'UserOrder'})
+Product.belongsTo(Category)
+Category.hasMany(Product)
+Order.belongsToMany(Product, {through: 'OrderProduct'})
+Product.belongsToMany(Order, {through: 'OrderProduct'})
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,
