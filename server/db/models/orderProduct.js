@@ -20,4 +20,4 @@ const OrderProduct = db.define('order_product', {
 
 //**add hook**
 
-module.exports = OrderProduct;
+module.exports = OrderProduct
