@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const GET_PRODUCTS = 'GET_PRODUCTS'
+const GET_BROOMS = 'GET_BROOMS'
 
 const getProducts = products => {
   return {
@@ -8,6 +9,10 @@ const getProducts = products => {
     products
   }
 }
+
+const getBrooms = () => ({
+  type: GET_BROOMS
+})
 
 export const fetchProductsFromServer = () => {
   return async dispatch => {
@@ -22,7 +27,8 @@ export const fetchProductsFromServer = () => {
 
 const initialState = {
   isLoading: true,
-  products: []
+  products: [],
+  brooms: []
 }
 
 export default function productsReducer(state = initialState, action) {
@@ -33,6 +39,18 @@ export default function productsReducer(state = initialState, action) {
         isLoading: false,
         products: action.products
       }
+    case GET_BROOMS: {
+      let allProducts = [...state.products]
+      let brooms = allProducts.filter(product => {
+        if (product.category === 'broom') {
+          return product
+        }
+      })
+      return {
+        ...state,
+        brooms
+      }
+    }
     default:
       return state
   }
