@@ -10,7 +10,6 @@ const getProducts = products => {
 }
 
 export const fetchProductsFromServer = () => {
-  console.log('hi')
   return async dispatch => {
     try {
       const {data} = await axios.get('/api/products')
@@ -32,8 +31,8 @@ export default function productsReducer(state = initialState, action) {
     case GET_PRODUCTS:
       return {
         ...state,
-        products: action.products,
-        isLoading: false
+        isLoading: false,
+        products: action.products
       }
     default:
       return state

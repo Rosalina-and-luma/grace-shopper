@@ -3,19 +3,14 @@ import {connect} from 'react-redux'
 import {fetchProductsFromServer} from '../../reducer/allProds'
 
 class AllProducts extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
   componentDidMount() {
     const {getProducts} = this.props
-    // getProducts()
+    getProducts()
   }
 
   render() {
     const {products} = this.props
-    console.log(this.props)
-    console.log('products', products)
+    console.log(products)
 
     return (
       <div>
