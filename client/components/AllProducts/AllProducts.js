@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {fetchProductsFromServer} from '../../reducer/allProds'
+import AllProductsUI from './AllProductsUI'
 
 class AllProducts extends React.Component {
   componentDidMount() {
@@ -16,13 +17,11 @@ class AllProducts extends React.Component {
     return (
       <div>
         <h1>All Products</h1>
+
         {products.map(product => {
           return (
             <div key={product.id}>
-              <img src={product.imgUrl} height="50px" />
-              <p>{product.name}</p>
-              <p>{product.price}</p>
-              <button>Buy</button>
+              <AllProductsUI product={product} />
             </div>
           )
         })}
