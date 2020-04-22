@@ -2,8 +2,6 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
-import {fetchSingleProduct} from '../reducer/singleProduct'
-import {NavLink} from 'react-router-dom'
 /**
  * COMPONENT
  */
@@ -12,9 +10,6 @@ const AuthForm = props => {
 
   return (
     <div>
-      <NavLink to="/products/1">
-        <button type="button">Get first product</button>
-      </NavLink>
       <form onSubmit={handleSubmit} name={name}>
         <div>
           <label htmlFor="email">
@@ -69,9 +64,6 @@ const mapDispatch = dispatch => {
       const email = evt.target.email.value
       const password = evt.target.password.value
       dispatch(auth(email, password, formName))
-    },
-    getProduct: id => {
-      dispatch(fetchSingleProduct(id))
     }
   }
 }
