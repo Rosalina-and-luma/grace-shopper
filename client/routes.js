@@ -5,6 +5,12 @@ import PropTypes from 'prop-types'
 import {Login, Signup, UserHome} from './components'
 import SingleProduct from './components/singleProduct'
 import {me} from './store'
+import AllProducts from './components/AllProducts/AllProducts'
+import Brooms from './components/Brooms/brooms'
+import Wands from './components/Wands/wands'
+import Robes from './components/Robes/robes'
+import Misc from './components/Misc/misc'
+import Homepage from './components/Homepage/Homepage'
 
 /**
  * COMPONENT
@@ -20,6 +26,12 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        <Route exact path="/" component={Homepage} />
+        <Route exact path="/products" component={AllProducts} />
+        <Route exact path="/brooms" component={Brooms} />
+        <Route exact path="/wands" component={Wands} />
+        <Route exact path="/robes" component={Robes} />
+        <Route exact path="/misc" component={Misc} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/products/:productId" component={SingleProduct} />
@@ -41,9 +53,9 @@ class Routes extends Component {
  */
 // const mapState = state => {
 //   return {
-// Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
-// Otherwise, state.user will be an empty object, and state.user.id will be falsey
-// isLoggedIn: !!state.user.id
+//     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
+//     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
+//     // isLoggedIn: !!state.user.id
 //   }
 // }
 

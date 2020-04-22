@@ -1,7 +1,8 @@
 import {combineReducers} from 'redux'
-import singleProductReducer from './singleProduct'
+import productsReducer from './allProds'
 
 const appReducer = combineReducers({
+  allProducts: productsReducer,
   singleProduct: singleProductReducer
 })
 

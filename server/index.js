@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === 'test') {
 // if (process.env.NODE_ENV !== 'production') require('../secrets')
 
 // passport registration
-passport.serializeUser((user, done) => done(null, user.id))
+// passport.serializeUser((user, done) => done(null, user.id))
 
 // passport.deserializeUser(async (id, done) => {
 //   try {
@@ -60,8 +60,8 @@ const createApp = () => {
   //     saveUninitialized: false
   //   })
   // )
-  app.use(passport.initialize())
-  app.use(passport.session())
+  // app.use(passport.initialize())
+  // app.use(passport.session())
 
   // auth and api routes
   app.use('/auth', require('./auth'))
