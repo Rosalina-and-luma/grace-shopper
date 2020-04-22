@@ -148,9 +148,6 @@ async function seed() {
     unitPrice: 200
   })
 
-  // await codyOrder.setUser(cody)
-  // console.log('codyOrder', codyOrder)
-  // console.log('codyOrder total:', await codyOrder.getTotal())
   const murphy = await User.findOne({
     where: {
       email: 'murphy@email.com'
@@ -168,8 +165,6 @@ async function seed() {
     quantity: 4,
     unitPrice: 200
   })
-  // murphyOrder.addProduct({id: 5, quantity: 4, unitPrice: 200})
-  // murphyOrder.addProduct({id: 2, quantity: 1, unitPrice: 125})
 
   await murphyOrder.update({purchased: true})
 
@@ -180,8 +175,6 @@ async function seed() {
   console.log(`seeded ${products.length} products`)
   console.log(`seeded ${orders.length} orders`)
   console.log(`seeded successfully`)
-
-  // console.log('getTotal: ', await codyOrder.getTotal())
 }
 
 // We've separated the `seed` function from the `runSeed` function.
