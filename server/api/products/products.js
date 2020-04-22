@@ -91,6 +91,7 @@ router.get('/', (req, res, next) => {
     next(err)
   }
 })
+
 router.get('/brooms', (req, res, next) => {
   try {
     // const products = await Products.findAll({
@@ -104,10 +105,81 @@ router.get('/brooms', (req, res, next) => {
         return item
       }
     })
-    console.log('TEMP TESULT----------', tempResult)
     res.json(tempResult)
   } catch (err) {
     next(err)
+  }
+})
+
+router.get('/wands', (req, res, next) => {
+  try {
+    // const products = await Products.findAll({
+    //   where: {
+    //     category: wand
+    //   }
+    // })
+    //res.json(products)
+    let tempResult = tempData.filter(item => {
+      if (item.category === 'wand') {
+        return item
+      }
+    })
+    res.json(tempResult)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/robes', (req, res, next) => {
+  try {
+    // const products = await Products.findAll({
+    //   where: {
+    //     category: robe
+    //   }
+    // })
+    //res.json(products)
+    let tempResult = tempData.filter(item => {
+      if (item.category === 'robe') {
+        return item
+      }
+    })
+    res.json(tempResult)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/misc', (req, res, next) => {
+  try {
+    // const products = await Products.findAll({
+    //   where: {
+    //     category: misc
+    //   }
+    // })
+    //res.json(products)
+    let tempResult = tempData.filter(item => {
+      if (item.category === 'misc') {
+        return item
+      }
+    })
+    res.json(tempResult)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/:productId', async (req, res, next) => {
+  try {
+    // const selectedProduct = await Product.findByPk(req.params.productId);
+    // res.json(selectedProduct)
+    let tempResult = tempData.filter(item => {
+      if (item.id === parseInt(req.params.productId)) {
+        return item
+      }
+    })
+    res.json(tempResult)
+  } catch (error) {
+    next(error)
   }
 })
 

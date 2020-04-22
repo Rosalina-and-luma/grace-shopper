@@ -1,7 +1,11 @@
+/* eslint-disable complexity */
 import axios from 'axios'
 
 const GET_PRODUCTS = 'GET_PRODUCTS'
 const GET_BROOMS = 'GET_BROOMS'
+const GET_WANDS = 'GET_WANDS'
+const GET_ROBES = 'GET_ROBES'
+const GET_MISC = 'GET_MISC'
 
 const getProducts = products => {
   return {
@@ -15,6 +19,27 @@ export const getBrooms = brooms => {
   return {
     type: GET_BROOMS,
     brooms
+  }
+}
+
+export const getWands = wands => {
+  return {
+    type: GET_WANDS,
+    wands
+  }
+}
+
+export const getRobes = robes => {
+  return {
+    type: GET_ROBES,
+    robes
+  }
+}
+
+export const getMisc = miscItems => {
+  return {
+    type: GET_MISC,
+    miscItems
   }
 }
 
@@ -41,10 +66,46 @@ export const fetchBroomsFromServer = () => {
   }
 }
 
+export const fetchWandsFromServer = () => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.get('/api/products/wands')
+      dispatch(getWands(data))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
+export const fetchRobesFromServer = () => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.get('/api/products/robes')
+      dispatch(getRobes(data))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
+export const fetchMiscFromServer = () => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.get('/api/products/misc')
+      dispatch(getMisc(data))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 const initialState = {
   isLoading: true,
   products: [],
-  brooms: []
+  brooms: [],
+  wands: [],
+  robes: [],
+  miscItems: []
 }
 
 export default function productsReducer(state = initialState, action) {
@@ -56,15 +117,8 @@ export default function productsReducer(state = initialState, action) {
         products: action.products
       }
     case GET_BROOMS: {
-      /*
-        if this.state.products is not empty:
-          this.state.brooms = filter products
-        else
-          this.state.brooms = get from backend
-      */
       let allBrooms
       if (state.products.length) {
-        console.log(' in if--------')
         let allProducts = [...state.products]
         allBrooms = allProducts.filter(product => {
           if (product.category === 'broom') {
@@ -72,13 +126,65 @@ export default function productsReducer(state = initialState, action) {
           }
         })
       } else {
-        console.log('EXISTING BROOMS', action.brooms)
         allBrooms = action.brooms
       }
-      console.log('ALL BROOOOOOMSSS', allBrooms)
       return {
         ...state,
         brooms: allBrooms,
+        isLoading: false
+      }
+    }
+    case GET_WANDS: {
+      let allWands
+      if (state.products.length) {
+        let allProducts = [...state.products]
+        allWands = allProducts.filter(product => {
+          if (product.category === 'wand') {
+            return product
+          }
+        })
+      } else {
+        allWands = action.wands
+      }
+      return {
+        ...state,
+        wands: allWands,
+        isLoading: false
+      }
+    }
+    case GET_ROBES: {
+      let allRobes
+      if (state.products.length) {
+        let allProducts = [...state.products]
+        allRobes = allProducts.filter(product => {
+          if (product.category === 'robe') {
+            return product
+          }
+        })
+      } else {
+        allRobes = action.robes
+      }
+      return {
+        ...state,
+        robes: allRobes,
+        isLoading: false
+      }
+    }
+    case GET_MISC: {
+      let allMiscItems
+      if (state.products.length) {
+        let allProducts = [...state.products]
+        allMiscItems = allProducts.filter(product => {
+          if (product.category === 'misc') {
+            return product
+          }
+        })
+      } else {
+        allMiscItems = action.miscItems
+      }
+      return {
+        ...state,
+        miscItems: allMiscItems,
         isLoading: false
       }
     }
@@ -86,12 +192,3 @@ export default function productsReducer(state = initialState, action) {
       return state
   }
 }
-
-//   export default function productsReducer(products = [], action) {
-//     switch (action.type) {
-//       case GET_PRODUCTS:
-//         return action.products
-//       default:
-//         return products
-//     }
-// }
