@@ -141,6 +141,13 @@ async function seed() {
     unitPrice: 16000
   })
 
+  await OrderProduct.create({
+    orderId: codyOrder.id,
+    productId: 6,
+    quantity: 4,
+    unitPrice: 200
+  })
+
   // await codyOrder.setUser(cody)
   // console.log('codyOrder', codyOrder)
   // console.log('codyOrder total:', await codyOrder.getTotal())
@@ -173,6 +180,8 @@ async function seed() {
   console.log(`seeded ${products.length} products`)
   console.log(`seeded ${orders.length} orders`)
   console.log(`seeded successfully`)
+
+  // console.log('getTotal: ', await codyOrder.getTotal())
 }
 
 // We've separated the `seed` function from the `runSeed` function.

@@ -14,11 +14,18 @@ const Order = db.define('order', {
 //add up total for each product for grand total
 
 Order.prototype.getTotal = async function() {
-  // console.log(Object.keys(this.__proto__));
   const products = await this.getProducts()
-  return products
-    .map(product => product.quantity * product.unitPrice)
-    .reduce((accum, current) => accum + current)
+  // console.log('getTotal products: ', products)
+
+  const OrderProducts = products.map(product => product.dataValues.OrderProduct)
+  // console.log('OrderProducts array: ', OrderProducts)
+
+  const subtotals = OrderProducts.map(
+    product => product.dataValues.quantity * product.dataValues.unitPrice
+  )
+  console.log('Subtotals: ', subtotals)
+
+  return subtotals.reduce((a, b) => a + b)
 }
 
 module.exports = Order
