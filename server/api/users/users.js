@@ -30,7 +30,8 @@ router.post('/', async (req, res, next) => {
       firstName,
       lastName,
       email,
-      password
+      password,
+      isAdmin: false
     }
     res.json(newUser)
   } catch (error) {
