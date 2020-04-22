@@ -105,7 +105,6 @@ router.get('/brooms', (req, res, next) => {
         return item
       }
     })
-    console.log('TEMP TESULT----------', tempResult)
     res.json(tempResult)
   } catch (err) {
     next(err)
@@ -116,7 +115,7 @@ router.get('/wands', (req, res, next) => {
   try {
     // const products = await Products.findAll({
     //   where: {
-    //     category: wands
+    //     category: wand
     //   }
     // })
     //res.json(products)
@@ -125,7 +124,25 @@ router.get('/wands', (req, res, next) => {
         return item
       }
     })
-    console.log('TEMP TESULT----------', tempResult)
+    res.json(tempResult)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/robes', (req, res, next) => {
+  try {
+    // const products = await Products.findAll({
+    //   where: {
+    //     category: robe
+    //   }
+    // })
+    //res.json(products)
+    let tempResult = tempData.filter(item => {
+      if (item.category === 'robe') {
+        return item
+      }
+    })
     res.json(tempResult)
   } catch (err) {
     next(err)
