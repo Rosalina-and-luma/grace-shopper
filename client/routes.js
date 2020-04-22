@@ -10,6 +10,7 @@ import Brooms from './components/Brooms/brooms'
 import Wands from './components/Wands/wands'
 import Robes from './components/Robes/robes'
 import Misc from './components/Misc/misc'
+import EditProduct from './components/EditProduct/editProduct'
 import Homepage from './components/Homepage/Homepage'
 
 /**
@@ -34,6 +35,11 @@ class Routes extends Component {
         <Route exact path="/misc" component={Misc} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        <Route
+          exact
+          path="/products/updateProduct/:productId"
+          component={EditProduct}
+        />
         <Route path="/products/:productId" component={SingleProduct} />
         {isLoggedIn && (
           <Switch>

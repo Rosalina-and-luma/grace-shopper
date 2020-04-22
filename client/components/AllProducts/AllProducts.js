@@ -11,6 +11,7 @@ class AllProducts extends React.Component {
 
   render() {
     const {products, isLoading} = this.props
+    const isAdmin = true
 
     if (isLoading) return <h1>loading....</h1>
 
@@ -21,7 +22,7 @@ class AllProducts extends React.Component {
         {products.map(product => {
           return (
             <div key={product.id}>
-              <AllProductsUI product={product} />
+              <AllProductsUI product={product} isAdmin={isAdmin} />
             </div>
           )
         })}

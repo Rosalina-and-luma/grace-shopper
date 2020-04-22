@@ -3,7 +3,7 @@ import {NavLink} from 'react-router-dom'
 
 const AllProductsUI = props => {
   console.log('In UI', props)
-  const {product} = props
+  const {product, isAdmin} = props
   return (
     <div>
       <NavLink to={`/products/${product.id}`}>
@@ -14,7 +14,15 @@ const AllProductsUI = props => {
       <NavLink to={`/products/${product.id}`}>
         <button type="button">View Details</button>
       </NavLink>
-      <button>Buy</button>
+      <button type="button">Buy</button>
+      {isAdmin && (
+        <div>
+          <NavLink to={`/products/updateProduct/${product.id}`}>
+            <button type="button">Edit</button>
+          </NavLink>
+          <button type="button">Delete</button>
+        </div>
+      )}
     </div>
   )
 }
