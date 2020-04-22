@@ -149,4 +149,23 @@ router.get('/robes', (req, res, next) => {
   }
 })
 
+router.get('/misc', (req, res, next) => {
+  try {
+    // const products = await Products.findAll({
+    //   where: {
+    //     category: misc
+    //   }
+    // })
+    //res.json(products)
+    let tempResult = tempData.filter(item => {
+      if (item.category === 'misc') {
+        return item
+      }
+    })
+    res.json(tempResult)
+  } catch (err) {
+    next(err)
+  }
+})
+
 module.exports = router
