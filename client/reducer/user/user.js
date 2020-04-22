@@ -10,7 +10,6 @@ const signupUser = user => {
 }
 
 export const addUserToServer = user => {
-  console.log('server called with user', user)
   return async dispatch => {
     try {
       const {data} = await axios.post('/api/users', {
