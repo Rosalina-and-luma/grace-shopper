@@ -1,0 +1,16 @@
+.signup-form {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin: 20px 25%;
+}
+
+label {
+  text-align: left;
+}
+
+.warning {
+  color: rgb(231, 95, 95);
+  font-size: 12px;
+}
