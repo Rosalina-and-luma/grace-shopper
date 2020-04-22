@@ -1,6 +1,9 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchProductsFromServer} from '../../reducer/allProds'
+import {
+  fetchProductsFromServer,
+  updateProductOnServer
+} from '../../reducer/allProds'
 
 class EditProduct extends Component {
   constructor() {
@@ -105,6 +108,24 @@ class EditProduct extends Component {
           onChange={this.handleChange}
         />
         <br />
+
+        <button
+          type="button"
+          onClick={() => {
+            this.props.updateProduct({
+              id: this.state.id,
+              name: this.state.name,
+              imgUrl: this.state.imgUrl,
+              description: this.state.description,
+              price: this.state.price,
+              category: this.state.category,
+              inventory: this.state.inventory
+            })
+          }}
+        >
+          {' '}
+          Update Product{' '}
+        </button>
       </div>
     )
   }
@@ -118,7 +139,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getProducts: () => dispatch(fetchProductsFromServer())
+    // getProducts: () => dispatch(fetchProductsFromServer())
+    updateProduct: product => dispatch(updateProductOnServer(product))
   }
 }
 

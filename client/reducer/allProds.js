@@ -114,6 +114,7 @@ export const updateProductOnServer = product => {
       const {data} = await axios.put(
         `api/products/updateProduct/${product.id}`,
         {
+          id: product.id,
           name: product.name,
           imgUrl: product.imgUrl,
           description: product.description,

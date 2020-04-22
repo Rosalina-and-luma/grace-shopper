@@ -183,4 +183,25 @@ router.get('/:productId', async (req, res, next) => {
   }
 })
 
+router.put('/updateProduct/:productId', async (req, res, next) => {
+  try {
+    // const selecteProduct = await Product.findByPk(req.params.productId);
+    // if(selectedProduct) {
+    //   await selectedProduct.update(req.body);
+    //   res.json(selectedProduct)
+    // } else {
+    //   res.sendStatus(404)
+    // }
+    let selectedProduct = tempData.filter(item => {
+      if (item.id === req.params.id) {
+        return item
+      }
+      selectedProduct = req.body
+      res.json(selectedProduct)
+    })
+  } catch (error) {
+    console.error(error)
+  }
+})
+
 module.exports = router
