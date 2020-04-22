@@ -13,7 +13,6 @@ class Robes extends Component {
     }
   }
   render() {
-    console.log('robes,', this.props.robes)
     const {robes, isLoading} = this.props
     if (isLoading) return <h1>loading....</h1>
     return (

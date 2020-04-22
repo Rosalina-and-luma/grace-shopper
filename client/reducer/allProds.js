@@ -1,9 +1,11 @@
+/* eslint-disable complexity */
 import axios from 'axios'
 
 const GET_PRODUCTS = 'GET_PRODUCTS'
 const GET_BROOMS = 'GET_BROOMS'
 const GET_WANDS = 'GET_WANDS'
 const GET_ROBES = 'GET_ROBES'
+const GET_MISC = 'GET_MISC'
 
 const getProducts = products => {
   return {
@@ -31,6 +33,13 @@ export const getRobes = robes => {
   return {
     type: GET_ROBES,
     robes
+  }
+}
+
+export const getMisc = miscItems => {
+  return {
+    type: GET_MISC,
+    miscItems
   }
 }
 
@@ -79,12 +88,24 @@ export const fetchRobesFromServer = () => {
   }
 }
 
+export const fetchMiscFromServer = () => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.get('/api/products/misc')
+      dispatch(getMisc(data))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 const initialState = {
   isLoading: true,
   products: [],
   brooms: [],
   wands: [],
-  robes: []
+  robes: [],
+  miscItems: []
 }
 
 export default function productsReducer(state = initialState, action) {
@@ -149,16 +170,25 @@ export default function productsReducer(state = initialState, action) {
         isLoading: false
       }
     }
+    case GET_MISC: {
+      let allMiscItems
+      if (state.products.length) {
+        let allProducts = [...state.products]
+        allMiscItems = allProducts.filter(product => {
+          if (product.category === 'misc') {
+            return product
+          }
+        })
+      } else {
+        allMiscItems = action.miscItems
+      }
+      return {
+        ...state,
+        miscItems: allMiscItems,
+        isLoading: false
+      }
+    }
     default:
       return state
   }
 }
-
-//   export default function productsReducer(products = [], action) {
-//     switch (action.type) {
-//       case GET_PRODUCTS:
-//         return action.products
-//       default:
-//         return products
-//     }
-// }

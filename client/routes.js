@@ -8,6 +8,7 @@ import AllProducts from './components/AllProducts/AllProducts'
 import Brooms from './components/Brooms/brooms'
 import Wands from './components/Wands/wands'
 import Robes from './components/Robes/robes'
+import Misc from './components/Misc/misc'
 import Homepage from './components/Homepage/Homepage'
 
 /**
@@ -29,6 +30,7 @@ class Routes extends Component {
         <Route exact path="/brooms" component={Brooms} />
         <Route exact path="/wands" component={Wands} />
         <Route exact path="/robes" component={Robes} />
+        <Route exact path="/misc" component={Misc} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         {isLoggedIn && (
