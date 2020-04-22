@@ -1,15 +1,15 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {NavLink} from 'react-router-dom'
 import {fetchSingleProduct} from '../../reducer/singleProduct'
 
 class SingleProduct extends Component {
   componentDidMount() {
+    console.log('id from URL', this.props.match.params.productId)
     this.props.getSelectedProduct(this.props.match.params.productId)
   }
   render() {
     const {isLoading} = this.props
-    const selectedProduct = this.props.selectedProduct[0]
+    const selectedProduct = this.props.selectedProduct
     console.log('State props', selectedProduct, isLoading)
     if (isLoading)
       return (
