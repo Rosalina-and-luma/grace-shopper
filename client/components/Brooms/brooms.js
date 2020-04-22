@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getBrooms, fetchBroomsFromServer} from '../../reducer/allProds'
+import AllProductsUI from '../AllProducts/AllProductsUI'
 
 class Brooms extends Component {
   componentDidMount() {
@@ -23,6 +24,13 @@ class Brooms extends Component {
     return (
       <div>
         <h1>Here are all the brooms!</h1>
+        {brooms.map(broom => {
+          return (
+            <div key={broom.id}>
+              <AllProductsUI product={broom} />
+            </div>
+          )
+        })}
       </div>
     )
   }
