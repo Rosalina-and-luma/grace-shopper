@@ -2,7 +2,6 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
-
 /**
  * COMPONENT
  */
@@ -44,16 +43,16 @@ const AuthForm = props => {
 const mapLogin = state => {
   return {
     name: 'login',
-    displayName: 'Login',
-    error: state.user.error
+    displayName: 'Login'
+    // error: state.user.error
   }
 }
 
 const mapSignup = state => {
   return {
     name: 'signup',
-    displayName: 'Sign Up',
-    error: state.user.error
+    displayName: 'Sign Up'
+    // error: state.user.error
   }
 }
 
