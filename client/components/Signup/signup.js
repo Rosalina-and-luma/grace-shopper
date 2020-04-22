@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {addUserToServer} from '../../reducer/user/user'
 import './signup.css'
 
 class Signup extends Component {
@@ -19,7 +21,6 @@ class Signup extends Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <div className="signup-form">
         <label>
@@ -70,16 +71,37 @@ class Signup extends Component {
           )}
         </label>
         <input
-          type="text"
+          type="password"
           name="password"
           value={this.state.password}
           onChange={this.handleChange}
         />
         <br />
-        <button type="button"> Signup</button>
+        <button
+          type="button"
+          onClick={() => {
+            this.props.addUser({
+              firstName: this.state.firstName,
+              lastName: this.state.lastName,
+              email: this.state.email,
+              password: this.state.password
+            })
+          }}
+        >
+          {' '}
+          Signup
+        </button>
       </div>
     )
   }
 }
 
-export default Signup
+const mapDispatchToProps = dispatch => {
+  return {
+    addUser: user => {
+      dispatch(addUserToServer(user))
+    }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Signup)
