@@ -3,6 +3,7 @@ import axios from 'axios'
 const GET_PRODUCTS = 'GET_PRODUCTS'
 const GET_BROOMS = 'GET_BROOMS'
 const GET_WANDS = 'GET_WANDS'
+const GET_ROBES = 'GET_ROBES'
 
 const getProducts = products => {
   return {
@@ -23,6 +24,13 @@ export const getWands = wands => {
   return {
     type: GET_WANDS,
     wands
+  }
+}
+
+export const getRobes = robes => {
+  return {
+    type: GET_ROBES,
+    robes
   }
 }
 
@@ -60,11 +68,23 @@ export const fetchWandsFromServer = () => {
   }
 }
 
+export const fetchRobesFromServer = () => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.get('/api/products/robes')
+      dispatch(getRobes(data))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 const initialState = {
   isLoading: true,
   products: [],
   brooms: [],
-  wands: []
+  wands: [],
+  robes: []
 }
 
 export default function productsReducer(state = initialState, action) {
@@ -108,6 +128,24 @@ export default function productsReducer(state = initialState, action) {
       return {
         ...state,
         wands: allWands,
+        isLoading: false
+      }
+    }
+    case GET_ROBES: {
+      let allRobes
+      if (state.products.length) {
+        let allProducts = [...state.products]
+        allRobes = allProducts.filter(product => {
+          if (product.category === 'robe') {
+            return product
+          }
+        })
+      } else {
+        allRobes = action.robes
+      }
+      return {
+        ...state,
+        robes: allRobes,
         isLoading: false
       }
     }
