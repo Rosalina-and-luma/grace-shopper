@@ -10,17 +10,33 @@ const getProducts = products => {
   }
 }
 
-const getBrooms = () => ({
-  type: GET_BROOMS
-})
+export const getBrooms = brooms => {
+  console.log('GET BROOMS CALLED')
+  return {
+    type: GET_BROOMS,
+    brooms
+  }
+}
 
 export const fetchProductsFromServer = () => {
+  console.log('fetch products called')
   return async dispatch => {
     try {
       const {data} = await axios.get('/api/products')
       dispatch(getProducts(data))
     } catch (err) {
       console.error(err)
+    }
+  }
+}
+
+export const fetchBroomsFromServer = () => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.get('/api/products/brooms')
+      dispatch(getBrooms(data))
+    } catch (error) {
+      console.error(error)
     }
   }
 }
@@ -40,15 +56,30 @@ export default function productsReducer(state = initialState, action) {
         products: action.products
       }
     case GET_BROOMS: {
-      let allProducts = [...state.products]
-      let brooms = allProducts.filter(product => {
-        if (product.category === 'broom') {
-          return product
-        }
-      })
+      /*
+        if this.state.products is not empty:
+          this.state.brooms = filter products
+        else
+          this.state.brooms = get from backend
+      */
+      let allBrooms
+      if (state.products.length) {
+        console.log(' in if--------')
+        let allProducts = [...state.products]
+        allBrooms = allProducts.filter(product => {
+          if (product.category === 'broom') {
+            return product
+          }
+        })
+      } else {
+        console.log('EXISTING BROOMS', action.brooms)
+        allBrooms = action.brooms
+      }
+      console.log('ALL BROOOOOOMSSS', allBrooms)
       return {
         ...state,
-        brooms
+        brooms: allBrooms,
+        isLoading: false
       }
     }
     default:

@@ -91,5 +91,24 @@ router.get('/', (req, res, next) => {
     next(err)
   }
 })
+router.get('/brooms', (req, res, next) => {
+  try {
+    // const products = await Products.findAll({
+    //   where: {
+    //     category: brooms
+    //   }
+    // })
+    //res.json(products)
+    let tempResult = tempData.filter(item => {
+      if (item.category === 'broom') {
+        return item
+      }
+    })
+    console.log('TEMP TESULT----------', tempResult)
+    res.json(tempResult)
+  } catch (err) {
+    next(err)
+  }
+})
 
 module.exports = router
