@@ -1,11 +1,13 @@
 /* eslint-disable complexity */
 import axios from 'axios'
+import {act} from 'react-test-renderer'
 
 const GET_PRODUCTS = 'GET_PRODUCTS'
 const GET_BROOMS = 'GET_BROOMS'
 const GET_WANDS = 'GET_WANDS'
 const GET_ROBES = 'GET_ROBES'
 const GET_MISC = 'GET_MISC'
+const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 
 const getProducts = products => {
   return {
@@ -40,6 +42,13 @@ export const getMisc = miscItems => {
   return {
     type: GET_MISC,
     miscItems
+  }
+}
+
+const updateProduct = product => {
+  return {
+    type: UPDATE_PRODUCT,
+    product
   }
 }
 
@@ -93,6 +102,27 @@ export const fetchMiscFromServer = () => {
     try {
       const {data} = await axios.get('/api/products/misc')
       dispatch(getMisc(data))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
+export const updateProductOnServer = product => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.put(
+        `api/products/updateProduct/${product.id}`,
+        {
+          name: product.name,
+          imgUrl: product.imgUrl,
+          description: product.description,
+          price: product.price,
+          category: product.category,
+          inventory: product.inventory
+        }
+      )
+      dispatch(updateProduct(data))
     } catch (error) {
       console.error(error)
     }
@@ -186,6 +216,27 @@ export default function productsReducer(state = initialState, action) {
         ...state,
         miscItems: allMiscItems,
         isLoading: false
+      }
+    }
+    case UPDATE_PRODUCT: {
+      let oldProducts = [...state.products]
+      let updatedProducts = oldProducts.map(product => {
+        if (product.id === action.product.id) {
+          const {prod} = action.product
+          return {
+            id: prod.id,
+            name: prod.name,
+            imgUrl: prod.imgUrl,
+            description: prod.description,
+            price: prod.price,
+            category: prod.category,
+            inventory: prod.inventory
+          }
+        }
+      })
+      return {
+        ...state,
+        products: [...updatedProducts]
       }
     }
     default:
