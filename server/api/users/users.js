@@ -1,5 +1,5 @@
 const router = require('express').Router()
-// const {User} = require('../../db/models')
+const {User} = require('../../db/models')
 module.exports = router
 
 // router.get('/', async (req, res, next) => {
@@ -19,20 +19,12 @@ module.exports = router
 router.post('/', async (req, res, next) => {
   try {
     const {firstName, lastName, email, password} = req.body
-    // const newUser = await User.create({
-    //   firstName,
-    //   lastName,
-    //   email,
-    //   password
-    // })
-    // res.json(newUser)
-    let newUser = {
+    const newUser = await User.create({
       firstName,
       lastName,
       email,
-      password,
-      isAdmin: false
-    }
+      password
+    })
     res.json(newUser)
   } catch (error) {
     next(error)

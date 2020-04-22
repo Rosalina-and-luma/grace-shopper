@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import {NavLink} from 'react-router-dom'
 import {addUserToServer} from '../../reducer/user/user'
 import './signup.css'
 
@@ -77,20 +78,22 @@ class Signup extends Component {
           onChange={this.handleChange}
         />
         <br />
-        <button
-          type="button"
-          onClick={() => {
-            this.props.addUser({
-              firstName: this.state.firstName,
-              lastName: this.state.lastName,
-              email: this.state.email,
-              password: this.state.password
-            })
-          }}
-        >
-          {' '}
-          Signup
-        </button>
+        <NavLink to="/products">
+          <button
+            type="button"
+            onClick={() => {
+              this.props.addUser({
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                email: this.state.email,
+                password: this.state.password
+              })
+            }}
+          >
+            {' '}
+            Signup
+          </button>
+        </NavLink>
       </div>
     )
   }
