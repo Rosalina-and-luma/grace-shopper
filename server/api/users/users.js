@@ -2,6 +2,8 @@ const router = require('express').Router()
 const {User} = require('../../db/models')
 module.exports = router
 
+// make sure to add middleware security to the necessary routes
+
 router.get('/', async (req, res, next) => {
   try {
     const users = await User.findAll({
@@ -15,3 +17,6 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+
+// GET /users/:userId
+// admin and that user

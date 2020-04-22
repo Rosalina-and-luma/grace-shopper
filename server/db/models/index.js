@@ -11,9 +11,11 @@ const OrderProduct = require('./orderProduct')
  */
 User.hasMany(Order)
 Order.belongsTo(User)
+
 Product.belongsTo(Category)
 Category.hasMany(Product)
-Order.belongsToMany(Product, {through: 'OrderProduct'})
+
+Order.belongsToMany(Product, {through: 'OrderProduct'}) // might have to update
 Product.belongsToMany(Order, {through: 'OrderProduct'})
 
 /**

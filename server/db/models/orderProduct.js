@@ -2,6 +2,7 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const OrderProduct = db.define('OrderProduct', {
+  // update table name
   quantity: {
     type: Sequelize.INTEGER,
     allowNull: false,
@@ -10,7 +11,7 @@ const OrderProduct = db.define('OrderProduct', {
     }
   },
   unitPrice: {
-    type: Sequelize.FLOAT,
+    type: Sequelize.FLOAT, // update to integer
     allowNull: false,
     validate: {
       min: 0
