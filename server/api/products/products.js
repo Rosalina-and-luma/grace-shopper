@@ -91,6 +91,7 @@ router.get('/', (req, res, next) => {
     next(err)
   }
 })
+
 router.get('/brooms', (req, res, next) => {
   try {
     // const products = await Products.findAll({
@@ -101,6 +102,26 @@ router.get('/brooms', (req, res, next) => {
     //res.json(products)
     let tempResult = tempData.filter(item => {
       if (item.category === 'broom') {
+        return item
+      }
+    })
+    console.log('TEMP TESULT----------', tempResult)
+    res.json(tempResult)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/wands', (req, res, next) => {
+  try {
+    // const products = await Products.findAll({
+    //   where: {
+    //     category: wands
+    //   }
+    // })
+    //res.json(products)
+    let tempResult = tempData.filter(item => {
+      if (item.category === 'wands') {
         return item
       }
     })
