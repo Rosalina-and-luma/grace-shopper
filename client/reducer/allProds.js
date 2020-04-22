@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const GET_PRODUCTS = 'GET_PRODUCTS'
 const GET_BROOMS = 'GET_BROOMS'
+const GET_WANDS = 'GET_WANDS'
 
 const getProducts = products => {
   return {
@@ -15,6 +16,13 @@ export const getBrooms = brooms => {
   return {
     type: GET_BROOMS,
     brooms
+  }
+}
+
+export const getWands = wands => {
+  return {
+    type: GET_WANDS,
+    wands
   }
 }
 
@@ -41,10 +49,22 @@ export const fetchBroomsFromServer = () => {
   }
 }
 
+export const fetchWandsFromServer = () => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.get('/api/products/wands')
+      dispatch(getWands(data))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 const initialState = {
   isLoading: true,
   products: [],
-  brooms: []
+  brooms: [],
+  wands: []
 }
 
 export default function productsReducer(state = initialState, action) {
@@ -56,15 +76,8 @@ export default function productsReducer(state = initialState, action) {
         products: action.products
       }
     case GET_BROOMS: {
-      /*
-        if this.state.products is not empty:
-          this.state.brooms = filter products
-        else
-          this.state.brooms = get from backend
-      */
       let allBrooms
       if (state.products.length) {
-        console.log(' in if--------')
         let allProducts = [...state.products]
         allBrooms = allProducts.filter(product => {
           if (product.category === 'broom') {
@@ -72,13 +85,29 @@ export default function productsReducer(state = initialState, action) {
           }
         })
       } else {
-        console.log('EXISTING BROOMS', action.brooms)
         allBrooms = action.brooms
       }
-      console.log('ALL BROOOOOOMSSS', allBrooms)
       return {
         ...state,
         brooms: allBrooms,
+        isLoading: false
+      }
+    }
+    case GET_WANDS: {
+      let allWands
+      if (state.products.length) {
+        let allProducts = [...state.products]
+        allWands = allProducts.filter(product => {
+          if (product.category === 'wand') {
+            return product
+          }
+        })
+      } else {
+        allWands = action.wands
+      }
+      return {
+        ...state,
+        wands: allWands,
         isLoading: false
       }
     }

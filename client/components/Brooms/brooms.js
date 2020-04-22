@@ -19,8 +19,8 @@ class Brooms extends Component {
   }
 
   render() {
-    const {brooms} = this.props
-
+    const {brooms, isLoading} = this.props
+    if (isLoading) return <h1>loading....</h1>
     return (
       <div>
         <h1>Here are all the brooms!</h1>
@@ -38,7 +38,8 @@ class Brooms extends Component {
 
 const mapStateToProps = state => ({
   products: state.allProducts.products,
-  brooms: state.allProducts.brooms
+  brooms: state.allProducts.brooms,
+  isLoading: state.allProducts.isLoading
 })
 
 const mapDispatchToProps = dispatch => ({

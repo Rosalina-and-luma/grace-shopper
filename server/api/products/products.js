@@ -121,7 +121,7 @@ router.get('/wands', (req, res, next) => {
     // })
     //res.json(products)
     let tempResult = tempData.filter(item => {
-      if (item.category === 'wands') {
+      if (item.category === 'wand') {
         return item
       }
     })
