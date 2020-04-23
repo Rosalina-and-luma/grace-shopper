@@ -3,9 +3,11 @@ const {User} = require('../../db/models')
 module.exports = router
 
 async function isAdmin(req, res, next) {
-  const user = await User.findByPk(req.session.userId)
-  if (user.isAdmin) {
-    return next()
+  if (req.session.userId) {
+    const user = await User.findByPk(req.session.userId)
+    if (user.isAdmin) {
+      return next()
+    }
   }
   res.redirect('../products')
 }
