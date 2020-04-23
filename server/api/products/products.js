@@ -1,10 +1,12 @@
 const router = require('express').Router()
-const {Product, Category} = require('../../db/models')
+const {Product, Category, User} = require('../../db/models')
 
 async function isAdmin(req, res, next) {
-  const user = await User.findByPk(req.session.userId)
-  if (user.isAdmin) {
-    return next()
+  if (req.session.userId) {
+    const user = await User.findByPk(req.session.userId)
+    if (user.isAdmin) {
+      return next()
+    }
   }
   res.redirect('../products')
 }
