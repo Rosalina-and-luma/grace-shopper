@@ -11,23 +11,26 @@ class AllProducts extends React.Component {
   }
 
   render() {
-    const {products, isLoading} = this.props
+    const {products, isLoading, user} = this.props
     const isAdmin = true
 
     if (isLoading) return <h1>loading....</h1>
 
     return (
       <div className="products-landing-page">
-        <h1>All Products</h1>
+        <div>
+          <p>hello {user ? user.firstName + '!' : '!'} </p>
+          <h1>All Products</h1>
 
-        <div className="products-section">
-          {products.map(product => {
-            return (
-              <div key={product.id}>
-                <AllProductsUI product={product} isAdmin={isAdmin} />
-              </div>
-            )
-          })}
+          <div className="products-section">
+            {products.map(product => {
+              return (
+                <div key={product.id}>
+                  <AllProductsUI product={product} isAdmin={isAdmin} />
+                </div>
+              )
+            })}
+          </div>
         </div>
       </div>
     )
@@ -37,7 +40,8 @@ class AllProducts extends React.Component {
 const mapState = state => {
   return {
     products: state.allProducts.products,
-    isLoading: state.allProducts.isLoading
+    isLoading: state.allProducts.isLoading,
+    user: state.user
   }
 }
 
