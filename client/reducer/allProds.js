@@ -1,6 +1,5 @@
 /* eslint-disable complexity */
 import axios from 'axios'
-import {act} from 'react-test-renderer'
 
 const GET_PRODUCTS = 'GET_PRODUCTS'
 const GET_BROOMS = 'GET_BROOMS'
@@ -17,7 +16,6 @@ const getProducts = products => {
 }
 
 export const getBrooms = brooms => {
-  console.log('GET BROOMS CALLED')
   return {
     type: GET_BROOMS,
     brooms
@@ -46,14 +44,19 @@ export const getMisc = miscItems => {
 }
 
 const updateProduct = product => {
+  const {id, name, imgUrl, description, price, inventory} = product
   return {
     type: UPDATE_PRODUCT,
-    product
+    id,
+    name,
+    imgUrl,
+    description,
+    price,
+    inventory
   }
 }
 
 export const fetchProductsFromServer = () => {
-  console.log('fetch products called')
   return async dispatch => {
     try {
       const {data} = await axios.get('/api/products')
@@ -111,16 +114,15 @@ export const fetchMiscFromServer = () => {
 export const updateProductOnServer = product => {
   return async dispatch => {
     try {
+      const {name, imgUrl, description, price, inventory} = product
       const {data} = await axios.put(
-        `api/products/updateProduct/${product.id}`,
+        `/api/products/updateProduct/${product.id}`,
         {
-          id: product.id,
-          name: product.name,
-          imgUrl: product.imgUrl,
-          description: product.description,
-          price: product.price,
-          category: product.category,
-          inventory: product.inventory
+          name,
+          imgUrl,
+          description,
+          price: parseInt(price) * 100,
+          inventory
         }
       )
       dispatch(updateProduct(data))
@@ -222,17 +224,17 @@ export default function productsReducer(state = initialState, action) {
     case UPDATE_PRODUCT: {
       let oldProducts = [...state.products]
       let updatedProducts = oldProducts.map(product => {
-        if (product.id === action.product.id) {
-          const {prod} = action.product
+        if (product.id === action.id) {
           return {
-            id: prod.id,
-            name: prod.name,
-            imgUrl: prod.imgUrl,
-            description: prod.description,
-            price: prod.price,
-            category: prod.category,
-            inventory: prod.inventory
+            id: action.id,
+            name: action.name,
+            imgUrl: action.imgUrl,
+            description: action.description,
+            price: action.price,
+            inventory: action.inventory
           }
+        } else {
+          return product
         }
       })
       return {

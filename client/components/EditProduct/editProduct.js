@@ -1,9 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {
-  fetchProductsFromServer,
-  updateProductOnServer
-} from '../../reducer/allProds'
+import {NavLink} from 'react-router-dom'
+import {updateProductOnServer} from '../../reducer/allProds'
 
 class EditProduct extends Component {
   constructor() {
@@ -91,14 +89,14 @@ class EditProduct extends Component {
         />
         <br />
 
-        <label>Category</label>
+        {/* <label>Category</label>
         <input
           type="text"
           name="category"
           value={this.state.category}
           onChange={this.handleChange}
         />
-        <br />
+        <br /> */}
 
         <label>Inventory</label>
         <input
@@ -109,23 +107,25 @@ class EditProduct extends Component {
         />
         <br />
 
-        <button
-          type="button"
-          onClick={() => {
-            this.props.updateProduct({
-              id: this.state.id,
-              name: this.state.name,
-              imgUrl: this.state.imgUrl,
-              description: this.state.description,
-              price: this.state.price,
-              category: this.state.category,
-              inventory: this.state.inventory
-            })
-          }}
-        >
-          {' '}
-          Update Product{' '}
-        </button>
+        <NavLink to="/products">
+          <button
+            type="button"
+            onClick={() => {
+              this.props.updateProduct({
+                id: this.state.id,
+                name: this.state.name,
+                imgUrl: this.state.imgUrl,
+                description: this.state.description,
+                price: this.state.price,
+                category: this.state.category,
+                inventory: this.state.inventory
+              })
+            }}
+          >
+            {' '}
+            Update Product{' '}
+          </button>
+        </NavLink>
       </div>
     )
   }
