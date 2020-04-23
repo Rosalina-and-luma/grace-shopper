@@ -33,7 +33,7 @@ router.get('/:productId', async (req, res, next) => {
 
 //======== needs to be refactored ==========/
 
-router.put('/updateProduct/:productId', async (req, res, next) => {
+router.put('/:productId', async (req, res, next) => {
   try {
     const selectedProduct = await Product.findByPk(req.params.productId)
 

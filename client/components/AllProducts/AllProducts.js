@@ -11,6 +11,7 @@ class AllProducts extends React.Component {
   }
 
   render() {
+    console.log('props: ', this.props)
     const {products, isLoading, user} = this.props
 
     if (isLoading) return <h1>loading....</h1>
@@ -46,7 +47,7 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    getProducts: () => dispatch(fetchProductsFromServer())
+    getProducts: category => dispatch(fetchProductsFromServer(category))
   }
 }
 
