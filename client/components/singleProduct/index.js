@@ -37,16 +37,15 @@ class SingleProduct extends Component {
                 <NavLink to={`/products/updateProduct/${selectedProduct.id}`}>
                   <button type="button">Edit</button>
                 </NavLink>
-                <NavLink to="/products">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      deleteProduct(selectedProduct.id)
-                    }}
-                  >
-                    Delete
-                  </button>
-                </NavLink>
+                <button
+                  type="button"
+                  onClick={() => {
+                    deleteProduct(selectedProduct.id)
+                    this.props.history.push('/products')
+                  }}
+                >
+                  Delete
+                </button>
               </div>
             )}
           </div>
