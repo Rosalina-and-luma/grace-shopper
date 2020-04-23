@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
 import {addUserToServer} from '../../reducer/user/user'
-import './signup.css'
+//import './signup.css'
 
 class Signup extends Component {
   constructor() {

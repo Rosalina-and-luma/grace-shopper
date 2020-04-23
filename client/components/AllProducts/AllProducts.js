@@ -10,12 +10,14 @@ class AllProducts extends React.Component {
   }
 
   render() {
-    const {products, isLoading} = this.props
+    const {products, isLoading, user} = this.props
+    console.log(this.props)
 
     if (isLoading) return <h1>loading....</h1>
 
     return (
       <div>
+        <p>hello {user ? user.firstName + '!' : '!'} </p>
         <h1>All Products</h1>
 
         {products.map(product => {
@@ -33,7 +35,8 @@ class AllProducts extends React.Component {
 const mapState = state => {
   return {
     products: state.allProducts.products,
-    isLoading: state.allProducts.isLoading
+    isLoading: state.allProducts.isLoading,
+    user: state.user
   }
 }
 
