@@ -15,6 +15,8 @@ class AllProducts extends React.Component {
 
     if (isLoading) return <h1>loading....</h1>
 
+    console.log('Logged in user id', user.id)
+
     return (
       <div>
         <p>hello {user ? user.firstName + '!' : '!'} </p>
