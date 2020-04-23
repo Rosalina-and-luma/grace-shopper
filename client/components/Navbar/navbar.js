@@ -7,7 +7,9 @@ import './navbar.css'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div className="nav-page">
-    <h1>Diagon E-lley 🧙🏼‍♂️</h1>
+    <Link to="/">
+      <h1>Diagon E-lley 🧙🏼‍♂️</h1>
+    </Link>
     <nav className="nav-bar">
       <Link to="/products">All Products</Link>
       <Link to="/robes">Robes</Link>
