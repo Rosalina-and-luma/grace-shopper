@@ -2,50 +2,28 @@ const router = require('express').Router()
 const User = require('../db/models/user')
 module.exports = router
 
-const tempUser = {
-  id: 1,
-  firstName: 'nora',
-  lastName: 'lashner',
-  email: 'temp@temp.com',
-  password: '1223',
-  isAdmin: false
-}
-
 router.post('/login', async (req, res, next) => {
   try {
-    // const user = await User.findOne({where: {
-    //   email: req.body.email,
-    //   password: req.body.password
-    // }})
-    const user = tempUser
-    console.log('help')
-    if (user) {
-      res.json(user)
+    console.log('hello')
+    const user = await User.findOne({
+      where: {
+        email: req.body.email
+      }
+    })
+    if (!user) {
+      console.log('No such user found:', req.body.email)
+      res.status(401).send('Wrong username and/or password')
+    } else if (!user.correctPassword(req.body.password)) {
+      console.log('Incorrect password for user:', req.body.email)
+      res.status(401).send('Wrong username and/or password')()
     } else {
-      const err = new Error('incorrect email or pword')
-      next(err)
+      req.session.userId = user.id
+      res.json(user)
     }
   } catch (err) {
     next(err)
   }
 })
-
-// router.post('/login', async (req, res, next) => {
-//   try {
-//     const user = await User.findOne({where: {email: req.body.email}})
-//     if (!user) {
-//       console.log('No such user found:', req.body.email)
-//       res.status(401).send('Wrong username and/or password')
-//     } else if (!user.correctPassword(req.body.password)) {
-//       console.log('Incorrect password for user:', req.body.email)
-//       res.status(401).send('Wrong username and/or password')
-//     } else {
-//       req.login(user, err => (err ? next(err) : res.json(user)))
-//     }
-//   } catch (err) {
-//     next(err)
-//   }
-// })
 
 router.post('/signup', async (req, res, next) => {
   try {
@@ -66,8 +44,13 @@ router.post('/logout', (req, res) => {
   res.redirect('/')
 })
 
-router.get('/me', (req, res) => {
-  res.json(req.user)
+router.get('/me', async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.session.userId)
+    res.json(user)
+  } catch (err) {
+    next(err)
+  }
 })
 
 //router.use('/google', require('./google'))

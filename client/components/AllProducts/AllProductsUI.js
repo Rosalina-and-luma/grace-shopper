@@ -2,7 +2,6 @@ import React from 'react'
 import {NavLink} from 'react-router-dom'
 
 const AllProductsUI = props => {
-  console.log('In UI', props)
   const {product} = props
   return (
     <div>
