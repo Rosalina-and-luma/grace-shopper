@@ -4,80 +4,23 @@ const {Product, Category} = require('../../db/models')
 router.get('/', async (req, res, next) => {
   const {category} = req.query
 
-  if (category) {
-    try {
+  try {
+    if (category) {
       const {products} = await Category.findOne({
         where: {name: category},
         include: [{model: Product}]
       })
 
       res.json(products)
-    } catch (err) {
-      next(err)
+    } else {
+      const allProducts = await Product.findAll()
+
+      res.json(allProducts)
     }
+  } catch (err) {
+    next(err)
   }
 })
-
-// router.get('/', async (req, res, next) => {
-//   try {
-//     const products = await Product.findAll({include: Category})
-//     res.json(products)
-//   } catch (err) {
-//     next(err)
-//   }
-// })
-
-// router.get('/brooms', async (req, res, next) => {
-//   try {
-//     const products = await Product.findAll({
-//       where: {
-//         categoryId: 2
-//       }
-//     })
-//     res.json(products)
-//   } catch (err) {
-//     next(err)
-//   }
-// })
-
-// router.get('/wands', async (req, res, next) => {
-//   try {
-//     const products = await Product.findAll({
-//       where: {
-//         categoryId: 1
-//       }
-//     })
-//     res.json(products)
-//   } catch (err) {
-//     next(err)
-//   }
-// })
-
-// router.get('/robes', async (req, res, next) => {
-//   try {
-//     const products = await Product.findAll({
-//       where: {
-//         categoryId: 3
-//       }
-//     })
-//     res.json(products)
-//   } catch (err) {
-//     next(err)
-//   }
-// })
-
-// router.get('/misc', async (req, res, next) => {
-//   try {
-//     const products = await Product.findAll({
-//       where: {
-//         categoryId: 4
-//       }
-//     })
-//     res.json(products)
-//   } catch (err) {
-//     next(err)
-//   }
-// })
 
 router.get('/:productId', async (req, res, next) => {
   try {
