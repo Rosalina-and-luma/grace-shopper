@@ -12,7 +12,7 @@ const AllProductsUI = props => {
         <img src={product.imgUrl} />
       </NavLink>
       <span className="name">{product.name}</span>
-      <span className="price">${product.price}</span>
+      <span className="price">{product.price}</span>
       <NavLink to={`/products/${product.id}`}>
         <button type="button">View Details</button>
       </NavLink>
