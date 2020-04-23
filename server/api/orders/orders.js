@@ -3,7 +3,6 @@ const {Order, OrderProduct, Product} = require('../../db/models')
 module.exports = router
 
 router.get('/:userId', async (req, res, next) => {
-  // console.log('-----userId----', req.body.userId)
   try {
     const orders = await Order.findAll({
       where: {
@@ -31,7 +30,7 @@ router.get('/:userId', async (req, res, next) => {
     // const products = await OrderProduct.findAll()
 
     const products = await Order.findAll({
-      include: [{model: Product}],
+      include: [{model: Product}, {model: OrderProduct}],
       where: {
         id: orderIds
       }

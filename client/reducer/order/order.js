@@ -38,7 +38,8 @@ export const getOrdersFromServer = userId => {
   console.log('userID', userId)
   return async dispatch => {
     try {
-      const {data} = await axios.get(`api/orders/:${userId}`)
+      const {data} = await axios.get(`/api/orders/${userId}`)
+      console.log('--------orders data from server---------', data)
       dispatch(getOrders(data))
     } catch (error) {
       console.error(error)

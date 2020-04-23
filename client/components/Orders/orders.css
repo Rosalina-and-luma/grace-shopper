@@ -1,0 +1,9 @@
+.orders-section img {
+  height: 100px;
+}
+
+.name,
+.unitPrice,
+.quantity {
+  padding: 10px;
+}

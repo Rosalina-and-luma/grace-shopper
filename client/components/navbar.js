@@ -4,43 +4,46 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
 
-const Navbar = ({handleClick, isLoggedIn, userId}) => (
-  <div>
-    <h1>Diagon E-lley 🧙🏼‍♂️</h1>
-    <nav>
-      <Link to="/products">All Products</Link>
-      <Link to="/robes">Robes</Link>
-      <Link to="/wands">Wands</Link>
-      <Link to="/misc">Misc</Link>
-      <Link to="/brooms">Brooms</Link>
-      <Link to="/signup">Singup</Link>
-      <Link to={`/orders/${userId}`}>Orders</Link>
-      {isLoggedIn ? (
-        <div>
-          {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
-        </div>
-      ) : (
-        <div>
-          {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-        </div>
-      )}
-    </nav>
-    <hr />
-  </div>
-)
+const Navbar = ({handleClick, isLoggedIn, user}) => {
+  console.log('*****************userID in nav', user.id)
+  return (
+    <div>
+      <h1>Diagon E-lley 🧙🏼‍♂️</h1>
+      <nav>
+        <Link to="/products">All Products</Link>
+        <Link to="/robes">Robes</Link>
+        <Link to="/wands">Wands</Link>
+        <Link to="/misc">Misc</Link>
+        <Link to="/brooms">Brooms</Link>
+        <Link to="/signup">Singup</Link>
+        <Link to={`/orders/${user.id}`}>Orders</Link>
+        {isLoggedIn ? (
+          <div>
+            {/* The navbar will show these links after you log in */}
+            <Link to="/home">Home</Link>
+            <a href="#" onClick={handleClick}>
+              Logout
+            </a>
+          </div>
+        ) : (
+          <div>
+            {/* The navbar will show these links before you log in */}
+            <Link to="/login">Login</Link>
+            <Link to="/signup">Sign Up</Link>
+          </div>
+        )}
+      </nav>
+      <hr />
+    </div>
+  )
+}
 
 /**
  * CONTAINER
  */
 const mapState = state => {
   return {
-    userId: state.user
+    user: state.user
   }
 }
 
