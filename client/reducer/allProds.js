@@ -44,7 +44,7 @@ export const getMisc = miscItems => {
 }
 
 const updateProduct = product => {
-  const {id, name, imgUrl, description, price, inventory} = product
+  const {id, name, imgUrl, description, price, category, inventory} = product
   return {
     type: UPDATE_PRODUCT,
     id,
@@ -52,6 +52,7 @@ const updateProduct = product => {
     imgUrl,
     description,
     price,
+    category,
     inventory
   }
 }
@@ -114,7 +115,7 @@ export const fetchMiscFromServer = () => {
 export const updateProductOnServer = product => {
   return async dispatch => {
     try {
-      const {name, imgUrl, description, price, inventory} = product
+      const {name, imgUrl, description, price, category, inventory} = product
       const {data} = await axios.put(
         `/api/products/updateProduct/${product.id}`,
         {
@@ -122,6 +123,7 @@ export const updateProductOnServer = product => {
           imgUrl,
           description,
           price: parseInt(price) * 100,
+          category: parseInt(category),
           inventory
         }
       )
@@ -231,6 +233,7 @@ export default function productsReducer(state = initialState, action) {
             imgUrl: action.imgUrl,
             description: action.description,
             price: action.price,
+            category: action.category,
             inventory: action.inventory
           }
         } else {

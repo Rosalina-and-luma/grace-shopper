@@ -1,9 +1,9 @@
 const router = require('express').Router()
-const {Product} = require('../../db/models')
+const {Product, Category} = require('../../db/models')
 
 router.get('/', async (req, res, next) => {
   try {
-    const products = await Product.findAll()
+    const products = await Product.findAll({include: Category})
     res.json(products)
   } catch (err) {
     next(err)
@@ -72,11 +72,19 @@ router.get('/:productId', async (req, res, next) => {
 })
 
 router.put('/updateProduct/:productId', async (req, res, next) => {
-  console.log('going inside update...........')
   try {
     const selectedProduct = await Product.findByPk(req.params.productId)
+
     if (selectedProduct) {
-      await selectedProduct.update(req.body)
+      await selectedProduct.update({
+        id: req.body.id,
+        name: req.body.name,
+        imgUrl: req.body.imgUrl,
+        description: req.body.description,
+        inventory: req.body.inventory,
+        price: req.body.price,
+        categoryId: req.body.category
+      })
       res.json(selectedProduct)
     } else {
       res.sendStatus(404)

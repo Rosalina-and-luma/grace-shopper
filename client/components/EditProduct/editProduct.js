@@ -28,8 +28,6 @@ class EditProduct extends Component {
       }
     })[0]
 
-    console.log('selected product', selectedProduct)
-
     if (selectedProduct) {
       this.setState({
         id: selectedProduct.id,
@@ -37,7 +35,7 @@ class EditProduct extends Component {
         imgUrl: selectedProduct.imgUrl,
         description: selectedProduct.description,
         price: selectedProduct.price,
-        category: selectedProduct.category,
+        category: selectedProduct.category.name,
         inventory: selectedProduct.inventory
       })
     }
@@ -50,6 +48,7 @@ class EditProduct extends Component {
   }
 
   render() {
+    console.log(this.state)
     return (
       <div className="edit-form">
         <h1>Product will be edited here</h1>
@@ -89,14 +88,21 @@ class EditProduct extends Component {
         />
         <br />
 
-        {/* <label>Category</label>
-        <input
-          type="text"
-          name="category"
-          value={this.state.category}
+        <label>Category</label>
+        <select
+          defaultValue="default"
           onChange={this.handleChange}
-        />
-        <br /> */}
+          name="category"
+        >
+          <option value="default" disabled>
+            {this.state.category}
+          </option>
+          <option value="1">Wands</option>
+          <option value="2">Brooms</option>
+          <option value="3">Robes</option>
+          <option value="4">Misc</option>
+        </select>
+        <br />
 
         <label>Inventory</label>
         <input
