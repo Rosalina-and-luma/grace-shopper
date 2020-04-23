@@ -12,7 +12,7 @@ import Robes from './components/Robes/robes'
 import Misc from './components/Misc/misc'
 import EditProduct from './components/EditProduct/editProduct'
 import Signup from './components/Signup/signup'
-import Homepage from './components/Homepage/Homepage'
+import Homepage from './components/Homepage/homePage'
 
 /**
  * COMPONENT

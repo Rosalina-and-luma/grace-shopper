@@ -2,16 +2,17 @@ import React from 'react'
 import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {deleteFromServer} from '../../reducer/allProds'
+import './AllProducts.css'
 
 const AllProductsUI = props => {
   const {product, isAdmin} = props
   return (
-    <div>
+    <div className="products">
       <NavLink to={`/products/${product.id}`}>
-        <img src={product.imgUrl} height="50px" />
+        <img src={product.imgUrl} />
       </NavLink>
-      <p>{product.name}</p>
-      <p>{product.price}</p>
+      <span className="name">{product.name}</span>
+      <span className="price">${product.price}</span>
       <NavLink to={`/products/${product.id}`}>
         <button type="button">View Details</button>
       </NavLink>
