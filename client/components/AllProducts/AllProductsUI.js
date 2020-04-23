@@ -1,5 +1,7 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {deleteFromServer} from '../../reducer/allProds'
 
 const AllProductsUI = props => {
   const {product, isAdmin} = props
@@ -19,11 +21,25 @@ const AllProductsUI = props => {
           <NavLink to={`/products/updateProduct/${product.id}`}>
             <button type="button">Edit</button>
           </NavLink>
-          <button type="button">Delete</button>
+          <NavLink to="/products">
+            <button
+              type="button"
+              onClick={() => {
+                props.deleteProduct(product.id)
+              }}
+            >
+              Delete
+            </button>
+          </NavLink>
         </div>
       )}
     </div>
   )
 }
 
-export default AllProductsUI
+const mapDispatchToProps = dispatch => {
+  return {
+    deleteProduct: id => dispatch(deleteFromServer(id))
+  }
+}
+export default connect(null, mapDispatchToProps)(AllProductsUI)

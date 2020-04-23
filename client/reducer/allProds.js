@@ -7,6 +7,7 @@ const GET_WANDS = 'GET_WANDS'
 const GET_ROBES = 'GET_ROBES'
 const GET_MISC = 'GET_MISC'
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
+const DELETE_PRODUCT = 'DELETE_PRODUCT'
 
 const getProducts = products => {
   return {
@@ -54,6 +55,13 @@ const updateProduct = product => {
     price,
     category,
     inventory
+  }
+}
+
+const deleteProduct = id => {
+  return {
+    type: DELETE_PRODUCT,
+    id
   }
 }
 
@@ -128,6 +136,17 @@ export const updateProductOnServer = product => {
         }
       )
       dispatch(updateProduct(data))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
+export const deleteFromServer = id => {
+  return async dispatch => {
+    try {
+      await axios.delete(`api/products/${id}`)
+      dispatch(deleteProduct(id))
     } catch (error) {
       console.error(error)
     }
@@ -214,9 +233,7 @@ export default function productsReducer(state = initialState, action) {
             return product
           }
         })
-      } else {
-        allMiscItems = action.miscItems
-      }
+      } else allMiscItems = action.miscItems
       return {
         ...state,
         miscItems: allMiscItems,
@@ -236,13 +253,21 @@ export default function productsReducer(state = initialState, action) {
             category: action.category,
             inventory: action.inventory
           }
-        } else {
-          return product
-        }
+        } else return product
       })
       return {
         ...state,
         products: [...updatedProducts]
+      }
+    }
+    case DELETE_PRODUCT: {
+      const oldProducts = [...state.products]
+      const newProducts = oldProducts.filter(product => {
+        if (product.id !== action.id) return product
+      })
+      return {
+        ...state,
+        products: [...newProducts]
       }
     }
     default:
