@@ -1,7 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {fetchProductsFromServer} from '../../reducer/allProds'
-import {addToCartServer} from '../../reducer/order/order'
 import AllProductsUI from './AllProductsUI'
 
 class AllProducts extends React.Component {
@@ -26,11 +25,7 @@ class AllProducts extends React.Component {
         {products.map(product => {
           return (
             <div key={product.id}>
-              <AllProductsUI
-                product={product}
-                addToCart={this.props.addToCart}
-                userId={user.id}
-              />
+              <AllProductsUI product={product} />
             </div>
           )
         })}
@@ -49,8 +44,7 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    getProducts: () => dispatch(fetchProductsFromServer()),
-    addToCart: order => dispatch(addToCartServer(order))
+    getProducts: () => dispatch(fetchProductsFromServer())
   }
 }
 

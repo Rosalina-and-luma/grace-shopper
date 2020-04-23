@@ -35,7 +35,7 @@ const orderReducer = (state = initialState, action) => {
     case ADD_TO_CART:
       return {
         ...state,
-        orders: [...state.orders, ...action.data]
+        orders: [...state.orders, action.data]
       }
     default:
       return state

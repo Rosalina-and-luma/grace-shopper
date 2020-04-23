@@ -1,5 +1,7 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {addToCartServer} from '../../reducer/order/order'
 
 const AllProductsUI = props => {
   const {product} = props
@@ -17,7 +19,7 @@ const AllProductsUI = props => {
         type="button"
         onClick={() => {
           props.addToCart({
-            userId: props.userId,
+            userId: props.user.id,
             productId: props.product.id,
             quantity: 10,
             purchased: false
@@ -30,4 +32,16 @@ const AllProductsUI = props => {
   )
 }
 
-export default AllProductsUI
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addToCart: order => dispatch(addToCartServer(order))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AllProductsUI)
