@@ -1,11 +1,19 @@
 import axios from 'axios'
 
 const SIGNUP_USER = 'SIGNUP_USER'
+const GET_ALL_USERS = 'GET_ALL_USERS'
 
 const signupUser = user => {
   return {
     type: SIGNUP_USER,
     user
+  }
+}
+
+const getAllUsers = users => {
+  return {
+    type: GET_ALL_USERS,
+    users
   }
 }
 
@@ -25,7 +33,19 @@ export const addUserToServer = user => {
   }
 }
 
+export const getAllUsersfromServer = () => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.get('/api/users')
+      dispatch(getAllUsers(data))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+}
+
 const initialState = {
+  isLoading: true,
   users: []
 }
 
@@ -34,7 +54,14 @@ const userReducer = (state = initialState, action) => {
     case SIGNUP_USER:
       return {
         ...state,
+        isLoading: false,
         users: [...state.users, action.user]
+      }
+    case GET_ALL_USERS:
+      return {
+        ...state,
+        isLoading: false,
+        users: action.users
       }
     default:
       return state

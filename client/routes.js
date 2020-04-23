@@ -13,6 +13,7 @@ import Misc from './components/Misc/misc'
 import EditProduct from './components/EditProduct/editProduct'
 import Signup from './components/Signup/signup'
 import Homepage from './components/Homepage/homePage'
+import User from './components/User/User'
 
 /**
  * COMPONENT
@@ -35,6 +36,7 @@ class Routes extends Component {
         <Route exact path="/robes" component={Robes} />
         <Route exact path="/misc" component={Misc} />
         <Route path="/signup" component={Signup} />
+        <Route path="/user" component={User} />
         <Route
           exact
           path="/products/updateProduct/:productId"

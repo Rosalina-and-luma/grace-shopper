@@ -4,7 +4,6 @@ module.exports = router
 
 router.post('/login', async (req, res, next) => {
   try {
-    console.log('hello')
     const user = await User.findOne({
       where: {
         email: req.body.email
