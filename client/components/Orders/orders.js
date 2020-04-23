@@ -8,31 +8,24 @@ class Orders extends Component {
     this.props.getOrders(this.props.user.id)
   }
   render() {
-    console.log('Order Props', this.props)
-    // let orders = (this.props.orders).map(order => {
-    //   console.log('*****',order)
-    // })
-
     return (
       <div>
         <h1>Here are your orders</h1>
         {this.props.orders.map(order => {
-          console.log('PRODUCT', order)
           let products = []
           if (!order.purchased) {
             for (let i = 0; i < order.products.length; i++) {
-              let p = order.products[i]
-              let op = order.order_products[i]
+              let prod = order.products[i]
+              let orderProd = order.order_products[i]
               products.push({
-                key: p.id,
-                src: p.imgUrl,
-                name: p.name,
-                unitPrice: op.unitPrice,
-                quantity: op.quantity
+                key: prod.id,
+                src: prod.imgUrl,
+                name: prod.name,
+                unitPrice: orderProd.unitPrice,
+                quantity: orderProd.quantity
               })
             }
           }
-          console.log('products array', products)
           return products.map(product => (
             <div key={product.id} className="orders-section">
               <img src={product.src} />
