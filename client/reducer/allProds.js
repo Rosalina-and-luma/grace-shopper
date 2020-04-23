@@ -175,7 +175,7 @@ export default function productsReducer(state = initialState, action) {
       if (state.products.length) {
         let allProducts = [...state.products]
         allBrooms = allProducts.filter(product => {
-          if (product.category === 'broom') {
+          if (product.category.name === 'brooms') {
             return product
           }
         })
@@ -193,7 +193,7 @@ export default function productsReducer(state = initialState, action) {
       if (state.products.length) {
         let allProducts = [...state.products]
         allWands = allProducts.filter(product => {
-          if (product.category === 'wand') {
+          if (product.category.name === 'wands') {
             return product
           }
         })
@@ -211,7 +211,7 @@ export default function productsReducer(state = initialState, action) {
       if (state.products.length) {
         let allProducts = [...state.products]
         allRobes = allProducts.filter(product => {
-          if (product.category === 'robe') {
+          if (product.category.name === 'robes') {
             return product
           }
         })
@@ -229,7 +229,7 @@ export default function productsReducer(state = initialState, action) {
       if (state.products.length) {
         let allProducts = [...state.products]
         allMiscItems = allProducts.filter(product => {
-          if (product.category === 'misc') {
+          if (product.category.name === 'misc') {
             return product
           }
         })
