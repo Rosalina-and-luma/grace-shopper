@@ -262,9 +262,9 @@ export default function productsReducer(state = initialState, action) {
     }
     case DELETE_PRODUCT: {
       const oldProducts = [...state.products]
-      const newProducts = oldProducts.filter(product => {
-        if (product.id !== action.id) return product
-      })
+      const newProducts = oldProducts.filter(
+        product => product.id !== action.id
+      )
       return {
         ...state,
         products: [...newProducts]
