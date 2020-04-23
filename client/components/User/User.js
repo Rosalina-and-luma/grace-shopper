@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getAllUsersfromServer} from '../../reducer/user/user'
+import {getAllUsersfromServer} from '../../reducer/users'
 
 class Users extends React.Component {
   componentDidMount() {
@@ -19,9 +19,9 @@ class Users extends React.Component {
           return (
             <div key={user.id}>
               <p>
-                {user.firstName} {user.lastName}
+                Name: {user.firstName} {user.lastName}
               </p>
-              <p>{user.email}</p>
+              <p>Email: {user.email}</p>
             </div>
           )
         })}
