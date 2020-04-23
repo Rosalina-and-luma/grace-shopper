@@ -1,14 +1,16 @@
 /* eslint-disable complexity */
 import axios from 'axios'
 
+//action types
 const GET_PRODUCTS = 'GET_PRODUCTS'
-const GET_BROOMS = 'GET_BROOMS'
-const GET_WANDS = 'GET_WANDS'
-const GET_ROBES = 'GET_ROBES'
-const GET_MISC = 'GET_MISC'
+// const GET_BROOMS = 'GET_BROOMS'
+// const GET_WANDS = 'GET_WANDS'
+// const GET_ROBES = 'GET_ROBES'
+// const GET_MISC = 'GET_MISC'
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 const DELETE_PRODUCT = 'DELETE_PRODUCT'
 
+//action creators
 const getProducts = products => {
   return {
     type: GET_PRODUCTS,
@@ -16,33 +18,33 @@ const getProducts = products => {
   }
 }
 
-export const getBrooms = brooms => {
-  return {
-    type: GET_BROOMS,
-    brooms
-  }
-}
+// export const getBrooms = brooms => {
+//   return {
+//     type: GET_BROOMS,
+//     brooms
+//   }
+// }
 
-export const getWands = wands => {
-  return {
-    type: GET_WANDS,
-    wands
-  }
-}
+// export const getWands = wands => {
+//   return {
+//     type: GET_WANDS,
+//     wands
+//   }
+// }
 
-export const getRobes = robes => {
-  return {
-    type: GET_ROBES,
-    robes
-  }
-}
+// export const getRobes = robes => {
+//   return {
+//     type: GET_ROBES,
+//     robes
+//   }
+// }
 
-export const getMisc = miscItems => {
-  return {
-    type: GET_MISC,
-    miscItems
-  }
-}
+// export const getMisc = miscItems => {
+//   return {
+//     type: GET_MISC,
+//     miscItems
+//   }
+// }
 
 const updateProduct = product => {
   const {id, name, imgUrl, description, price, category, inventory} = product
@@ -65,10 +67,14 @@ const deleteProduct = id => {
   }
 }
 
-export const fetchProductsFromServer = () => {
+//thunk creators
+export const fetchProductsFromServer = categoryName => {
+  const path =
+    '/api/products' + (categoryName ? `?category=${categoryName}` : '')
+
   return async dispatch => {
     try {
-      const {data} = await axios.get('/api/products')
+      const {data} = await axios.get(path)
       dispatch(getProducts(data))
     } catch (err) {
       console.error(err)
@@ -76,49 +82,49 @@ export const fetchProductsFromServer = () => {
   }
 }
 
-export const fetchBroomsFromServer = () => {
-  return async dispatch => {
-    try {
-      const {data} = await axios.get('/api/products/brooms')
-      dispatch(getBrooms(data))
-    } catch (error) {
-      console.error(error)
-    }
-  }
-}
+// export const fetchBroomsFromServer = () => {
+//   return async dispatch => {
+//     try {
+//       const {data} = await axios.get('/api/products/brooms')
+//       dispatch(getBrooms(data))
+//     } catch (error) {
+//       console.error(error)
+//     }
+//   }
+// }
 
-export const fetchWandsFromServer = () => {
-  return async dispatch => {
-    try {
-      const {data} = await axios.get('/api/products/wands')
-      dispatch(getWands(data))
-    } catch (error) {
-      console.error(error)
-    }
-  }
-}
+// export const fetchWandsFromServer = () => {
+//   return async dispatch => {
+//     try {
+//       const {data} = await axios.get('/api/products/wands')
+//       dispatch(getWands(data))
+//     } catch (error) {
+//       console.error(error)
+//     }
+//   }
+// }
 
-export const fetchRobesFromServer = () => {
-  return async dispatch => {
-    try {
-      const {data} = await axios.get('/api/products/robes')
-      dispatch(getRobes(data))
-    } catch (error) {
-      console.error(error)
-    }
-  }
-}
+// export const fetchRobesFromServer = () => {
+//   return async dispatch => {
+//     try {
+//       const {data} = await axios.get('/api/products/robes')
+//       dispatch(getRobes(data))
+//     } catch (error) {
+//       console.error(error)
+//     }
+//   }
+// }
 
-export const fetchMiscFromServer = () => {
-  return async dispatch => {
-    try {
-      const {data} = await axios.get('/api/products/misc')
-      dispatch(getMisc(data))
-    } catch (error) {
-      console.error(error)
-    }
-  }
-}
+// export const fetchMiscFromServer = () => {
+//   return async dispatch => {
+//     try {
+//       const {data} = await axios.get('/api/products/misc')
+//       dispatch(getMisc(data))
+//     } catch (error) {
+//       console.error(error)
+//     }
+//   }
+// }
 
 export const updateProductOnServer = product => {
   return async dispatch => {
@@ -155,11 +161,11 @@ export const deleteFromServer = id => {
 
 const initialState = {
   isLoading: true,
-  products: [],
-  brooms: [],
-  wands: [],
-  robes: [],
-  miscItems: []
+  products: []
+  // brooms: [],
+  // wands: [],
+  // robes: [],
+  // miscItems: []
 }
 
 export default function productsReducer(state = initialState, action) {
@@ -170,76 +176,76 @@ export default function productsReducer(state = initialState, action) {
         isLoading: false,
         products: action.products
       }
-    case GET_BROOMS: {
-      let allBrooms
-      if (state.products.length) {
-        let allProducts = [...state.products]
-        allBrooms = allProducts.filter(product => {
-          if (product.category.name === 'brooms') {
-            return product
-          }
-        })
-      } else {
-        allBrooms = action.brooms
-      }
-      return {
-        ...state,
-        brooms: allBrooms,
-        isLoading: false
-      }
-    }
-    case GET_WANDS: {
-      let allWands
-      if (state.products.length) {
-        let allProducts = [...state.products]
-        allWands = allProducts.filter(product => {
-          if (product.category.name === 'wands') {
-            return product
-          }
-        })
-      } else {
-        allWands = action.wands
-      }
-      return {
-        ...state,
-        wands: allWands,
-        isLoading: false
-      }
-    }
-    case GET_ROBES: {
-      let allRobes
-      if (state.products.length) {
-        let allProducts = [...state.products]
-        allRobes = allProducts.filter(product => {
-          if (product.category.name === 'robes') {
-            return product
-          }
-        })
-      } else {
-        allRobes = action.robes
-      }
-      return {
-        ...state,
-        robes: allRobes,
-        isLoading: false
-      }
-    }
-    case GET_MISC: {
-      let allMiscItems
-      if (state.products.length) {
-        let allProducts = [...state.products]
-        allMiscItems = allProducts.filter(product => {
-          if (product.category.name === 'misc') {
-            return product
-          }
-        })
-      } else allMiscItems = action.miscItems
-      return {
-        ...state,
-        miscItems: allMiscItems,
-        isLoading: false
-      }
-    }
+    // case GET_BROOMS: {
+    //   let allBrooms
+    //   if (state.products.length) {
+    //     let allProducts = [...state.products]
+    //     allBrooms = allProducts.filter(product => {
+    //       if (product.category.name === 'brooms') {
+    //         return product
+    //       }
+    //     })
+    //   } else {
+    //     allBrooms = action.brooms
+    //   }
+    //   return {
+    //     ...state,
+    //     brooms: allBrooms,
+    //     isLoading: false
+    //   }
+    // }
+    // case GET_WANDS: {
+    //   let allWands
+    //   if (state.products.length) {
+    //     let allProducts = [...state.products]
+    //     allWands = allProducts.filter(product => {
+    //       if (product.category.name === 'wands') {
+    //         return product
+    //       }
+    //     })
+    //   } else {
+    //     allWands = action.wands
+    //   }
+    //   return {
+    //     ...state,
+    //     wands: allWands,
+    //     isLoading: false
+    //   }
+    // }
+    // case GET_ROBES: {
+    //   let allRobes
+    //   if (state.products.length) {
+    //     let allProducts = [...state.products]
+    //     allRobes = allProducts.filter(product => {
+    //       if (product.category.name === 'robes') {
+    //         return product
+    //       }
+    //     })
+    //   } else {
+    //     allRobes = action.robes
+    //   }
+    //   return {
+    //     ...state,
+    //     robes: allRobes,
+    //     isLoading: false
+    //   }
+    // }
+    // case GET_MISC: {
+    //   let allMiscItems
+    //   if (state.products.length) {
+    //     let allProducts = [...state.products]
+    //     allMiscItems = allProducts.filter(product => {
+    //       if (product.category.name === 'misc') {
+    //         return product
+    //       }
+    //     })
+    //   } else allMiscItems = action.miscItems
+    //   return {
+    //     ...state,
+    //     miscItems: allMiscItems,
+    //     isLoading: false
+    //   }
+    // }
     case UPDATE_PRODUCT: {
       let oldProducts = [...state.products]
       let updatedProducts = oldProducts.map(product => {

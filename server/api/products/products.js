@@ -31,6 +31,8 @@ router.get('/:productId', async (req, res, next) => {
   }
 })
 
+//======== needs to be refactored ==========/
+
 router.put('/updateProduct/:productId', async (req, res, next) => {
   try {
     const selectedProduct = await Product.findByPk(req.params.productId)
@@ -53,6 +55,8 @@ router.put('/updateProduct/:productId', async (req, res, next) => {
     console.error(error)
   }
 })
+
+//===================================/
 
 router.delete('/:productId', async (req, res, next) => {
   try {
