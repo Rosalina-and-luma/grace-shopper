@@ -13,7 +13,19 @@ const AllProductsUI = props => {
       <NavLink to={`/products/${product.id}`}>
         <button type="button">View Details</button>
       </NavLink>
-      <button>Buy</button>
+      <button
+        type="button"
+        onClick={() => {
+          props.addToCart({
+            userId: props.userId,
+            productId: props.product.id,
+            quantity: 10,
+            purchased: false
+          })
+        }}
+      >
+        Buy
+      </button>
     </div>
   )
 }
