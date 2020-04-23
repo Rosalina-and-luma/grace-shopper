@@ -1,6 +1,14 @@
 const router = require('express').Router()
 const {Product, Category} = require('../../db/models')
 
+async function isAdmin(req, res, next) {
+  const user = await User.findByPk(req.session.userId)
+  if (user.isAdmin) {
+    return next()
+  }
+  res.redirect('../products')
+}
+
 router.get('/', async (req, res, next) => {
   try {
     const products = await Product.findAll({include: Category})
@@ -71,7 +79,7 @@ router.get('/:productId', async (req, res, next) => {
   }
 })
 
-router.put('/updateProduct/:productId', async (req, res, next) => {
+router.put('/updateProduct/:productId', isAdmin, async (req, res, next) => {
   try {
     const selectedProduct = await Product.findByPk(req.params.productId)
 
@@ -94,7 +102,7 @@ router.put('/updateProduct/:productId', async (req, res, next) => {
   }
 })
 
-router.delete('/:productId', async (req, res, next) => {
+router.delete('/:productId', isAdmin, async (req, res, next) => {
   try {
     let selectedProduct = await Product.findByPk(req.params.productId)
     if (selectedProduct) {
