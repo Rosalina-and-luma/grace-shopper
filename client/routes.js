@@ -11,6 +11,7 @@ import Wands from './components/Wands/wands'
 import Robes from './components/Robes/robes'
 import Misc from './components/Misc/misc'
 import Signup from './components/Signup/signup'
+import Orders from './components/Orders/orders'
 import Homepage from './components/Homepage/Homepage'
 
 /**
@@ -33,6 +34,7 @@ class Routes extends Component {
         <Route exact path="/wands" component={Wands} />
         <Route exact path="/robes" component={Robes} />
         <Route exact path="/misc" component={Misc} />
+        <Route exact path="/orders/:userId" component={Orders} />
         <Route path="/signup" component={Signup} />
 
         <Route path="/login" component={Login} />

@@ -2,6 +2,46 @@ const router = require('express').Router()
 const {Order, OrderProduct, Product} = require('../../db/models')
 module.exports = router
 
+router.get('/:userId', async (req, res, next) => {
+  // console.log('-----userId----', req.body.userId)
+  try {
+    const orders = await Order.findAll({
+      where: {
+        userId: req.params.userId
+      }
+    })
+    const orderIds = orders.map(order => order.id)
+    console.log('orders', orderIds)
+    // const products = await OrderProduct.findAll({
+    //   include: {
+    //     model: Product,
+    //     where: {
+    //       orderId: orderIds
+    //     },
+    //   },
+    // })
+
+    // const products = await OrderProduct.findAll({
+    //   where: {
+    //     orderId: orderIds,
+    //   },
+    //   include: [{ all: true, nested: true }]
+    // })
+
+    // const products = await OrderProduct.findAll()
+
+    const products = await Order.findAll({
+      include: [{model: Product}],
+      where: {
+        id: orderIds
+      }
+    })
+    res.json(products)
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.post('/', async (req, res, next) => {
   try {
     let order
