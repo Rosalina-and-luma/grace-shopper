@@ -2,15 +2,15 @@ const router = require('express').Router()
 const {User} = require('../../db/models')
 module.exports = router
 
-// async function isAdmin (req, res, next) {
-//   const user = await User.findByPk(req.session.userId)
-//   if (user.isAdmin) {
-//     return next()
-//   }
-//   res.redirect('../products')
-// }
+async function isAdmin(req, res, next) {
+  const user = await User.findByPk(req.session.userId)
+  if (user.isAdmin) {
+    return next()
+  }
+  res.redirect('../products')
+}
 
-router.get('/', async (req, res, next) => {
+router.get('/', isAdmin, async (req, res, next) => {
   try {
     const users = await User.findAll({
       attributes: ['id', 'firstName', 'lastName', 'email']
