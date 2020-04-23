@@ -18,7 +18,7 @@ class AllProducts extends React.Component {
     return (
       <div className="products-landing-page">
         <div>
-          <p>hello {user ? user.firstName + '!' : '!'} </p>
+          <p>hello {user.id ? user.firstName + '!' : 'guest!'} </p>
           <h1>All Products</h1>
 
           <div className="products-section">
