@@ -13,7 +13,7 @@ class Orders extends Component {
     this.state = {
       allProducts: []
     }
-    this.removeItem = this.removeItem.bind(this)
+    this.onDelete = this.onDelete.bind(this)
   }
   componentDidMount = async () => {
     await this.props.getOrders(this.props.user.id)
@@ -91,10 +91,13 @@ class Orders extends Component {
     this.props.getOrders(this.props.user.id)
   }
 
-  removeItem = itemId => {
+  onDelete(data) {
+    this.props.deleteProdFromOrder(data)
+
     let newProds = this.state.allProducts.filter(
-      product => itemId !== product.id
+      product => data.productId !== product.id
     )
+
     this.setState({
       allProducts: [...newProds]
     })
@@ -134,7 +137,7 @@ class Orders extends Component {
               <button
                 type="button"
                 onClick={() => {
-                  this.props.deleteProdFromOrder({
+                  this.onDelete({
                     orderId: product.orderId,
                     productId: product.id
                   })
