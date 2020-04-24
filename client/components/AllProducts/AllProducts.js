@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {fetchProductsFromServer} from '../../reducer/allProds'
 import AllProductsUI from './AllProductsUI'
 import './AllProducts.css'
+const queryString = require('query-string')
 
 class AllProducts extends React.Component {
   componentDidMount() {
@@ -11,7 +12,8 @@ class AllProducts extends React.Component {
   }
 
   render() {
-    console.log('props: ', this.props)
+    const {location} = this.props
+    console.log('query: ', queryString.parse(location.search))
     const {products, isLoading, user} = this.props
 
     if (isLoading) return <h1>loading....</h1>
