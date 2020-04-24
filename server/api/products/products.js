@@ -4,6 +4,8 @@ const {Product, Category} = require('../../db/models')
 router.get('/', async (req, res, next) => {
   const {category} = req.query
 
+  //to get a specific category, the route path needs to be `/api/products?category=${categoryName}`
+
   try {
     if (category) {
       const {products} = await Category.findOne({
@@ -30,8 +32,6 @@ router.get('/:productId', async (req, res, next) => {
     next(error)
   }
 })
-
-//======== needs to be refactored ==========/
 
 router.put('/:productId', async (req, res, next) => {
   try {
@@ -64,8 +64,6 @@ router.put('/:productId', async (req, res, next) => {
     console.error(error)
   }
 })
-
-//===================================/
 
 router.delete('/:productId', async (req, res, next) => {
   try {
