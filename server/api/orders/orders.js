@@ -11,23 +11,6 @@ router.get('/:userId', async (req, res, next) => {
     })
     const orderIds = orders.map(order => order.id)
     console.log('orders', orderIds)
-    // const products = await OrderProduct.findAll({
-    //   include: {
-    //     model: Product,
-    //     where: {
-    //       orderId: orderIds
-    //     },
-    //   },
-    // })
-
-    // const products = await OrderProduct.findAll({
-    //   where: {
-    //     orderId: orderIds,
-    //   },
-    //   include: [{ all: true, nested: true }]
-    // })
-
-    // const products = await OrderProduct.findAll()
 
     const products = await Order.findAll({
       include: [{model: Product}, {model: OrderProduct}],
@@ -35,6 +18,12 @@ router.get('/:userId', async (req, res, next) => {
         id: orderIds
       }
     })
+
+    // const totals = products.map( (product) => {
+    //    return product.getTotal()
+    // })
+
+    // console.log('Totals-------->', totals)
     res.json(products)
   } catch (error) {
     next(error)
@@ -62,33 +51,6 @@ router.post('/', async (req, res, next) => {
       }
     })
     let updatedOrder
-    // [updatedOrder, createdOrder] = await OrderProduct.findOrCreate({
-    //   where: {
-    //     productId: req.body.productId,
-    //   },
-    //   orderId: order.id,
-    //   productId: req.body.productId,
-    //   quantity: req.body.quantity,
-    //   unitPrice: parseInt(product.price),
-    // })
-    // updatedOrder = await OrderProduct.create({
-    // orderId: order.id,
-    // productId: req.body.productId,
-    // quantity: req.body.quantity,
-    // unitPrice: parseInt(product.price),
-    // })
-    // if (updatedOrder) {
-    //   await updatedOrder.update({
-    //     orderId: order.id,
-    //     productId: req.body.productId,
-    //     quantity: req.body.quantity,
-    //     unitPrice: product.price,
-    //   })
-    //   res.json(updatedOrder)
-    // }
-    // res.json(createdOrder)
-    // console.log('order', order)
-    // console.log('updatedOrder', updatedOrder)
     updatedOrder = await OrderProduct.findOne({
       where: {
         orderId: order.id,
@@ -106,6 +68,22 @@ router.post('/', async (req, res, next) => {
       })
     }
     res.json(updatedOrder)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.delete('/', async (req, res, next) => {
+  console.log('IN DELETE!!!!!!!!')
+  console.log('dlete params', req.body)
+  try {
+    await OrderProduct.destroy({
+      where: {
+        orderId: req.body.orderId,
+        productId: req.body.productId
+      }
+    })
+    res.sendStatus(204)
   } catch (error) {
     next(error)
   }

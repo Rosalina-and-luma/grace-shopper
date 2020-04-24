@@ -1,6 +1,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {getOrdersFromServer, addToCartServer} from '../../reducer/order/order'
+import {
+  getOrdersFromServer,
+  addToCartServer,
+  deleteProdFromOrderServer
+} from '../../reducer/order/order'
 import './orders.css'
 
 class Orders extends Component {
@@ -16,10 +20,12 @@ class Orders extends Component {
     let products = []
     this.props.orders.map(order => {
       if (!order.purchased) {
+        console.log('order id', order.id)
         for (let i = 0; i < order.products.length; i++) {
           let prod = order.products[i]
           let orderProd = order.order_products[i]
           products.push({
+            orderId: order.id,
             id: prod.id,
             imgUrl: prod.imgUrl,
             name: prod.name,
@@ -32,6 +38,7 @@ class Orders extends Component {
 
     this.setState({
       allProducts: products.map(prod => ({
+        orderId: prod.orderId,
         id: prod.id,
         imgUrl: prod.imgUrl,
         name: prod.name,
@@ -60,6 +67,7 @@ class Orders extends Component {
       productId: id,
       quantity: updatedQuantity
     })
+    this.props.getOrders(this.props.user.id)
   }
 
   subtractQuantity = id => {
@@ -80,6 +88,7 @@ class Orders extends Component {
       productId: id,
       quantity: updatedQuantity
     })
+    this.props.getOrders(this.props.user.id)
   }
 
   removeItem = itemId => {
@@ -92,6 +101,7 @@ class Orders extends Component {
   }
 
   render() {
+    console.log('state', this.state)
     return (
       <div>
         <h1>Here are your orders</h1>
@@ -123,9 +133,11 @@ class Orders extends Component {
               </button>
               <button
                 type="button"
-                className="remove"
                 onClick={() => {
-                  this.removeItem(product.id)
+                  this.props.deleteProdFromOrder({
+                    orderId: product.orderId,
+                    productId: product.id
+                  })
                 }}
               >
                 Remove
@@ -148,8 +160,26 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getOrders: userId => dispatch(getOrdersFromServer(userId)),
-    updateOrders: order => dispatch(addToCartServer(order))
+    updateOrders: order => dispatch(addToCartServer(order)),
+    deleteProdFromOrder: data => {
+      console.log('before dispttahc', data)
+      dispatch(deleteProdFromOrderServer(data))
+    }
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Orders)
+
+{
+  /* <button
+                type="button"
+                onClick={() => {
+                  this.props.deleteProdFromOrder({
+                    orderId: product.orderId,
+                    productId: product.id,
+                  })
+                }}
+              >
+                Delete
+              </button> */
+}

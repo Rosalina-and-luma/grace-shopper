@@ -5,6 +5,14 @@ import {addToCartServer} from '../../reducer/order/order'
 
 const AllProductsUI = props => {
   const {product} = props
+  const handleLocalStorage = (id, quantity, status) => {
+    let temp = {
+      id,
+      quantity,
+      status
+    }
+    localStorage.setItem('products', JSON.stringify(temp))
+  }
   return (
     <div>
       <NavLink to={`/products/${product.id}`}>
@@ -15,19 +23,36 @@ const AllProductsUI = props => {
       <NavLink to={`/products/${product.id}`}>
         <button type="button">View Details</button>
       </NavLink>
-      <button
-        type="button"
-        onClick={() => {
-          props.addToCart({
-            userId: props.user.id,
-            productId: props.product.id,
-            quantity: 10,
-            purchased: false
-          })
-        }}
-      >
-        Buy
-      </button>
+
+      {Object.keys(props.user).length ? (
+        <button
+          type="button"
+          onClick={() => {
+            props.addToCart({
+              userId: props.user.id,
+              productId: props.product.id,
+              quantity: 10,
+              purchased: false
+            })
+          }}
+        >
+          Buy
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={() => {
+            handleLocalStorage({
+              productId: props.product.id,
+              quantity: 10,
+              purchased: false
+            })
+          }}
+        >
+          {' '}
+          Buy
+        </button>
+      )}
     </div>
   )
 }
