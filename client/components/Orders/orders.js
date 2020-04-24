@@ -169,17 +169,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Orders)
-
-{
-  /* <button
-                type="button"
-                onClick={() => {
-                  this.props.deleteProdFromOrder({
-                    orderId: product.orderId,
-                    productId: product.id,
-                  })
-                }}
-              >
-                Delete
-              </button> */
-}
