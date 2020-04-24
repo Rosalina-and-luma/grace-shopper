@@ -7,6 +7,7 @@ router.get('/', async (req, res, next) => {
   //to get a specific category, the route path needs to be `/api/products?category=${categoryName}`
 
   try {
+    //take out later if not needed
     if (category) {
       const {products} = await Category.findOne({
         where: {name: category},
@@ -15,7 +16,7 @@ router.get('/', async (req, res, next) => {
 
       res.json(products)
     } else {
-      const allProducts = await Product.findAll()
+      const allProducts = await Product.findAll({include: [{model: Category}]})
 
       res.json(allProducts)
     }

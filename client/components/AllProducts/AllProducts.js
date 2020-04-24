@@ -12,9 +12,14 @@ class AllProducts extends React.Component {
   }
 
   render() {
-    const {location} = this.props
-    console.log('query: ', queryString.parse(location.search))
-    const {products, isLoading, user} = this.props
+    const {products, isLoading, user, location} = this.props
+    const query = queryString.parse(location.search)
+    const category = query ? query.category : ''
+    const allProds = category
+      ? products.filter(product => product.category.name === category)
+      : products
+
+    console.log('products to render: ', allProds)
 
     if (isLoading) return <h1>loading....</h1>
 
@@ -22,10 +27,14 @@ class AllProducts extends React.Component {
       <div className="products-landing-page">
         <div>
           <p>hello {user.id ? user.firstName + '!' : 'guest!'} </p>
-          <h1>All Products</h1>
+          <h1>
+            {category
+              ? category[0].toUpperCase() + category.slice(1)
+              : 'All Products'}
+          </h1>
 
           <div className="products-section">
-            {products.map(product => {
+            {allProds.map(product => {
               return (
                 <div key={product.id}>
                   <AllProductsUI product={product} isAdmin={user.isAdmin} />
