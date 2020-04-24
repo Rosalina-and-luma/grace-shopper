@@ -13,7 +13,6 @@ class Orders extends Component {
     this.state = {
       allProducts: []
     }
-    this.removeItem = this.removeItem.bind(this)
   }
   componentDidMount = async () => {
     await this.props.getOrders(this.props.user.id)
@@ -67,7 +66,6 @@ class Orders extends Component {
       productId: id,
       quantity: updatedQuantity
     })
-    this.props.getOrders(this.props.user.id)
   }
 
   subtractQuantity = id => {
@@ -88,20 +86,19 @@ class Orders extends Component {
       productId: id,
       quantity: updatedQuantity
     })
-    this.props.getOrders(this.props.user.id)
   }
 
-  removeItem = itemId => {
-    let newProds = this.state.allProducts.filter(
-      product => itemId !== product.id
-    )
+  onDelete = data => {
+    this.props.deleteProdFromOrder(data)
+
+    const oldProducts = [...this.state.allProducts]
+    const newProducts = oldProducts.filter(prod => prod.id !== data.productId)
     this.setState({
-      allProducts: [...newProds]
+      allProducts: [...newProducts]
     })
   }
 
   render() {
-    console.log('state', this.state)
     return (
       <div>
         <h1>Here are your orders</h1>
@@ -134,7 +131,7 @@ class Orders extends Component {
               <button
                 type="button"
                 onClick={() => {
-                  this.props.deleteProdFromOrder({
+                  this.onDelete({
                     orderId: product.orderId,
                     productId: product.id
                   })
@@ -162,7 +159,6 @@ const mapDispatchToProps = dispatch => {
     getOrders: userId => dispatch(getOrdersFromServer(userId)),
     updateOrders: order => dispatch(addToCartServer(order)),
     deleteProdFromOrder: data => {
-      console.log('before dispttahc', data)
       dispatch(deleteProdFromOrderServer(data))
     }
   }

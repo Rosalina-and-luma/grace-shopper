@@ -18,12 +18,6 @@ router.get('/:userId', async (req, res, next) => {
         id: orderIds
       }
     })
-
-    // const totals = products.map( (product) => {
-    //    return product.getTotal()
-    // })
-
-    // console.log('Totals-------->', totals)
     res.json(products)
   } catch (error) {
     next(error)
@@ -35,14 +29,12 @@ router.post('/', async (req, res, next) => {
     let order
     order = await Order.findOne({
       where: {
-        userId: req.body.userId,
-        purchased: false
+        userId: req.body.userId
       }
     })
     if (!order) {
       order = await Order.create({
-        userId: req.body.userId,
-        purchased: false
+        userId: req.body.userId
       })
     }
     let product = await Product.findOne({
@@ -74,8 +66,6 @@ router.post('/', async (req, res, next) => {
 })
 
 router.delete('/', async (req, res, next) => {
-  console.log('IN DELETE!!!!!!!!')
-  console.log('dlete params', req.body)
   try {
     await OrderProduct.destroy({
       where: {

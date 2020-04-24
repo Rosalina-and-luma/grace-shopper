@@ -20,12 +20,9 @@ const getOrders = orders => {
   }
 }
 
-const deleteProdFromOrder = data => {
-  // console.log('last step', orderId, productId)
+const deleteProdFromOrder = () => {
   return {
-    type: DELETE_PROD_FROM_ORDER,
-    orderId: data.orderId,
-    productId: data.productId
+    type: DELETE_PROD_FROM_ORDER
   }
 }
 
@@ -47,12 +44,11 @@ export const addToCartServer = order => {
 }
 
 export const getOrdersFromServer = userId => {
-  console.log('userID', userId)
+  console.log('getOrders called')
   // console.log()
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/orders/${userId}`)
-      console.log('--------orders data from server---------', data)
       dispatch(getOrders(data))
     } catch (error) {
       console.error(error)
@@ -70,7 +66,7 @@ export const getOrdersFromServer = userId => {
 //   }
 // }
 export const deleteProdFromOrderServer = data => {
-  // console.log('******', 'orderId', orderId, 'productId', productId)
+  console.log('server data', data)
   return async dispatch => {
     try {
       await axios.delete('/api/orders', {
@@ -79,9 +75,9 @@ export const deleteProdFromOrderServer = data => {
           productId: data.productId
         }
       })
-      dispatch(deleteProdFromOrder(data))
+      dispatch(deleteProdFromOrder())
     } catch (error) {
-      // console.error(error)
+      console.error(error)
     }
   }
 }
@@ -103,30 +99,10 @@ const orderReducer = (state = initialState, action) => {
         ...state,
         allOrders: action.orders
       }
-    case DELETE_PROD_FROM_ORDER: {
-      const oldOrders = _.cloneDeep(state.allOrders)
-      let updatedProducts = []
-      let updatedOrderProducts = []
-      const newOrders = oldOrders.filter(order => {
-        if (order.id === action.orderId) {
-          let products = order.products
-          for (let i = 0; i < products.length; i++) {
-            if (products[i].id !== action.productId) {
-              updatedProducts.push(products[i])
-              updatedOrderProducts.push(order.order_products[i])
-            }
-          }
-          order.products = [...updatedProducts]
-          order.order_products = [...updatedOrderProducts]
-          return order
-        } else return order
-      })
-
+    case DELETE_PROD_FROM_ORDER:
       return {
-        ...state,
-        allOrders: [...newOrders]
+        ...state
       }
-    }
     default:
       return state
   }
