@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const ADD_TO_CART = 'ADD_TO_CART'
 const GET_ORDERS = 'GET_ORDERS'
+const REMOVE_ITEM = 'REMOVE_ITEM'
 
 const addToCart = data => {
   return {
@@ -14,6 +15,13 @@ const getOrders = orders => {
   return {
     type: GET_ORDERS,
     orders
+  }
+}
+
+const removeItem = itemId => {
+  return {
+    type: REMOVE_ITEM,
+    itemId
   }
 }
 
@@ -46,6 +54,16 @@ export const getOrdersFromServer = userId => {
     }
   }
 }
+
+// export const removeItemFromCart = itemId => {
+//   return async dispatch => {
+//     try {
+
+//     } catch (error) {
+//       console.error(error)
+//     }
+//   }
+// }
 
 const initialState = {
   allOrders: [],
