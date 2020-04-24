@@ -53,18 +53,15 @@ export const fetchProductsFromServer = categoryName => {
 export const updateProductOnServer = product => {
   return async dispatch => {
     try {
-      const {name, imgUrl, description, price, category, inventory} = product
-      const {data} = await axios.put(
-        `/api/products/updateProduct/${product.id}`,
-        {
-          name,
-          imgUrl,
-          description,
-          price: parseInt(price) * 100,
-          category: parseInt(category),
-          inventory
-        }
-      )
+      const {name, imgUrl, description, price, categoryId, inventory} = product
+      const {data} = await axios.put(`/api/products/${product.id}`, {
+        name,
+        imgUrl,
+        description,
+        price: parseInt(price, 10) * 100,
+        categoryId,
+        inventory
+      })
       dispatch(updateProduct(data))
     } catch (error) {
       console.error(error)
@@ -106,7 +103,7 @@ export default function productsReducer(state = initialState, action) {
             imgUrl: action.imgUrl,
             description: action.description,
             price: action.price,
-            category: action.category,
+            categoryId: action.categoryId,
             inventory: action.inventory
           }
         } else return product

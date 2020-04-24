@@ -36,16 +36,25 @@ router.get('/:productId', async (req, res, next) => {
 router.put('/:productId', async (req, res, next) => {
   try {
     const selectedProduct = await Product.findByPk(req.params.productId)
+    const {
+      id,
+      name,
+      imgUrl,
+      description,
+      inventory,
+      price,
+      categoryId
+    } = req.body
 
     if (selectedProduct) {
       await selectedProduct.update({
-        id: req.body.id,
-        name: req.body.name,
-        imgUrl: req.body.imgUrl,
-        description: req.body.description,
-        inventory: req.body.inventory,
-        price: req.body.price,
-        categoryId: req.body.category
+        id,
+        name,
+        imgUrl,
+        description,
+        inventory,
+        price,
+        categoryId
       })
       res.json(selectedProduct)
     } else {

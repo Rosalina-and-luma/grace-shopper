@@ -26,11 +26,11 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route exact path="/" component={Homepage} />
         <Route exact path="/products" component={AllProducts} />
-        <Route path="/products/:productId" component={SingleProduct} />
+        <Route exact path="/products/:productId" component={SingleProduct} />
 
         <Route
           exact
-          path="/products/updateProduct/:productId"
+          path="/products/:productId/update"
           component={EditProduct}
         />
         <Route path="/signup" component={Signup} />

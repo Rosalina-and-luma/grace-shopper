@@ -12,7 +12,7 @@ class EditProduct extends Component {
       imgUrl: '',
       description: '',
       price: 0,
-      category: '',
+      categoryId: null,
       inventory: 0
     }
   }
@@ -35,7 +35,7 @@ class EditProduct extends Component {
         imgUrl: selectedProduct.imgUrl,
         description: selectedProduct.description,
         price: selectedProduct.price,
-        category: selectedProduct.category.name,
+        categoryId: selectedProduct.categoryId,
         inventory: selectedProduct.inventory
       })
     }
@@ -92,11 +92,8 @@ class EditProduct extends Component {
         <select
           defaultValue="default"
           onChange={this.handleChange}
-          name="category"
+          name="categoryId"
         >
-          <option value="default" disabled>
-            {this.state.category}
-          </option>
           <option value="1">Wands</option>
           <option value="2">Brooms</option>
           <option value="3">Robes</option>
@@ -123,7 +120,7 @@ class EditProduct extends Component {
                 imgUrl: this.state.imgUrl,
                 description: this.state.description,
                 price: this.state.price,
-                category: this.state.category,
+                categoryId: parseInt(this.state.categoryId, 10),
                 inventory: this.state.inventory
               })
             }}

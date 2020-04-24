@@ -19,7 +19,7 @@ const AllProductsUI = props => {
       <button type="button">Buy</button>
       {isAdmin && (
         <div>
-          <NavLink to={`/products/updateProduct/${product.id}`}>
+          <NavLink to={`/products/${product.id}/update`}>
             <button type="button">Edit</button>
           </NavLink>
           <NavLink to="/products">
