@@ -104,7 +104,7 @@ router.put('/updateProduct/:productId', isAdmin, async (req, res, next) => {
   }
 })
 
-router.delete('/:productId', isAdmin, async (req, res, next) => {
+router.delete('/:productId', async (req, res, next) => {
   try {
     let selectedProduct = await Product.findByPk(req.params.productId)
     if (selectedProduct) {
