@@ -49,23 +49,21 @@ router.get('/:userId', async (req, res, next) => {
 
 router.put('/:userId', async (req, res, next) => {
   try {
-    if (req.session.id) {
-      const userId = req.session.id
-      const {firstName, lastName, email} = req.boyd
-      const user = User.update(
-        {
-          firstName: firstName,
-          lastName: lastName,
-          email: email
-        },
-        {
-          where: {id: userId},
-          returning: true,
-          plain: true
-        }
-      )
-      res.json(user)
-    }
+    const {userId} = req.params
+    const {firstName, lastName, email} = req.body
+    const [affectedRows, updatedUser] = await User.update(
+      {
+        firstName: firstName,
+        lastName: lastName,
+        email: email
+      },
+      {
+        where: {id: userId},
+        returning: true,
+        plain: true
+      }
+    )
+    res.json(updatedUser.dataValues)
   } catch (error) {
     next(error)
   }

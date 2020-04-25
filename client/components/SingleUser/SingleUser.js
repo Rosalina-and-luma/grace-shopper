@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
-//import {getUserFromServer} from '../../reducer/singleUser'
 import UpdateUser from './UpdateSingleUser'
 
 class SingleUser extends React.Component {

@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {updateUserInServer} from '../../reducer/singleUser'
 
 class UpdateUser extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ class UpdateUser extends React.Component {
       email: ''
     }
     this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentDidMount() {
@@ -28,13 +30,24 @@ class UpdateUser extends React.Component {
     })
   }
 
+  handleSubmit(event) {
+    event.preventDefault()
+    const {user, updateUser} = this.props
+    const updatedStudent = this.state
+    console.log('updatedStudend, userId', updatedStudent, user.id)
+    updateUser(updatedStudent, user.id)
+    this.setState({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email
+    })
+  }
+
   render() {
     const {firstName, lastName, email} = this.state
-    const {user} = this.props
-    console.log(user)
 
     return (
-      <form>
+      <form onSubmit={this.handleSubmit}>
         <label htmlFor="firstName">First Name:</label>
         <input
           name="firstName"
@@ -62,4 +75,11 @@ class UpdateUser extends React.Component {
   }
 }
 
-export default UpdateUser
+const mapDispatch = dispatch => {
+  return {
+    updateUser: (updatedUser, userId) =>
+      dispatch(updateUserInServer(updatedUser, userId))
+  }
+}
+
+export default connect(null, mapDispatch)(UpdateUser)
