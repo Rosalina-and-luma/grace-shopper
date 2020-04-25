@@ -6,6 +6,8 @@ const GET_BROOMS = 'GET_BROOMS'
 const GET_WANDS = 'GET_WANDS'
 const GET_ROBES = 'GET_ROBES'
 const GET_MISC = 'GET_MISC'
+const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
+const DELETE_PRODUCT = 'DELETE_PRODUCT'
 
 const getProducts = products => {
   return {
@@ -15,7 +17,6 @@ const getProducts = products => {
 }
 
 export const getBrooms = brooms => {
-  console.log('GET BROOMS CALLED')
   return {
     type: GET_BROOMS,
     brooms
@@ -43,8 +44,28 @@ export const getMisc = miscItems => {
   }
 }
 
+const updateProduct = product => {
+  const {id, name, imgUrl, description, price, category, inventory} = product
+  return {
+    type: UPDATE_PRODUCT,
+    id,
+    name,
+    imgUrl,
+    description,
+    price,
+    category,
+    inventory
+  }
+}
+
+const deleteProduct = id => {
+  return {
+    type: DELETE_PRODUCT,
+    id
+  }
+}
+
 export const fetchProductsFromServer = () => {
-  console.log('fetch products called')
   return async dispatch => {
     try {
       const {data} = await axios.get('/api/products')
@@ -99,6 +120,39 @@ export const fetchMiscFromServer = () => {
   }
 }
 
+export const updateProductOnServer = product => {
+  return async dispatch => {
+    try {
+      const {name, imgUrl, description, price, category, inventory} = product
+      const {data} = await axios.put(
+        `/api/products/updateProduct/${product.id}`,
+        {
+          name,
+          imgUrl,
+          description,
+          price: parseInt(price) * 100,
+          category: parseInt(category),
+          inventory
+        }
+      )
+      dispatch(updateProduct(data))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
+export const deleteFromServer = id => {
+  return async dispatch => {
+    try {
+      await axios.delete(`api/products/${id}`)
+      dispatch(deleteProduct(id))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 const initialState = {
   isLoading: true,
   products: [],
@@ -121,7 +175,7 @@ export default function productsReducer(state = initialState, action) {
       if (state.products.length) {
         let allProducts = [...state.products]
         allBrooms = allProducts.filter(product => {
-          if (product.category === 'broom') {
+          if (product.category.name === 'brooms') {
             return product
           }
         })
@@ -139,7 +193,7 @@ export default function productsReducer(state = initialState, action) {
       if (state.products.length) {
         let allProducts = [...state.products]
         allWands = allProducts.filter(product => {
-          if (product.category === 'wand') {
+          if (product.category.name === 'wands') {
             return product
           }
         })
@@ -157,7 +211,7 @@ export default function productsReducer(state = initialState, action) {
       if (state.products.length) {
         let allProducts = [...state.products]
         allRobes = allProducts.filter(product => {
-          if (product.category === 'robe') {
+          if (product.category.name === 'robes') {
             return product
           }
         })
@@ -175,17 +229,45 @@ export default function productsReducer(state = initialState, action) {
       if (state.products.length) {
         let allProducts = [...state.products]
         allMiscItems = allProducts.filter(product => {
-          if (product.category === 'misc') {
+          if (product.category.name === 'misc') {
             return product
           }
         })
-      } else {
-        allMiscItems = action.miscItems
-      }
+      } else allMiscItems = action.miscItems
       return {
         ...state,
         miscItems: allMiscItems,
         isLoading: false
+      }
+    }
+    case UPDATE_PRODUCT: {
+      let oldProducts = [...state.products]
+      let updatedProducts = oldProducts.map(product => {
+        if (product.id === action.id) {
+          return {
+            id: action.id,
+            name: action.name,
+            imgUrl: action.imgUrl,
+            description: action.description,
+            price: action.price,
+            category: action.category,
+            inventory: action.inventory
+          }
+        } else return product
+      })
+      return {
+        ...state,
+        products: [...updatedProducts]
+      }
+    }
+    case DELETE_PRODUCT: {
+      const oldProducts = [...state.products]
+      const newProducts = oldProducts.filter(
+        product => product.id !== action.id
+      )
+      return {
+        ...state,
+        products: [...newProducts]
       }
     }
     default:
