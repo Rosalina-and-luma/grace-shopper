@@ -14,6 +14,7 @@ import EditProduct from './components/EditProduct/editProduct'
 import Signup from './components/Signup/signup'
 import Homepage from './components/Homepage/homePage'
 import User from './components/User/User'
+import SingleUser from './components/SingleUser/SingleUser'
 
 /**
  * COMPONENT
@@ -36,19 +37,19 @@ class Routes extends Component {
         <Route exact path="/robes" component={Robes} />
         <Route exact path="/misc" component={Misc} />
         <Route path="/signup" component={Signup} />
-        <Route path="/user" component={User} />
         <Route
           exact
           path="/products/updateProduct/:productId"
           component={EditProduct}
         />
-
         <Route path="/login" component={Login} />
         <Route path="/products/:productId" component={SingleProduct} />
+        <Route path="/profile" component={SingleUser} />
+        <Route path="/user" component={User} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={UserHome} />
+            <Route exact path="/home" component={UserHome} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

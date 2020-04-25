@@ -5,8 +5,6 @@ const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 const SIGNUP_USER = 'SIGNUP_USER'
 
-const defaultUser = {}
-
 const getUser = user => ({type: GET_USER, user})
 
 const removeUser = () => ({type: REMOVE_USER})
@@ -67,6 +65,20 @@ export const addUserToServer = user => {
     }
   }
 }
+
+const defaultUser = {}
+
+// export const getUserFromServer = () => {
+//   return async dispatch => {
+//     try {
+//       console.log(req.session)
+//       const { data } = axios.get(`/api/users/${userId}`)
+//       dispatch(getUser(data))
+//     } catch (err) {
+//       console.error(error)
+//     }
+//   }
+// }
 
 export default function getUserReducer(state = defaultUser, action) {
   switch (action.type) {
