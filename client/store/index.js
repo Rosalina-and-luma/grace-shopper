@@ -17,4 +17,4 @@ const store = createStore(reducer, middleware)
 // console.log('store', store)
 
 export default store
-export * from '../reducer/user'
+export * from '../reducer/singleUser'

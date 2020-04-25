@@ -44,6 +44,7 @@ class SingleProduct extends Component {
                 >
                   Edit
                 </button>
+
                 <button
                   type="button"
                   onClick={() => {

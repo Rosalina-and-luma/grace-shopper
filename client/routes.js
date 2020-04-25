@@ -9,6 +9,7 @@ import AllProducts from './components/AllProducts/AllProducts'
 import EditProduct from './components/EditProduct/editProduct'
 import Signup from './components/Signup/signup'
 import Homepage from './components/Homepage/homePage'
+import User from './components/User/User'
 
 /**
  * COMPONENT
@@ -27,12 +28,14 @@ class Routes extends Component {
         <Route exact path="/" component={Homepage} />
         <Route exact path="/products" component={AllProducts} />
         <Route exact path="/products/:productId" component={SingleProduct} />
-
         <Route
           exact
           path="/products/:productId/update"
           component={EditProduct}
         />
+        
+       <Route path="/user" component={User} />
+
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
         {isLoggedIn && (
@@ -51,13 +54,13 @@ class Routes extends Component {
 /**
  * CONTAINER
  */
-// const mapState = state => {
-//   return {
-//     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
-//     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-//     // isLoggedIn: !!state.user.id
-//   }
-// }
+const mapState = state => {
+  return {
+    // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
+    // Otherwise, state.user will be an empty object, and state.user.id will be falsey
+    // isLoggedIn: !!state.user.id
+  }
+}
 
 const mapDispatch = dispatch => {
   return {

@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 import {logout} from '../../store'
 import './navbar.css'
 
-const Navbar = ({handleClick, isLoggedIn}) => (
+const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
   <div className="nav-page">
     <Link to="/">
       <h1>Diagon E-lley 🧙🏼‍♂️</h1>
@@ -17,9 +17,9 @@ const Navbar = ({handleClick, isLoggedIn}) => (
       <Link to="/products?category=brooms">Brooms</Link>
       <Link to="/products?category=misc">Misc</Link>
       <Link to="/signup">Sign-Up</Link>
+
       {isLoggedIn ? (
         <div>
-          {/* The navbar will show these links after you log in */}
           <Link to="/home">Home</Link>
           <a href="#" onClick={handleClick}>
             Logout
@@ -27,11 +27,15 @@ const Navbar = ({handleClick, isLoggedIn}) => (
         </div>
       ) : (
         <div>
-          {/* The navbar will show these links before you log in */}
           <Link to="/login">Login</Link>
           <Link to="/signup">Sign Up</Link>
         </div>
       )}
+      {isAdmin ? (
+        <div>
+          <Link to="/user">Users</Link>
+        </div>
+      ) : null}
     </nav>
     <hr />
   </div>
@@ -40,11 +44,12 @@ const Navbar = ({handleClick, isLoggedIn}) => (
 /**
  * CONTAINER
  */
-// const mapState = state => {
-//   return {
-//     isLoggedIn: !!state.user.id
-//   }
-// }
+const mapState = state => {
+  return {
+    isLoggedIn: !!state.user.id,
+    isAdmin: state.user.isAdmin
+  }
+}
 
 const mapDispatch = dispatch => {
   return {
@@ -54,7 +59,7 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(null, mapDispatch)(Navbar)
+export default connect(mapState, mapDispatch)(Navbar)
 
 /**
  * PROP TYPES

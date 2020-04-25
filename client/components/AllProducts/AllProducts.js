@@ -12,6 +12,7 @@ class AllProducts extends React.Component {
   }
 
   render() {
+
     const {products, isLoading, user, location} = this.props
     const query = queryString.parse(location.search)
     const category = query ? query.category : ''
@@ -20,6 +21,7 @@ class AllProducts extends React.Component {
       : products
 
     console.log('products to render: ', allProds)
+
 
     if (isLoading) return <h1>loading....</h1>
 
@@ -32,6 +34,7 @@ class AllProducts extends React.Component {
               ? category[0].toUpperCase() + category.slice(1)
               : 'All Products'}
           </h1>
+
 
           <div className="products-section">
             {allProds.map(product => {
