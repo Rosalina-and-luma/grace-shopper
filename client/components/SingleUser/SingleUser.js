@@ -34,7 +34,7 @@ class SingleUser extends React.Component {
         <button type="button" onClick={this.showForm}>
           Edit My Info
         </button>
-        {this.state.showForm ? <UpdateUser /> : null}
+        {this.state.showForm ? <UpdateUser user={user} /> : null}
       </div>
     )
   }
