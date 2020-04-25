@@ -14,7 +14,8 @@ const AllProductsUI = props => {
       imgUrl: data.imgUrl,
       quantity: data.quantity,
       description: data.description,
-      price: data.price
+      price: data.price,
+      subTotal: data.price * data.quantity
     }
     //checking if products already exists in localStorage
     if (
@@ -24,16 +25,20 @@ const AllProductsUI = props => {
       let currentOrders = JSON.parse(localStorage.getItem('products'))
 
       //checking if the product user is trying to buy is already in storage, if it is already there, increase the quantity by 1
-      let updateExisitngOrder = currentOrders.map(order => {
+      let updatedExisitngOrder = currentOrders.map(order => {
         if (order.id === data.productId) {
           order.quantity += 1
+          order.subTotal = order.quantity * order.price
           updateExistingFlag = true
         }
         return order
       })
       if (updateExistingFlag) {
-        let updatedOrder = [...updateExisitngOrder]
-        localStorage.setItem('products', JSON.stringify(updatedOrder))
+        let updatedOrder = [...updatedExisitngOrder]
+        localStorage.setItem(
+          'products',
+          JSON.stringify([...updatedExisitngOrder])
+        )
       } else {
         let result = [...currentOrders, newOrder]
         localStorage.setItem('products', JSON.stringify(result))
