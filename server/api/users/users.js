@@ -2,19 +2,26 @@ const router = require('express').Router()
 const {User} = require('../../db/models')
 module.exports = router
 
-// router.get('/', async (req, res, next) => {
-//   try {
-//     const users = await User.findAll({
-//       // explicitly select only the id and email fields - even though
-//       // users' passwords are encrypted, it won't help if we just
-//       // send everything to anyone who asks!
-//       attributes: ['id', 'email']
-//     })
-//     res.json(users)
-//   } catch (err) {
-//     next(err)
-//   }
-// })
+async function isAdmin(req, res, next) {
+  if (req.session.userId) {
+    const user = await User.findByPk(req.session.userId)
+    if (user.isAdmin) {
+      return next()
+    }
+  }
+  res.redirect('../products')
+}
+
+router.get('/', isAdmin, async (req, res, next) => {
+  try {
+    const users = await User.findAll({
+      attributes: ['id', 'firstName', 'lastName', 'email']
+    })
+    res.json(users)
+  } catch (err) {
+    next(err)
+  }
+})
 
 router.post('/', async (req, res, next) => {
   try {
@@ -26,6 +33,30 @@ router.post('/', async (req, res, next) => {
       password
     })
     res.json(newUser)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put('/:userId', async (req, res, next) => {
+  try {
+    if (req.session.id) {
+      const userId = req.session.id
+      const {firstName, lastName, email} = req.boyd
+      const user = User.update(
+        {
+          firstName: firstName,
+          lastName: lastName,
+          email: email
+        },
+        {
+          where: {id: userId},
+          returning: true,
+          plain: true
+        }
+      )
+      res.json(user)
+    }
   } catch (error) {
     next(error)
   }

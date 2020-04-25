@@ -2,21 +2,22 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {logout} from '../store'
+import {logout} from '../../store'
+import './navbar.css'
 
-const Navbar = ({handleClick, isLoggedIn}) => (
-  <div>
-    <h1>Diagon E-lley 🧙🏼‍♂️</h1>
-    <nav>
+const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
+  <div className="nav-page">
+    <Link to="/">
+      <h1>Diagon E-lley 🧙🏼‍♂️</h1>
+    </Link>
+    <nav className="nav-bar">
       <Link to="/products">All Products</Link>
       <Link to="/robes">Robes</Link>
       <Link to="/wands">Wands</Link>
       <Link to="/misc">Misc</Link>
       <Link to="/brooms">Brooms</Link>
-      <Link to="/signup">Singup</Link>
       {isLoggedIn ? (
         <div>
-          {/* The navbar will show these links after you log in */}
           <Link to="/home">Home</Link>
           <a href="#" onClick={handleClick}>
             Logout
@@ -24,11 +25,15 @@ const Navbar = ({handleClick, isLoggedIn}) => (
         </div>
       ) : (
         <div>
-          {/* The navbar will show these links before you log in */}
           <Link to="/login">Login</Link>
           <Link to="/signup">Sign Up</Link>
         </div>
       )}
+      {isAdmin ? (
+        <div>
+          <Link to="/user">Users</Link>
+        </div>
+      ) : null}
     </nav>
     <hr />
   </div>
@@ -37,11 +42,12 @@ const Navbar = ({handleClick, isLoggedIn}) => (
 /**
  * CONTAINER
  */
-// const mapState = state => {
-//   return {
-//     isLoggedIn: !!state.user.id
-//   }
-// }
+const mapState = state => {
+  return {
+    isLoggedIn: !!state.user.id,
+    isAdmin: state.user.isAdmin
+  }
+}
 
 const mapDispatch = dispatch => {
   return {
@@ -51,7 +57,7 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(null, mapDispatch)(Navbar)
+export default connect(mapState, mapDispatch)(Navbar)
 
 /**
  * PROP TYPES

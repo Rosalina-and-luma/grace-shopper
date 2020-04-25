@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchProductsFromServer} from '../../reducer/allProds'
 import AllProductsUI from './AllProductsUI'
+import './AllProducts.css'
 
 class AllProducts extends React.Component {
   componentDidMount() {
@@ -11,22 +12,25 @@ class AllProducts extends React.Component {
 
   render() {
     const {products, isLoading, user} = this.props
-    console.log(this.props)
 
     if (isLoading) return <h1>loading....</h1>
 
     return (
-      <div>
-        <p>hello {user ? user.firstName + '!' : '!'} </p>
-        <h1>All Products</h1>
+      <div className="products-landing-page">
+        <div>
+          <p>hello {user.id ? user.firstName + '!' : 'guest!'} </p>
+          <h1>All Products</h1>
 
-        {products.map(product => {
-          return (
-            <div key={product.id}>
-              <AllProductsUI product={product} />
-            </div>
-          )
-        })}
+          <div className="products-section">
+            {products.map(product => {
+              return (
+                <div key={product.id}>
+                  <AllProductsUI product={product} isAdmin={user.isAdmin} />
+                </div>
+              )
+            })}
+          </div>
+        </div>
       </div>
     )
   }
