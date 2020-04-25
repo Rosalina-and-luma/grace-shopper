@@ -77,9 +77,8 @@ export const addUserToServer = user => {
 export const updateUserInServer = (updatedUser, userId) => {
   return async dispatch => {
     try {
-      console.log('in tuhunk', updatedUser, userId)
       const {data} = await axios.put(`api/users/${userId}`, updatedUser)
-      console.log('in thunk', data)
+      console.log(data)
       dispatch(updateUser(data, userId))
     } catch (error) {
       console.error(error)
@@ -88,18 +87,6 @@ export const updateUserInServer = (updatedUser, userId) => {
 }
 
 const defaultUser = {}
-
-// export const getUserFromServer = () => {
-//   return async dispatch => {
-//     try {
-//       console.log(req.session)
-//       const { data } = axios.get(`/api/users/${userId}`)
-//       dispatch(getUser(data))
-//     } catch (err) {
-//       console.error(error)
-//     }
-//   }
-// }
 
 export default function getUserReducer(state = defaultUser, action) {
   switch (action.type) {

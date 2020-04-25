@@ -34,12 +34,11 @@ class UpdateUser extends React.Component {
     event.preventDefault()
     const {user, updateUser} = this.props
     const updatedStudent = this.state
-    console.log('updatedStudend, userId', updatedStudent, user.id)
     updateUser(updatedStudent, user.id)
     this.setState({
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email
+      firstName: '',
+      lastName: '',
+      email: ''
     })
   }
 
