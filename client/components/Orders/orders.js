@@ -5,6 +5,7 @@ import {
   addToCartServer,
   deleteProdFromOrderServer
 } from '../../reducer/order/order'
+import GuestOrder from '../GuestOrder/guestOrder'
 import './orders.css'
 
 class Orders extends Component {
@@ -15,36 +16,38 @@ class Orders extends Component {
     }
   }
   componentDidMount = async () => {
-    await this.props.getOrders(this.props.user.id)
-    let products = []
-    this.props.orders.map(order => {
-      if (!order.purchased) {
-        console.log('order id', order.id)
-        for (let i = 0; i < order.products.length; i++) {
-          let prod = order.products[i]
-          let orderProd = order.order_products[i]
-          products.push({
-            orderId: order.id,
-            id: prod.id,
-            imgUrl: prod.imgUrl,
-            name: prod.name,
-            unitPrice: orderProd.unitPrice,
-            quantity: orderProd.quantity
-          })
+    if (this.props.user.id) {
+      await this.props.getOrders(this.props.user.id)
+      let products = []
+      this.props.orders.map(order => {
+        if (!order.purchased) {
+          console.log('order id', order.id)
+          for (let i = 0; i < order.products.length; i++) {
+            let prod = order.products[i]
+            let orderProd = order.order_products[i]
+            products.push({
+              orderId: order.id,
+              id: prod.id,
+              imgUrl: prod.imgUrl,
+              name: prod.name,
+              unitPrice: orderProd.unitPrice,
+              quantity: orderProd.quantity
+            })
+          }
         }
-      }
-    })
+      })
 
-    this.setState({
-      allProducts: products.map(prod => ({
-        orderId: prod.orderId,
-        id: prod.id,
-        imgUrl: prod.imgUrl,
-        name: prod.name,
-        unitPrice: prod.unitPrice,
-        quantity: prod.quantity
-      }))
-    })
+      this.setState({
+        allProducts: products.map(prod => ({
+          orderId: prod.orderId,
+          id: prod.id,
+          imgUrl: prod.imgUrl,
+          name: prod.name,
+          unitPrice: prod.unitPrice,
+          quantity: prod.quantity
+        }))
+      })
+    }
   }
 
   addQuantity = id => {
@@ -102,46 +105,50 @@ class Orders extends Component {
     return (
       <div>
         <h1>Here are your orders</h1>
-        {this.state.allProducts.map(product => {
-          return (
-            <div key={product.id} className="orders-section">
-              <img src={product.imgUrl} />
-              <span className="name">{product.name}</span>
-              <span className="unitPrice">{product.unitPrice}</span>
-              <span className="quantity">{product.quantity}</span>
-              <button
-                type="button"
-                onClick={() => {
-                  this.addQuantity(product.id)
-                }}
-              >
-                +
-              </button>
-              <label className="quantity" name="quantity">
-                {product.quantity}
-              </label>
-              <button
-                type="button"
-                onClick={() => {
-                  this.subtractQuantity(product.id)
-                }}
-              >
-                -
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  this.onDelete({
-                    orderId: product.orderId,
-                    productId: product.id
-                  })
-                }}
-              >
-                Remove
-              </button>
-            </div>
-          )
-        })}
+        {this.state.allProducts.length ? (
+          this.state.allProducts.map(product => {
+            return (
+              <div key={product.id} className="orders-section">
+                <img src={product.imgUrl} />
+                <span className="name">{product.name}</span>
+                <span className="unitPrice">{product.unitPrice}</span>
+                <span className="quantity">{product.quantity}</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.addQuantity(product.id)
+                  }}
+                >
+                  +
+                </button>
+                <label className="quantity" name="quantity">
+                  {product.quantity}
+                </label>
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.subtractQuantity(product.id)
+                  }}
+                >
+                  -
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.onDelete({
+                      orderId: product.orderId,
+                      productId: product.id
+                    })
+                  }}
+                >
+                  Remove
+                </button>
+              </div>
+            )
+          })
+        ) : (
+          <GuestOrder />
+        )}
       </div>
     )
   }
