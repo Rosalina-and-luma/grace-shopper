@@ -2,6 +2,22 @@ const router = require('express').Router()
 const User = require('../db/models/user')
 module.exports = router
 
+const userNotFound = next => {
+  const err = new Error('User Not Found')
+  err.status = 404
+  next(err)
+}
+
+router.get('/me', async (req, res, next) => {
+  if (!req.user) {
+    userNotFound(next)
+  } else {
+    User.findByPk(req.user.id)
+      .then(user => (user ? res.json(req.user) : userNotFound(next)))
+      .catch(next)
+  }
+})
+
 router.post('/login', async (req, res, next) => {
   try {
     console.log('hello')
@@ -17,8 +33,7 @@ router.post('/login', async (req, res, next) => {
       console.log('Incorrect password for user:', req.body.email)
       res.status(401).send('Wrong username and/or password')()
     } else {
-      req.session.userId = user.id
-      res.json(user)
+      req.logIn(user, err => (err ? next(err) : res.json(user)))
     }
   } catch (err) {
     next(err)
@@ -38,19 +53,13 @@ router.post('/signup', async (req, res, next) => {
   }
 })
 
-router.post('/logout', (req, res) => {
+router.delete('/logout', (req, res, next) => {
   req.logout()
-  req.session.destroy()
-  res.redirect('/')
+  req.session.destroy(err => {
+    if (err) return next(err)
+    res.status(204).end()
+  })
+  // res.redirect('/')
 })
 
-router.get('/me', async (req, res, next) => {
-  try {
-    const user = await User.findByPk(req.session.userId)
-    res.json(user)
-  } catch (err) {
-    next(err)
-  }
-})
-
-//router.use('/google', require('./google'))
+router.use('/google', require('./google'))

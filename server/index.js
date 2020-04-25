@@ -26,19 +26,18 @@ if (process.env.NODE_ENV === 'test') {
  * keys as environment variables, so that they can still be read by the
  * Node process on process.env
  */
-// if (process.env.NODE_ENV !== 'production') require('../secrets')
+if (process.env.NODE_ENV !== 'production') require('../secrets')
 
-// passport registration
-// passport.serializeUser((user, done) => done(null, user.id))
+passport.serializeUser((user, done) => done(null, user.id))
 
-// passport.deserializeUser(async (id, done) => {
-//   try {
-//     const user = await db.models.user.findByPk(id)
-//     done(null, user)
-//   } catch (err) {
-//     done(err)
-//   }
-// })
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await db.models.user.findByPk(id)
+    done(null, user)
+  } catch (err) {
+    done(err)
+  }
+})
 
 const createApp = () => {
   // logging middleware
