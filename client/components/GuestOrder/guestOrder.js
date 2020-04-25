@@ -41,6 +41,7 @@ class GuestOrder extends Component {
       }
       return product
     })
+
     this.setState({
       allProducts: [...updatedProducts]
     })
@@ -48,46 +49,80 @@ class GuestOrder extends Component {
     this.getTotal()
 
     localStorage.setItem('products', JSON.stringify(this.state.allProducts))
-    console.log('state after add', this.state)
   }
 
   subtractQuantity = id => {
     let oldProducts = [...this.state.allProducts]
+    let removedIndex
     let updatedProducts = oldProducts.filter((product, index) => {
-      if (product.id === id) {
-        if (product.quantity > 0) {
-          product.quantity -= 1
-          product.subTotal = product.quantity * product.price
-        } else {
-          console.log('inside else')
-          updatedProducts.slice(index, 1)
-        }
+      if (product.id === id && product.quantity > 0) {
+        product.quantity -= 1
+        product.subTotal = product.quantity * product.price
       }
+
       return product
     })
+
+    updatedProducts.forEach((prod, index) => {
+      if (prod.quantity === 0) {
+        updatedProducts.splice(index, 1)
+        // console.log('index', index)
+        console.log('updatedProdAfterDelete', updatedProducts)
+        // return updatedProducts
+      }
+    })
+
+    // updatedProducts.slice(removedIndex, 1)
+
+    // console.log('updatedProdAfterDElete', updatedProducts)
+    // this.setState({
+    //   allProducts: updatedProdAfterDelete.length ? [...updatedProdAfterDelete] : [...updatedProducts]
+    // })
+
+    // if(updatedProdAfterDelete &&  updatedProdAfterDelete.length) {
+    //   this.setState({
+    //     allProducts: [...updatedProdAfterDelete]
+    //   })
+    // } else {
+    //   this.setState({
+    //     allProducts: [...updatedProducts]
+    //   })
+    // }
+    console.log('updatedProdAfterDelete', updatedProducts)
+
     this.setState({
       allProducts: [...updatedProducts]
     })
 
     this.getTotal()
 
-    localStorage.setItem('products', JSON.stringify(this.state.allProducts))
+    console.log('this.state', this.state)
+
+    localStorage.setItem('products', JSON.stringify(updatedProducts))
     console.log('state after subtract', this.state)
   }
 
   removeProduct = id => {
     let oldProducts = [...this.state.allProducts]
 
-    let updatedProducts = oldProducts.filter(prod => prod.id !== id)
+    let updatedTotal = this.state.total
 
-    this.setState({
-      allProducts: [...updatedProducts]
+    console.log('updated total  after remove', updatedTotal)
+
+    let updatedProducts = oldProducts.filter(prod => {
+      if (prod.id === id) {
+        updatedTotal -= prod.subTotal
+      } else {
+        return prod
+      }
     })
 
-    this.getTotal()
+    this.setState({
+      allProducts: [...updatedProducts],
+      total: updatedTotal
+    })
 
     localStorage.setItem('products', JSON.stringify(updatedProducts))
-    console.log('state after removeITem', this.state)
   }
 
   render() {
