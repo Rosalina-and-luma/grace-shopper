@@ -34,7 +34,6 @@ const AllProductsUI = props => {
         return order
       })
       if (updateExistingFlag) {
-        let updatedOrder = [...updatedExisitngOrder]
         localStorage.setItem(
           'products',
           JSON.stringify([...updatedExisitngOrder])

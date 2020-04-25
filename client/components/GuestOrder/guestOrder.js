@@ -7,7 +7,28 @@ class GuestOrder extends Component {
   constructor() {
     super()
     this.state = {
-      allProducts: JSON.parse(localStorage.getItem('products'))
+      allProducts: JSON.parse(localStorage.getItem('products')),
+      // total: this.allProducts.reduce((total, prod) => {
+      //   total += prod.subTotal
+      // }, 0)
+      total: 0
+    }
+  }
+
+  componentDidMount() {
+    this.getTotal()
+  }
+
+  getTotal = () => {
+    if (this.state.allProducts && this.state.allProducts.length) {
+      let sumTotal = this.state.allProducts.reduce((total, prod) => {
+        total += prod.subTotal
+        return total
+      }, 0)
+
+      this.setState({
+        total: sumTotal
+      })
     }
   }
 
@@ -23,7 +44,11 @@ class GuestOrder extends Component {
     this.setState({
       allProducts: [...updatedProducts]
     })
+
+    this.getTotal()
+
     localStorage.setItem('products', JSON.stringify(this.state.allProducts))
+    console.log('state after add', this.state)
   }
 
   subtractQuantity = id => {
@@ -43,12 +68,15 @@ class GuestOrder extends Component {
     this.setState({
       allProducts: [...updatedProducts]
     })
+
+    this.getTotal()
+
     localStorage.setItem('products', JSON.stringify(this.state.allProducts))
+    console.log('state after subtract', this.state)
   }
 
   removeProduct = id => {
     let oldProducts = [...this.state.allProducts]
-    console.log('oldProducts', oldProducts)
 
     let updatedProducts = oldProducts.filter(prod => prod.id !== id)
 
@@ -56,10 +84,14 @@ class GuestOrder extends Component {
       allProducts: [...updatedProducts]
     })
 
+    this.getTotal()
+
     localStorage.setItem('products', JSON.stringify(updatedProducts))
+    console.log('state after removeITem', this.state)
   }
 
   render() {
+    // this.getTotal()
     console.log('guest state', this.state)
     return (
       <div>
@@ -100,6 +132,7 @@ class GuestOrder extends Component {
               </div>
             )
           })}
+        <span>Total: {this.state.total}</span>
       </div>
     )
   }
