@@ -15,7 +15,7 @@ const getProducts = products => {
 }
 
 const updateProduct = product => {
-  const {id, name, imgUrl, description, price, category, inventory} = product
+  const {id, name, imgUrl, description, price, categoryId, inventory} = product
   return {
     type: UPDATE_PRODUCT,
     id,
@@ -23,7 +23,7 @@ const updateProduct = product => {
     imgUrl,
     description,
     price,
-    category,
+    categoryId,
     inventory
   }
 }
