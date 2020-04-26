@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
+import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
+import {deleteFromServer} from '../../reducer/allProds'
 import {fetchSingleProduct} from '../../reducer/singleProduct'
 
 class SingleProduct extends Component {
@@ -8,16 +10,17 @@ class SingleProduct extends Component {
     this.props.getSelectedProduct(this.props.match.params.productId)
   }
   render() {
-    const {isLoading} = this.props
-    const selectedProduct = this.props.selectedProduct
-    console.log('State props', selectedProduct, isLoading)
+    const {isLoading, user, selectedProduct, deleteProduct} = this.props
+    // console.log('State props', selectedProduct, isLoading)
+
     if (isLoading)
       return (
         <div>
           <h1>Loading...</h1>
         </div>
       )
-    console.log('selected product', selectedProduct)
+    // console.log('selected product', selectedProduct)
+
     return (
       <div>
         <h1>Single Product</h1>
@@ -29,6 +32,30 @@ class SingleProduct extends Component {
             <p>{selectedProduct.description}</p>
             <p>{selectedProduct.price}</p>
             <button type="button">Buy</button>
+            {user.isAdmin && (
+              <div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.props.history.push(
+                      `/products/${selectedProduct.id}/update`
+                    )
+                  }}
+                >
+                  Edit
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    deleteProduct(selectedProduct.id)
+                    this.props.history.push('/products')
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -38,6 +65,7 @@ class SingleProduct extends Component {
 
 const mapStateToProps = state => {
   return {
+    user: state.user,
     selectedProduct: state.singleProduct.selectedProduct,
     isLoading: state.singleProduct.isLoading
   }
@@ -47,7 +75,8 @@ const mapDisptachToProps = dispatch => {
   return {
     getSelectedProduct: id => {
       dispatch(fetchSingleProduct(id))
-    }
+    },
+    deleteProduct: id => dispatch(deleteFromServer(id))
   }
 }
 

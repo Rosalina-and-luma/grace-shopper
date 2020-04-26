@@ -1,62 +1,35 @@
 const router = require('express').Router()
-const {Product} = require('../../db/models')
+const {Product, Category, User} = require('../../db/models')
+
+async function isAdmin(req, res, next) {
+  if (req.session.userId) {
+    const user = await User.findByPk(req.session.userId)
+    if (user.isAdmin) {
+      return next()
+    }
+  }
+  res.redirect('../products')
+}
 
 router.get('/', async (req, res, next) => {
-  try {
-    const products = await Product.findAll()
-    res.json(products)
-  } catch (err) {
-    next(err)
-  }
-})
+  const {category} = req.query
 
-router.get('/brooms', async (req, res, next) => {
-  try {
-    const products = await Product.findAll({
-      where: {
-        categoryId: 2
-      }
-    })
-    res.json(products)
-  } catch (err) {
-    next(err)
-  }
-})
+  //to get a specific category, the route path needs to be `/api/products?category=${categoryName}`
 
-router.get('/wands', async (req, res, next) => {
   try {
-    const products = await Product.findAll({
-      where: {
-        categoryId: 1
-      }
-    })
-    res.json(products)
-  } catch (err) {
-    next(err)
-  }
-})
+    //take out later if not needed
+    if (category) {
+      const {products} = await Category.findOne({
+        where: {name: category},
+        include: [{model: Product}]
+      })
 
-router.get('/robes', async (req, res, next) => {
-  try {
-    const products = await Product.findAll({
-      where: {
-        categoryId: 3
-      }
-    })
-    res.json(products)
-  } catch (err) {
-    next(err)
-  }
-})
+      res.json(products)
+    } else {
+      const allProducts = await Product.findAll({include: [{model: Category}]})
 
-router.get('/misc', async (req, res, next) => {
-  try {
-    const products = await Product.findAll({
-      where: {
-        categoryId: 4
-      }
-    })
-    res.json(products)
+      res.json(allProducts)
+    }
   } catch (err) {
     next(err)
   }
@@ -68,6 +41,54 @@ router.get('/:productId', async (req, res, next) => {
     res.json(selectedProduct)
   } catch (error) {
     next(error)
+  }
+})
+
+router.put('/:productId', async (req, res, next) => {
+  try {
+    const selectedProduct = await Product.findByPk(req.params.productId)
+    const {
+      id,
+      name,
+      imgUrl,
+      description,
+      inventory,
+      price,
+      categoryId
+    } = req.body
+
+    if (selectedProduct) {
+      await selectedProduct.update({
+        id,
+        name,
+        imgUrl,
+        description,
+        inventory,
+        price,
+        categoryId
+      })
+      res.json(selectedProduct)
+    } else {
+      res.sendStatus(404)
+    }
+  } catch (error) {
+    console.error(error)
+  }
+})
+
+router.delete('/:productId', async (req, res, next) => {
+  try {
+    let selectedProduct = await Product.findByPk(req.params.productId)
+    if (selectedProduct) {
+      await Product.destroy({
+        where: {
+          id: selectedProduct.id
+        }
+      })
+      res.sendStatus(204)
+    }
+  } catch (error) {
+    console.error(error)
   }
 })
 
