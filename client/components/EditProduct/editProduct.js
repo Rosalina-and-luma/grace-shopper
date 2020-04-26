@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {NavLink} from 'react-router-dom'
 import {updateProductOnServer} from '../../reducer/allProds'
 
 class EditProduct extends Component {
@@ -21,7 +20,7 @@ class EditProduct extends Component {
     //   console.log('calling...')
     //   this.props.getProducts()
     // }
-    console.log('products....', this.props.products)
+    // console.log('products....', this.props.products)
     let selectedProduct = this.props.products.filter(product => {
       if (product.id === parseInt(this.props.match.params.productId)) {
         return product
@@ -64,7 +63,7 @@ class EditProduct extends Component {
         <label>ImageURL</label>
         <input
           type="text"
-          name="imageUrl"
+          name="imgUrl"
           value={this.state.imgUrl}
           onChange={this.handleChange}
         />
