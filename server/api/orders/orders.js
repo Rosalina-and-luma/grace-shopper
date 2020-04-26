@@ -1,4 +1,3 @@
-const Sequelize = require('sequelize')
 const router = require('express').Router()
 const {Order, OrderProduct, Product} = require('../../db/models')
 module.exports = router
@@ -11,7 +10,6 @@ router.get('/:userId', async (req, res, next) => {
       }
     })
     const orderIds = orders.map(order => order.id)
-    // console.log('orders', orderIds)
 
     const products = await Order.findAll({
       include: [{model: Product}, {model: OrderProduct}],
@@ -21,9 +19,7 @@ router.get('/:userId', async (req, res, next) => {
     })
 
     products.forEach(order => {
-      // console.log('----------PRODUCT ONE---------', order.purchased)
       let total = 0
-      console.log('---------------------', order.products)
 
       order.products.forEach(prod => {
         let curr = prod.order_product
@@ -33,23 +29,6 @@ router.get('/:userId', async (req, res, next) => {
       })
 
       order.dataValues.total = total
-
-      // order.products.forEach( prod => {
-      //   console.log('------------PROD----------', prod.order_product.unitPrice, prod.order_product.quantity)
-      //   let curr = prod.order_product;
-      //   let subTotal = curr.unitPrice * curr.quantity;
-      //   console.log('-------subtotal------',subTotal)
-      //   curr['subTotal'] = subTotal
-      //   total += subTotal
-      // })
-
-      // order.products.order_product.forEach( orderProd => {
-      //   let subTotal = orderProd.quantity * orderProd.unitPrice
-      //   orderProd.dataValues['subTotal'] = subTotal;
-      //   total += subTotal
-      // })
-
-      // order.dataValues['total'] = total
     })
 
     res.json(products)
@@ -84,7 +63,7 @@ router.post('/', async (req, res, next) => {
         productId: req.body.productId
       }
     })
-    console.log('---------PRODUCT-------', product.price)
+
     if (updatedOrder) {
       await updatedOrder.update({quantity: req.body.quantity})
     } else {
@@ -110,6 +89,20 @@ router.delete('/', async (req, res, next) => {
       }
     })
     res.sendStatus(204)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put('/', async (req, res, next) => {
+  try {
+    const order = await Order.findByPk(req.body.id)
+    if (order) {
+      order.update({
+        purchased: true
+      })
+    }
+    res.sendStatus(200)
   } catch (error) {
     next(error)
   }

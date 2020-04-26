@@ -7,8 +7,8 @@ import {
 
 class Checkout extends Component {
   componentDidMount = async () => {
-    const {getOrders, updateOrders, orders} = this.prop
-    await getOrders()
+    const {getOrders, updateOrders, orders, user} = this.props
+    await getOrders(user.id)
     orders.forEach(order => {
       if (!order.purchased) {
         updateOrders(order.id)
@@ -29,6 +29,7 @@ class Checkout extends Component {
 
 const mapStateToProps = state => {
   return {
+    user: state.user,
     orders: state.order.allOrders
   }
 }

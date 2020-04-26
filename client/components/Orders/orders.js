@@ -124,67 +124,87 @@ class Orders extends Component {
 
   onDelete = data => {
     this.props.deleteProdFromOrder(data)
+    let total
 
     const oldProducts = [...this.state.allProducts]
-    const newProducts = oldProducts.filter(prod => prod.id !== data.productId)
+
+    const newProducts = oldProducts.filter(prod => {
+      if (prod.id === data.productId) {
+        total -= prod.subTotal
+      } else {
+        return prod
+      }
+    })
+
     this.setState({
-      allProducts: [...newProducts]
+      allProducts: [...newProducts],
+      total: total
     })
   }
 
   render() {
     return (
       <div>
-        <h1>Here are your orders</h1>
-        {this.state.allProducts.length && this.props.user.id ? (
-          this.state.allProducts.map(product => {
-            return (
-              <div key={product.id} className="orders-section">
-                <img src={product.imgUrl} />
-                <span className="name">{product.name}</span>
-                <span className="unitPrice">{product.unitPrice}</span>
-                <span className="quantity">{product.quantity}</span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    this.addQuantity(product.id)
-                  }}
-                >
-                  +
-                </button>
-                <label className="quantity" name="quantity">
-                  {product.quantity}
-                </label>
-                <button
-                  type="button"
-                  onClick={() => {
-                    this.subtractQuantity(product.id)
-                  }}
-                >
-                  -
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    this.onDelete({
-                      orderId: product.orderId,
-                      productId: product.id
-                    })
-                  }}
-                >
-                  Remove
-                </button>
-                <span>{product.subTotal}</span>
+        {this.state.total > 0 ? (
+          <h1>Here are your orders</h1>
+        ) : (
+          <h1>Your cart is empty!</h1>
+        )}
+        {this.state.allProducts.length || this.props.user ? (
+          <div>
+            {this.state.allProducts.map(product => {
+              return (
+                <div key={product.id} className="orders-section">
+                  <img src={product.imgUrl} />
+                  <span className="name">{product.name}</span>
+                  <span className="unitPrice">{product.unitPrice}</span>
+                  <span className="quantity">{product.quantity}</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      this.addQuantity(product.id)
+                    }}
+                  >
+                    +
+                  </button>
+                  <label className="quantity" name="quantity">
+                    {product.quantity}
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      this.subtractQuantity(product.id)
+                    }}
+                  >
+                    -
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      this.onDelete({
+                        orderId: product.orderId,
+                        productId: product.id
+                      })
+                    }}
+                  >
+                    Remove
+                  </button>
+                  <span>{product.subTotal}</span>
+                </div>
+              )
+            })}
+            {this.state.total > 0 && (
+              <div>
+                <span>Total: {this.state.total}</span>
+                <NavLink to="/checkout">
+                  <button type="button"> Checkout </button>
+                </NavLink>
               </div>
-            )
-          })
+            )}
+          </div>
         ) : (
           <GuestOrder />
         )}
-        <span>Total: {this.state.total}</span>
-        <NavLink to="/checkout">
-          <button type="button"> Checkout </button>
-        </NavLink>
       </div>
     )
   }

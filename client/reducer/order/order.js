@@ -3,8 +3,14 @@ import _ from 'lodash'
 
 const ADD_TO_CART = 'ADD_TO_CART'
 const GET_ORDERS = 'GET_ORDERS'
-// const REMOVE_ITEM = 'REMOVE_ITEM'
+const UPDATE_ORDER = 'UPDATE_ORDER'
 const DELETE_PROD_FROM_ORDER = 'DELETE_PROD_FROM_ORDER'
+
+const updateOrder = () => {
+  return {
+    type: UPDATE_ORDER
+  }
+}
 
 const addToCart = data => {
   return {
@@ -23,6 +29,17 @@ const getOrders = orders => {
 const deleteProdFromOrder = () => {
   return {
     type: DELETE_PROD_FROM_ORDER
+  }
+}
+
+export const updateOrderToServer = id => {
+  return async dispatch => {
+    try {
+      await axios.put('/api/orders', {id: id})
+      dispatch(updateOrder())
+    } catch (error) {
+      console.error(error)
+    }
   }
 }
 
@@ -91,6 +108,10 @@ const orderReducer = (state = initialState, action) => {
         allOrders: action.orders
       }
     case DELETE_PROD_FROM_ORDER:
+      return {
+        ...state
+      }
+    case UPDATE_ORDER:
       return {
         ...state
       }
