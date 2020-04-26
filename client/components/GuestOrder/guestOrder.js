@@ -53,8 +53,7 @@ class GuestOrder extends Component {
 
   subtractQuantity = id => {
     let oldProducts = [...this.state.allProducts]
-    let removedIndex
-    let updatedProducts = oldProducts.filter((product, index) => {
+    let updatedProducts = oldProducts.filter(product => {
       if (product.id === id && product.quantity > 0) {
         product.quantity -= 1
         product.subTotal = product.quantity * product.price
@@ -66,28 +65,10 @@ class GuestOrder extends Component {
     updatedProducts.forEach((prod, index) => {
       if (prod.quantity === 0) {
         updatedProducts.splice(index, 1)
-        // console.log('index', index)
         console.log('updatedProdAfterDelete', updatedProducts)
-        // return updatedProducts
       }
     })
 
-    // updatedProducts.slice(removedIndex, 1)
-
-    // console.log('updatedProdAfterDElete', updatedProducts)
-    // this.setState({
-    //   allProducts: updatedProdAfterDelete.length ? [...updatedProdAfterDelete] : [...updatedProducts]
-    // })
-
-    // if(updatedProdAfterDelete &&  updatedProdAfterDelete.length) {
-    //   this.setState({
-    //     allProducts: [...updatedProdAfterDelete]
-    //   })
-    // } else {
-    //   this.setState({
-    //     allProducts: [...updatedProducts]
-    //   })
-    // }
     console.log('updatedProdAfterDelete', updatedProducts)
 
     this.setState({

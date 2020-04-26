@@ -12,58 +12,69 @@ class Orders extends Component {
   constructor() {
     super()
     this.state = {
-      allProducts: []
+      allProducts: [],
+      total: 0
     }
   }
   componentDidMount = async () => {
     if (this.props.user.id) {
       await this.props.getOrders(this.props.user.id)
-      let products = []
+      let products = {allProducts: [], total: 0}
+
       this.props.orders.map(order => {
         if (!order.purchased) {
-          console.log('order id', order.id)
           for (let i = 0; i < order.products.length; i++) {
             let prod = order.products[i]
-            let orderProd = order.order_products[i]
-            products.push({
+            // let orderProd = order.order_products[i]
+            products.allProducts.push({
               orderId: order.id,
               id: prod.id,
               imgUrl: prod.imgUrl,
               name: prod.name,
-              unitPrice: orderProd.unitPrice,
-              quantity: orderProd.quantity
+              unitPrice: prod.order_product.unitPrice,
+              quantity: prod.order_product.quantity,
+              subTotal: prod.order_product.subTotal
             })
           }
+          products.total = order.total
         }
       })
 
       this.setState({
-        allProducts: products.map(prod => ({
+        allProducts: products.allProducts.map(prod => ({
           orderId: prod.orderId,
           id: prod.id,
           imgUrl: prod.imgUrl,
           name: prod.name,
           unitPrice: prod.unitPrice,
-          quantity: prod.quantity
-        }))
+          quantity: prod.quantity,
+          subTotal: prod.subTotal
+        })),
+        total: products.total
       })
     }
   }
 
   addQuantity = id => {
-    console.log('id', id)
     let updatedQuantity
     let oldProds = [...this.state.allProducts]
     let newProds = oldProds.map(prod => {
       if (prod.id === id) {
         prod.quantity += 1
         updatedQuantity = prod.quantity
+        prod.subTotal = prod.quantity * prod.unitPrice
       }
       return prod
     })
+
     this.setState({
-      allProducts: [...newProds]
+      allProducts: [...newProds],
+      total: newProds.reduce((sum, prod) => {
+        sum += prod.subTotal
+        return sum
+      }, 0)
     })
+
     this.props.updateOrders({
       userId: this.props.user.id,
       productId: id,
@@ -75,20 +86,37 @@ class Orders extends Component {
     let updatedQuantity
     let oldProds = [...this.state.allProducts]
     let newProds = oldProds.map(prod => {
-      if (prod.id === id) {
+      if (prod.id === id && prod.quantity > 0) {
         prod.quantity -= 1
         updatedQuantity = prod.quantity
+        prod.subTotal = prod.quantity * prod.unitPrice
       }
       return prod
     })
+
+    newProds.forEach((prod, index) => {
+      if (prod.quantity === 0) {
+        let data = {orderId: prod.orderId, productId: prod.id}
+        this.props.deleteProdFromOrder(data)
+        newProds.splice(index, 1)
+      }
+    })
+
     this.setState({
-      allProducts: [...newProds]
+      allProducts: [...newProds],
+      total: newProds.reduce((sum, prod) => {
+        sum += prod.subTotal
+        return sum
+      }, 0)
     })
-    this.props.updateOrders({
-      userId: this.props.user.id,
-      productId: id,
-      quantity: updatedQuantity
-    })
+
+    if (updatedQuantity !== 0) {
+      this.props.updateOrders({
+        userId: this.props.user.id,
+        productId: id,
+        quantity: updatedQuantity
+      })
+    }
   }
 
   onDelete = data => {
@@ -143,12 +171,14 @@ class Orders extends Component {
                 >
                   Remove
                 </button>
+                <span>{product.subTotal}</span>
               </div>
             )
           })
         ) : (
           <GuestOrder />
         )}
+        <span>Total: {this.state.total}</span>
       </div>
     )
   }

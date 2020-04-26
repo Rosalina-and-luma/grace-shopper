@@ -20,40 +20,38 @@ router.get('/:userId', async (req, res, next) => {
       }
     })
 
-    const totals = await OrderProduct.findAll({
-      where: {
-        orderId: orderIds
-      },
-      group: ['orderId', 'quantity', 'unitPrice'],
-      attributes: ['orderId', 'quantity', 'unitPrice']
-      // group:'orderId'
-      // // raw: true,
-      // // order: Sequelize.literal('quantity DESC')
+    products.forEach(order => {
+      // console.log('----------PRODUCT ONE---------', order.purchased)
+      let total = 0
+      console.log('---------------------', order.products)
+
+      order.products.forEach(prod => {
+        let curr = prod.order_product
+        let subTotal = curr.quantity * curr.unitPrice
+        curr.dataValues.subTotal = subTotal
+        total += subTotal
+      })
+
+      order.dataValues.total = total
+
+      // order.products.forEach( prod => {
+      //   console.log('------------PROD----------', prod.order_product.unitPrice, prod.order_product.quantity)
+      //   let curr = prod.order_product;
+      //   let subTotal = curr.unitPrice * curr.quantity;
+      //   console.log('-------subtotal------',subTotal)
+      //   curr['subTotal'] = subTotal
+      //   total += subTotal
+      // })
+
+      // order.products.order_product.forEach( orderProd => {
+      //   let subTotal = orderProd.quantity * orderProd.unitPrice
+      //   orderProd.dataValues['subTotal'] = subTotal;
+      //   total += subTotal
+      // })
+
+      // order.dataValues['total'] = total
     })
 
-    // console.log('----------TEST---------', totals)
-
-    totals.forEach(total => {
-      console.log(
-        '--------total-----------',
-        total.orderId,
-        total.productId,
-        total.unitPrice,
-        total.quantity,
-        total.unitPrice * total.quantity
-      )
-    })
-
-    // console.log('---------checking orders--------', products)
-    // products.map(product => {
-    //   console.log('------------single product-------', product.getTotal())
-    // })
-    // const totalPrices = products.map( order => {
-    //   console.log('------in get total------', order)
-    //   return order.getTotal()
-    // })
-
-    // console.log('TOTAL', totalPrices)
     res.json(products)
   } catch (error) {
     next(error)
