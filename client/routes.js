@@ -7,6 +7,7 @@ import SingleProduct from './components/singleProduct'
 import {me} from './store'
 import AllProducts from './components/AllProducts/AllProducts'
 import EditProduct from './components/EditProduct/editProduct'
+import AddProduct from './components/AddProduct/AddProduct'
 import Signup from './components/Signup/signup'
 import Homepage from './components/Homepage/homePage'
 import User from './components/User/User'
@@ -27,14 +28,15 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route exact path="/" component={Homepage} />
         <Route exact path="/products" component={AllProducts} />
+        <Route exact path="/products/add" component={AddProduct} />
         <Route exact path="/products/:productId" component={SingleProduct} />
         <Route
           exact
           path="/products/:productId/update"
           component={EditProduct}
         />
-        
-       <Route path="/user" component={User} />
+
+        <Route path="/user" component={User} />
 
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />

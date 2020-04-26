@@ -11,7 +11,7 @@ class AddProduct extends Component {
       imgUrl: '',
       description: '',
       price: 0,
-      categoryId: null,
+      categoryId: 1,
       inventory: 0
     }
   }
@@ -32,7 +32,7 @@ class AddProduct extends Component {
       name,
       imgUrl,
       description,
-      price,
+      price: price * 100,
       categoryId: parseInt(categoryId, 10),
       inventory
     })
@@ -84,7 +84,7 @@ class AddProduct extends Component {
 
           <label htmlFor="categoryId">Category</label>
           <select
-            defaultValue="default"
+            value={this.state.categoryId}
             onChange={this.handleChange}
             name="categoryId"
           >
