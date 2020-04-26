@@ -33,6 +33,8 @@ router.get('/', async (req, res, next) => {
     })
 
     res.json(products)
+    // } else {
+    //   console.log('No user found')
     // }
   } catch (error) {
     next(error)

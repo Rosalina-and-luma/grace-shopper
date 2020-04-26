@@ -22,24 +22,26 @@ class Orders extends Component {
     // if (this.props.user.id) {
     await this.props.getOrders()
     let products = {allProducts: [], total: 0}
-
-    this.props.orders.map(order => {
-      if (!order.purchased) {
-        for (let i = 0; i < order.products.length; i++) {
-          let prod = order.products[i]
-          products.allProducts.push({
-            orderId: order.id,
-            id: prod.id,
-            imgUrl: prod.imgUrl,
-            name: prod.name,
-            unitPrice: prod.order_product.unitPrice,
-            quantity: prod.order_product.quantity,
-            subTotal: prod.order_product.subTotal
-          })
+    console.log('-------------->props.orders', this.props.orders)
+    if (this.props.orders && this.props.orders.length) {
+      this.props.orders.map(order => {
+        if (!order.purchased) {
+          for (let i = 0; i < order.products.length; i++) {
+            let prod = order.products[i]
+            products.allProducts.push({
+              orderId: order.id,
+              id: prod.id,
+              imgUrl: prod.imgUrl,
+              name: prod.name,
+              unitPrice: prod.order_product.unitPrice,
+              quantity: prod.order_product.quantity,
+              subTotal: prod.order_product.subTotal
+            })
+          }
+          products.total = order.total
         }
-        products.total = order.total
-      }
-    })
+      })
+    }
 
     console.log('products', products)
     this.setState({
