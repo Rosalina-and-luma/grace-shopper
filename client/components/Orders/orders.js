@@ -6,6 +6,7 @@ import {
   deleteProdFromOrderServer
 } from '../../reducer/order/order'
 import GuestOrder from '../GuestOrder/guestOrder'
+import OrdersUI from './ordersUI'
 import './orders.css'
 import {NavLink} from 'react-router-dom'
 
@@ -155,7 +156,13 @@ class Orders extends Component {
             {this.state.allProducts.map(product => {
               return (
                 <div key={product.id} className="orders-section">
-                  <img src={product.imgUrl} />
+                  <OrdersUI
+                    product={product}
+                    addQuantity={this.addQuantity}
+                    subtractQuantity={this.subtractQuantity}
+                    onDelete={this.onDelete}
+                  />
+                  {/* <img src={product.imgUrl} />
                   <span className="name">{product.name}</span>
                   <span className="unitPrice">{product.unitPrice}</span>
                   <span className="quantity">{product.quantity}</span>
@@ -189,7 +196,7 @@ class Orders extends Component {
                   >
                     Remove
                   </button>
-                  <span>{product.subTotal}</span>
+                  <span>{product.subTotal}</span> */}
                 </div>
               )
             })}
