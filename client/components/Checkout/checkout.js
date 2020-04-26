@@ -7,20 +7,22 @@ import {
 
 class Checkout extends Component {
   componentDidMount = async () => {
-    const {getOrders, updateOrders, orders, user} = this.props
-    await getOrders(user.id)
-    orders.forEach(order => {
-      if (!order.purchased) {
-        updateOrders(order.id)
-      }
-    })
+    if (this.props.user.id) {
+      const {getOrders, updateOrders, orders, user} = this.props
+      await getOrders(user.id)
+      orders.forEach(order => {
+        if (!order.purchased) {
+          updateOrders(order.id)
+        }
+      })
+    }
   }
 
   render() {
     return (
       <div>
         <span>
-          Thank you for being valuable customers! Your order has been recieved!
+          Thank you for being a valuable customer! Your order has been recieved!
         </span>
       </div>
     )

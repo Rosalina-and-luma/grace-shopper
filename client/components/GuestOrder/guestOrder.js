@@ -95,6 +95,11 @@ class GuestOrder extends Component {
     localStorage.setItem('products', JSON.stringify(updatedProducts))
   }
 
+  checkout = () => {
+    console.log('incheckout')
+    localStorage.removeItem('products')
+  }
+
   render() {
     return (
       <div>
@@ -142,7 +147,17 @@ class GuestOrder extends Component {
         ) : (
           <h1> Your cart is empty</h1>
         )}
-        {this.state.total > 0 && <span>Total: {this.state.total}</span>}
+        {this.state.total > 0 && (
+          <div>
+            <span>Total: {this.state.total}</span>
+            <NavLink to="/checkout">
+              <button type="button" onClick={this.checkout}>
+                {' '}
+                Checkout{' '}
+              </button>
+            </NavLink>
+          </div>
+        )}
       </div>
     )
   }
