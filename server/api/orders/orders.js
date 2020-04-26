@@ -63,7 +63,8 @@ router.post('/', async (req, res, next) => {
     let order
     order = await Order.findOne({
       where: {
-        userId: req.body.userId
+        userId: req.body.userId,
+        purchased: false
       }
     })
     if (!order) {
