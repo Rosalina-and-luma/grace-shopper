@@ -76,21 +76,7 @@ router.post('/', async (req, res, next) => {
         unitPrice: product.price
       })
     }
-    res.json(updatedOrder)
-  } catch (error) {
-    next(error)
-  }
-})
-
-router.delete('/', async (req, res, next) => {
-  try {
-    await OrderProduct.destroy({
-      where: {
-        orderId: req.body.orderId,
-        productId: req.body.productId
-      }
-    })
-    res.sendStatus(204)
+    res.status(201).json(updatedOrder)
   } catch (error) {
     next(error)
   }
@@ -105,6 +91,20 @@ router.put('/', async (req, res, next) => {
       })
     }
     res.sendStatus(200)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.delete('/', async (req, res, next) => {
+  try {
+    await OrderProduct.destroy({
+      where: {
+        orderId: req.body.orderId,
+        productId: req.body.productId
+      }
+    })
+    res.sendStatus(204)
   } catch (error) {
     next(error)
   }
