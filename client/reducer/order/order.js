@@ -62,7 +62,6 @@ export const addToCartServer = order => {
 
 export const getOrdersFromServer = () => {
   console.log('getOrders called')
-  // console.log()
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/orders`)
