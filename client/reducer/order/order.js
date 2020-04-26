@@ -1,10 +1,14 @@
 import axios from 'axios'
 import _ from 'lodash'
 
+//action types
+
 const ADD_TO_CART = 'ADD_TO_CART'
 const GET_ORDERS = 'GET_ORDERS'
 const UPDATE_ORDER = 'UPDATE_ORDER'
 const DELETE_PROD_FROM_ORDER = 'DELETE_PROD_FROM_ORDER'
+
+//action creators
 
 const updateOrder = () => {
   return {
@@ -32,10 +36,12 @@ const deleteProdFromOrder = () => {
   }
 }
 
+//thunk creators
+
 export const updateOrderToServer = id => {
   return async dispatch => {
     try {
-      await axios.put('/api/orders', {id: id})
+      await axios.put('/api/orders', {id})
       dispatch(updateOrder())
     } catch (error) {
       console.error(error)
@@ -89,6 +95,8 @@ export const deleteProdFromOrderServer = data => {
     }
   }
 }
+
+//reducer
 
 const initialState = {
   allOrders: [],
