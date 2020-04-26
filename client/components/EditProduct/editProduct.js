@@ -12,8 +12,9 @@ class EditProduct extends Component {
       imgUrl: '',
       description: '',
       price: 0,
-      categoryId: null,
-      inventory: 0
+      categoryId: 0,
+      inventory: 0,
+      category: ''
     }
   }
   componentDidMount() {
@@ -24,6 +25,7 @@ class EditProduct extends Component {
     console.log('products....', this.props.products)
     let selectedProduct = this.props.products.filter(product => {
       if (product.id === parseInt(this.props.match.params.productId)) {
+        console.log('product', product)
         return product
       }
     })[0]
@@ -36,7 +38,8 @@ class EditProduct extends Component {
         description: selectedProduct.description,
         price: selectedProduct.price,
         categoryId: selectedProduct.categoryId,
-        inventory: selectedProduct.inventory
+        inventory: selectedProduct.inventory,
+        category: selectedProduct.category.name
       })
     }
   }
@@ -94,10 +97,11 @@ class EditProduct extends Component {
           onChange={this.handleChange}
           name="categoryId"
         >
-          <option value="1">Wands</option>
-          <option value="2">Brooms</option>
-          <option value="3">Robes</option>
-          <option value="4">Misc</option>
+          <option value="1">{this.state.category}</option>
+          <option value="2">Wands</option>
+          <option value="3">Brooms</option>
+          <option value="4">Robes</option>
+          <option value="5">Misc</option>
         </select>
         <br />
 
