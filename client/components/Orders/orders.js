@@ -18,8 +18,9 @@ class Orders extends Component {
     }
   }
   componentDidMount = async () => {
+    console.log('user', this.props.user)
     if (this.props.user.id) {
-      await this.props.getOrders(this.props.user.id)
+      await this.props.getOrders()
       let products = {allProducts: [], total: 0}
 
       this.props.orders.map(order => {
@@ -76,7 +77,7 @@ class Orders extends Component {
     })
 
     this.props.updateOrders({
-      userId: this.props.user.id,
+      // userId: this.props.user.id,
       productId: id,
       quantity: updatedQuantity
     })
@@ -114,7 +115,7 @@ class Orders extends Component {
 
     if (updatedQuantity !== 0) {
       this.props.updateOrders({
-        userId: this.props.user.id,
+        // userId: this.props.user.id,
         productId: id,
         quantity: updatedQuantity
       })
@@ -123,7 +124,7 @@ class Orders extends Component {
 
   onDelete = data => {
     this.props.deleteProdFromOrder(data)
-    let total
+    let total = this.state.total
 
     const oldProducts = [...this.state.allProducts]
 
@@ -218,7 +219,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getOrders: userId => dispatch(getOrdersFromServer(userId)),
+    getOrders: () => dispatch(getOrdersFromServer()),
     updateOrders: order => dispatch(addToCartServer(order)),
     deleteProdFromOrder: data => {
       dispatch(deleteProdFromOrderServer(data))

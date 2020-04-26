@@ -1,0 +1,32 @@
+.products-landing-page h1 {
+  text-align: center;
+}
+
+.products-section {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.products {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(182, 182, 182);
+  margin: 10px 20px;
+  text-align: center;
+}
+
+.products img {
+  height: 350px;
+  padding: 20px;
+}
+
+.name {
+  font-size: 20px;
+  font-weight: bold;
+  padding-bottom: 10px;
+}
+
+.price {
+  font-style: italic;
+  padding-bottom: 10px;
+}

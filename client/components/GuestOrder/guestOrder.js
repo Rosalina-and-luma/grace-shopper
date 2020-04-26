@@ -11,6 +11,7 @@ class GuestOrder extends Component {
   }
 
   componentDidMount() {
+    console.log('ingues cart')
     this.getTotal()
   }
 
@@ -133,7 +134,7 @@ class GuestOrder extends Component {
               </div>
             )
           })}
-        <span>Total: {this.state.total}</span>
+        {this.state.total > 0 && <span>Total: {this.state.total}</span>}
       </div>
     )
   }

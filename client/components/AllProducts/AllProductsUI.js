@@ -1,10 +1,12 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
+import {deleteFromServer} from '../../reducer/allProds'
 import {addToCartServer} from '../../reducer/order/order'
+import './AllProducts.css'
 
 const AllProductsUI = props => {
-  const {product} = props
+  const {product, isAdmin, user} = props
 
   const handleLocalStorage = data => {
     let updateExistingFlag = false
@@ -50,21 +52,21 @@ const AllProductsUI = props => {
   }
 
   return (
-    <div>
+    <div className="products">
       <NavLink to={`/products/${product.id}`}>
-        <img src={product.imgUrl} height="50px" />
+        <img src={product.imgUrl} />
       </NavLink>
-      <p>{product.name}</p>
-      <p>{product.price}</p>
+      <span className="name">{product.name}</span>
+      <span className="price">{product.price}</span>
       <NavLink to={`/products/${product.id}`}>
         <button type="button">View Details</button>
       </NavLink>
-      {Object.keys(props.user).length ? (
+      {Object.keys(user).length ? (
         <button
           type="button"
           onClick={() => {
             props.addToCart({
-              userId: props.user.id,
+              // userId: props.user.id,
               productId: props.product.id,
               quantity: 1
             })
@@ -90,6 +92,23 @@ const AllProductsUI = props => {
           Buy
         </button>
       )}
+      {isAdmin && (
+        <div>
+          <NavLink to={`/products/${product.id}/update`}>
+            <button type="button">Edit</button>
+          </NavLink>
+          <NavLink to="/products">
+            <button
+              type="button"
+              onClick={() => {
+                props.deleteProduct(product.id)
+              }}
+            >
+              Delete
+            </button>
+          </NavLink>
+        </div>
+      )}
     </div>
   )
 }
@@ -102,7 +121,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addToCart: order => dispatch(addToCartServer(order))
+    addToCart: order => dispatch(addToCartServer(order)),
+    deleteProduct: id => dispatch(deleteFromServer(id))
   }
 }
 

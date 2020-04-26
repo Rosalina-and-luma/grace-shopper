@@ -2,11 +2,11 @@ const router = require('express').Router()
 const {Order, OrderProduct, Product} = require('../../db/models')
 module.exports = router
 
-router.get('/:userId', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const orders = await Order.findAll({
       where: {
-        userId: req.params.userId
+        userId: req.session.userId
       }
     })
     const orderIds = orders.map(order => order.id)
@@ -42,13 +42,13 @@ router.post('/', async (req, res, next) => {
     let order
     order = await Order.findOne({
       where: {
-        userId: req.body.userId,
+        userId: req.session.userId,
         purchased: false
       }
     })
     if (!order) {
       order = await Order.create({
-        userId: req.body.userId
+        userId: req.session.userId
       })
     }
     let product = await Product.findOne({

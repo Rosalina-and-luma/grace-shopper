@@ -48,7 +48,7 @@ export const addToCartServer = order => {
   return async dispatch => {
     try {
       const {data} = await axios.post('/api/orders', {
-        userId: order.userId,
+        // userId: order.userId,
         productId: order.productId,
         quantity: order.quantity
       })
@@ -60,12 +60,12 @@ export const addToCartServer = order => {
   }
 }
 
-export const getOrdersFromServer = userId => {
+export const getOrdersFromServer = () => {
   console.log('getOrders called')
   // console.log()
   return async dispatch => {
     try {
-      const {data} = await axios.get(`/api/orders/${userId}`)
+      const {data} = await axios.get(`/api/orders`)
       dispatch(getOrders(data))
     } catch (error) {
       console.error(error)
