@@ -66,6 +66,7 @@ export const getOrdersFromServer = () => {
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/orders`)
+      console.log('data from server', data)
       dispatch(getOrders(data))
     } catch (error) {
       console.error(error)

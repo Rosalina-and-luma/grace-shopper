@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import '../Orders/orders.css'
+import {NavLink} from 'react-router-dom'
 
 class GuestOrder extends Component {
   constructor() {
@@ -102,8 +103,12 @@ class GuestOrder extends Component {
           this.state.allProducts.map(product => {
             return (
               <div key={product.id} className="orders-section">
-                <img src={product.imgUrl} />
-                <span className="name"> {product.name}</span>
+                <NavLink to={`/products/${product.id}`}>
+                  <img src={product.imgUrl} />
+                </NavLink>
+                <NavLink to={`/products/${product.id}`}>
+                  <span className="name"> {product.name}</span>
+                </NavLink>
                 <span className="unitPrice">{product.price}</span>
                 <button
                   type="button"

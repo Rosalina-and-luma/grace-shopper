@@ -41,6 +41,7 @@ class Orders extends Component {
       }
     })
 
+    console.log('products', products)
     this.setState({
       allProducts: products.allProducts.map(prod => ({
         orderId: prod.orderId,
@@ -155,8 +156,12 @@ class Orders extends Component {
             {this.state.allProducts.map(product => {
               return (
                 <div key={product.id} className="orders-section">
-                  <img src={product.imgUrl} />
-                  <span className="name">{product.name}</span>
+                  <NavLink to={`/products/${product.id}`}>
+                    <img src={product.imgUrl} />
+                  </NavLink>
+                  <NavLink to={`/products/${product.id}`}>
+                    <span className="name">{product.name}</span>
+                  </NavLink>
                   <span className="unitPrice">{product.unitPrice}</span>
                   <span className="quantity">{product.quantity}</span>
                   <button

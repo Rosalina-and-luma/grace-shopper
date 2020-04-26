@@ -4,36 +4,36 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    if (req.session.userId) {
-      const orders = await Order.findAll({
-        where: {
-          userId: req.session.userId
-        }
-      })
-      const orderIds = orders.map(order => order.id)
+    // if (req.session.userId) {
+    const orders = await Order.findAll({
+      where: {
+        userId: req.session.userId
+      }
+    })
+    const orderIds = orders.map(order => order.id)
 
-      const products = await Order.findAll({
-        include: [{model: Product}, {model: OrderProduct}],
-        where: {
-          id: orderIds
-        }
-      })
+    const products = await Order.findAll({
+      include: [{model: Product}, {model: OrderProduct}],
+      where: {
+        id: orderIds
+      }
+    })
 
-      products.forEach(order => {
-        let total = 0
+    products.forEach(order => {
+      let total = 0
 
-        order.products.forEach(prod => {
-          let curr = prod.order_product
-          let subTotal = curr.quantity * curr.unitPrice
-          curr.dataValues.subTotal = subTotal
-          total += subTotal
-        })
-
-        order.dataValues.total = total
+      order.products.forEach(prod => {
+        let curr = prod.order_product
+        let subTotal = curr.quantity * curr.unitPrice
+        curr.dataValues.subTotal = subTotal
+        total += subTotal
       })
 
-      res.json(products)
-    }
+      order.dataValues.total = total
+    })
+
+    res.json(products)
+    // }
   } catch (error) {
     next(error)
   }
