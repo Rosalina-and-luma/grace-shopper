@@ -19,41 +19,41 @@ class Orders extends Component {
   }
   componentDidMount = async () => {
     console.log('user', this.props.user)
-    if (this.props.user.id) {
-      await this.props.getOrders()
-      let products = {allProducts: [], total: 0}
+    // if (this.props.user.id) {
+    await this.props.getOrders()
+    let products = {allProducts: [], total: 0}
 
-      this.props.orders.map(order => {
-        if (!order.purchased) {
-          for (let i = 0; i < order.products.length; i++) {
-            let prod = order.products[i]
-            products.allProducts.push({
-              orderId: order.id,
-              id: prod.id,
-              imgUrl: prod.imgUrl,
-              name: prod.name,
-              unitPrice: prod.order_product.unitPrice,
-              quantity: prod.order_product.quantity,
-              subTotal: prod.order_product.subTotal
-            })
-          }
-          products.total = order.total
+    this.props.orders.map(order => {
+      if (!order.purchased) {
+        for (let i = 0; i < order.products.length; i++) {
+          let prod = order.products[i]
+          products.allProducts.push({
+            orderId: order.id,
+            id: prod.id,
+            imgUrl: prod.imgUrl,
+            name: prod.name,
+            unitPrice: prod.order_product.unitPrice,
+            quantity: prod.order_product.quantity,
+            subTotal: prod.order_product.subTotal
+          })
         }
-      })
+        products.total = order.total
+      }
+    })
 
-      this.setState({
-        allProducts: products.allProducts.map(prod => ({
-          orderId: prod.orderId,
-          id: prod.id,
-          imgUrl: prod.imgUrl,
-          name: prod.name,
-          unitPrice: prod.unitPrice,
-          quantity: prod.quantity,
-          subTotal: prod.subTotal
-        })),
-        total: products.total
-      })
-    }
+    this.setState({
+      allProducts: products.allProducts.map(prod => ({
+        orderId: prod.orderId,
+        id: prod.id,
+        imgUrl: prod.imgUrl,
+        name: prod.name,
+        unitPrice: prod.unitPrice,
+        quantity: prod.quantity,
+        subTotal: prod.subTotal
+      })),
+      total: products.total
+    })
+    // }
   }
 
   addQuantity = id => {

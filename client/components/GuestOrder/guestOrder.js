@@ -98,7 +98,7 @@ class GuestOrder extends Component {
     return (
       <div>
         <h1>In guest cart</h1>
-        {this.state.allProducts &&
+        {this.state.allProducts && this.state.allProducts.length ? (
           this.state.allProducts.map(product => {
             return (
               <div key={product.id} className="orders-section">
@@ -133,7 +133,10 @@ class GuestOrder extends Component {
                 <span>SubTotal: {product.subTotal}</span>
               </div>
             )
-          })}
+          })
+        ) : (
+          <h1> Your cart is empty</h1>
+        )}
         {this.state.total > 0 && <span>Total: {this.state.total}</span>}
       </div>
     )
