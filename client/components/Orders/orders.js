@@ -26,7 +26,6 @@ class Orders extends Component {
         if (!order.purchased) {
           for (let i = 0; i < order.products.length; i++) {
             let prod = order.products[i]
-            // let orderProd = order.order_products[i]
             products.allProducts.push({
               orderId: order.id,
               id: prod.id,
