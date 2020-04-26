@@ -144,12 +144,12 @@ class Orders extends Component {
   render() {
     return (
       <div>
-        {this.state.total > 0 ? (
+        {this.state.total > 0 && this.props.user.id ? (
           <h1>Here are your orders</h1>
         ) : (
-          <h1>Your cart is empty!</h1>
+          this.props.user.id && <h1>Your cart is empty!</h1>
         )}
-        {this.state.allProducts.length || this.props.user ? (
+        {this.state.allProducts.length || this.props.user.id ? (
           <div>
             {this.state.allProducts.map(product => {
               return (
