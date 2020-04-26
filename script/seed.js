@@ -43,7 +43,6 @@ async function seed() {
 
   const products = await Promise.all([
     Product.create({
-      id: 1,
       name: 'Elder Wand',
       imgUrl:
         'https://vignette.wikia.nocookie.net/harrypotter/images/5/59/Elder_Wand.png/revision/latest?cb=20161128051519',
@@ -53,7 +52,6 @@ async function seed() {
       inventory: 50
     }),
     Product.create({
-      id: 2,
       name: 'Fred Wand',
       imgUrl:
         'https://static.wixstatic.com/media/5ec770_d8536997be814c1a885a5c27eeece84a~mv2.jpg/v1/fill/w_485,h_485,al_c,lg_1,q_85/5ec770_d8536997be814c1a885a5c27eeece84a~mv2.jpg',
@@ -63,7 +61,6 @@ async function seed() {
       inventory: 700
     }),
     Product.create({
-      id: 3,
       name: 'Nimbus 2000',
       imgUrl:
         'https://ottosgranary.com/wp-content/uploads/2019/04/mtmzk6ry5z3d4wnyyukh.jpg',
@@ -73,7 +70,6 @@ async function seed() {
       inventory: 20
     }),
     Product.create({
-      id: 4,
       name: 'Firebolt',
       imgUrl: 'https://i.ebayimg.com/images/g/kfsAAOSwLSZcNTkL/s-l640.jpg',
       description: 'cutting edge flying technology',
@@ -82,7 +78,6 @@ async function seed() {
       inventory: 10
     }),
     Product.create({
-      id: 5,
       name: 'Gryffindor robe',
       imgUrl:
         'https://cdn.shopify.com/s/files/1/1541/8579/products/Robe-Adults-Gryffindor-HarryPotter-Product-_6_grande.jpg?v=1586234451',
@@ -92,7 +87,6 @@ async function seed() {
       inventory: 120
     }),
     Product.create({
-      id: 6,
       name: 'Slytherin robe',
       imgUrl:
         'https://cdn.shopify.com/s/files/1/1541/8579/products/Slytherin_Robe_5_grande.jpg?v=1586234778',
@@ -102,7 +96,6 @@ async function seed() {
       inventory: 120
     }),
     Product.create({
-      id: 7,
       name: 'Erised Mirror',
       imgUrl:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRlGeKx8KV6jE2Hc3dVZBI06_z8DheNuE-t4sa5Yhlh2_nOdU6FpskT8TEEsGc8eOIhj-UD7J8&usqp=CAc',
@@ -112,7 +105,6 @@ async function seed() {
       inventory: 2
     }),
     Product.create({
-      id: 8,
       name: 'Time Turner',
       imgUrl:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQz6Gwh6yWjI-5_-bw5TRoVg8BVlnblfUOGsRte6_GgGkFTPOAR1PZVeb4mBlUxD5gRmQcGgnhE&usqp=CAc',

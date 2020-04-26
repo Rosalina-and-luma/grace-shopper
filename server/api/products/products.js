@@ -44,6 +44,30 @@ router.get('/:productId', async (req, res, next) => {
   }
 })
 
+router.post('/', async (req, res, next) => {
+  const {name, imgUrl, description, inventory, price, categoryId} = req.body
+
+  try {
+    const product = await Product.create({
+      name,
+      imgUrl,
+      description,
+      inventory,
+      price,
+      categoryId
+    })
+
+    const {dataValues} = await product.getCategory()
+    product.category = dataValues
+
+    console.log(product.category)
+
+    res.status(201).json(product)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.put('/:productId', isAdmin, async (req, res, next) => {
   const {id, name, imgUrl, description, inventory, price, categoryId} = req.body
   const {productId} = req.params
