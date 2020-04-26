@@ -3,6 +3,7 @@ import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {deleteFromServer} from '../../reducer/allProds'
 import {fetchSingleProduct} from '../../reducer/singleProduct'
+import './singleProduct.css'
 
 class SingleProduct extends Component {
   componentDidMount() {
@@ -23,15 +24,22 @@ class SingleProduct extends Component {
 
     return (
       <div>
-        <h1>Single Product</h1>
         {isLoading && <div>Data Loading...</div>}
         {selectedProduct && (
-          <div>
-            <img src={selectedProduct.imgUrl} height="50px" />
-            <p>{selectedProduct.name}</p>
-            <p>{selectedProduct.description}</p>
-            <p>{selectedProduct.price}</p>
-            <button type="button">Buy</button>
+          <div className="single-item-conatiner">
+            <div>
+              <img src={selectedProduct.imgUrl} height="350px" />
+            </div>
+
+            <div className="product-info">
+              <p className="product-name">{selectedProduct.name}</p>
+              <p className="product-description">
+                {selectedProduct.description}
+              </p>
+              <p>{selectedProduct.price}</p>
+              <button type="button">Buy</button>
+            </div>
+
             {user.isAdmin && (
               <div>
                 <button
