@@ -12,10 +12,12 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
     </Link>
     <nav className="nav-bar">
       <Link to="/products">All Products</Link>
-      <Link to="/robes">Robes</Link>
-      <Link to="/wands">Wands</Link>
-      <Link to="/misc">Misc</Link>
-      <Link to="/brooms">Brooms</Link>
+      <Link to="/products?category=robes">Robes</Link>
+      <Link to="/products?category=wands">Wands</Link>
+      <Link to="/products?category=brooms">Brooms</Link>
+      <Link to="/products?category=misc">Misc</Link>
+      <Link to="/signup">Sign-Up</Link>
+
       {isLoggedIn ? (
         <div>
           <Link to="/home">Home</Link>

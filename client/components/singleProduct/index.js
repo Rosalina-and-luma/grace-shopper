@@ -34,9 +34,17 @@ class SingleProduct extends Component {
             <button type="button">Buy</button>
             {user.isAdmin && (
               <div>
-                <NavLink to={`/products/updateProduct/${selectedProduct.id}`}>
-                  <button type="button">Edit</button>
-                </NavLink>
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.props.history.push(
+                      `/products/${selectedProduct.id}/update`
+                    )
+                  }}
+                >
+                  Edit
+                </button>
+
                 <button
                   type="button"
                   onClick={() => {

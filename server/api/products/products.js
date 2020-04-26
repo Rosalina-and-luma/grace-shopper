@@ -12,61 +12,24 @@ async function isAdmin(req, res, next) {
 }
 
 router.get('/', async (req, res, next) => {
-  try {
-    const products = await Product.findAll({include: Category})
-    res.json(products)
-  } catch (err) {
-    next(err)
-  }
-})
+  const {category} = req.query
 
-router.get('/brooms', async (req, res, next) => {
-  try {
-    const products = await Product.findAll({
-      where: {
-        categoryId: 2
-      }
-    })
-    res.json(products)
-  } catch (err) {
-    next(err)
-  }
-})
+  //to get a specific category, the route path needs to be `/api/products?category=${categoryName}`
 
-router.get('/wands', async (req, res, next) => {
   try {
-    const products = await Product.findAll({
-      where: {
-        categoryId: 1
-      }
-    })
-    res.json(products)
-  } catch (err) {
-    next(err)
-  }
-})
+    //take out later if not needed
+    if (category) {
+      const {products} = await Category.findOne({
+        where: {name: category},
+        include: [{model: Product}]
+      })
 
-router.get('/robes', async (req, res, next) => {
-  try {
-    const products = await Product.findAll({
-      where: {
-        categoryId: 3
-      }
-    })
-    res.json(products)
-  } catch (err) {
-    next(err)
-  }
-})
+      res.json(products)
+    } else {
+      const allProducts = await Product.findAll({include: [{model: Category}]})
 
-router.get('/misc', async (req, res, next) => {
-  try {
-    const products = await Product.findAll({
-      where: {
-        categoryId: 4
-      }
-    })
-    res.json(products)
+      res.json(allProducts)
+    }
   } catch (err) {
     next(err)
   }
@@ -81,19 +44,28 @@ router.get('/:productId', async (req, res, next) => {
   }
 })
 
-router.put('/updateProduct/:productId', isAdmin, async (req, res, next) => {
+router.put('/:productId', async (req, res, next) => {
   try {
     const selectedProduct = await Product.findByPk(req.params.productId)
+    const {
+      id,
+      name,
+      imgUrl,
+      description,
+      inventory,
+      price,
+      categoryId
+    } = req.body
 
     if (selectedProduct) {
       await selectedProduct.update({
-        id: req.body.id,
-        name: req.body.name,
-        imgUrl: req.body.imgUrl,
-        description: req.body.description,
-        inventory: req.body.inventory,
-        price: req.body.price,
-        categoryId: req.body.category
+        id,
+        name,
+        imgUrl,
+        description,
+        inventory,
+        price,
+        categoryId
       })
       res.json(selectedProduct)
     } else {
