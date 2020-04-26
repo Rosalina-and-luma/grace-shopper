@@ -58,9 +58,9 @@ router.post('/', async (req, res, next) => {
     })
 
     const {dataValues} = await product.getCategory()
-    product.category = dataValues
+    product.dataValues.category = dataValues
 
-    console.log(product.category)
+    // console.log('product: ', product)
 
     res.status(201).json(product)
   } catch (err) {

@@ -4,7 +4,7 @@ import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 // import user from './user'
 import appReducer from '../reducer'
-import {fetchProductsFromServer} from '../reducer/allProds'
+// import {createProductOnServer} from '../reducer/allProds'
 
 const reducer = appReducer
 const middleware = composeWithDevTools(
@@ -12,7 +12,12 @@ const middleware = composeWithDevTools(
 )
 const store = createStore(reducer, middleware)
 
-// store.dispatch(fetchProductsFromServer())
+// store.dispatch(createProductOnServer({
+//   name: 'Hufflepuff Robe',
+//   price: 20000,
+//   inventory: 20,
+//   categoryId: 3
+// }))
 
 // console.log('store', store)
 
