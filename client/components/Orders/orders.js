@@ -136,7 +136,7 @@ class Orders extends Component {
     return (
       <div>
         <h1>Here are your orders</h1>
-        {this.state.allProducts.length ? (
+        {this.state.allProducts.length && this.props.user.id ? (
           this.state.allProducts.map(product => {
             return (
               <div key={product.id} className="orders-section">
