@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
 import {addUserToServer} from '../../reducer/singleUser'
-//import './signup.css'
+import './signup.css'
 
 class Signup extends Component {
   constructor() {
@@ -24,38 +24,39 @@ class Signup extends Component {
   render() {
     return (
       <div className="signup-form">
-        <label>
-          First Name
-          {!this.state.firstName.trim() && (
-            <span className="warning">(Field is required!)</span>
-          )}
-        </label>
-        <input
-          type="text"
-          name="firstName"
-          value={this.state.firstName}
-          onChange={this.handleChange}
-        />
-        <br />
+        <div className="name">
+          <label>
+            First Name
+            {!this.state.firstName.trim() && (
+              <span className="warning">(required)</span>
+            )}
+          </label>
+          <input
+            type="text"
+            name="firstName"
+            value={this.state.firstName}
+            onChange={this.handleChange}
+          />
+          <br />
 
-        <label>
-          Last Name
-          {!this.state.lastName.trim() && (
-            <span className="warning">(Field is required!)</span>
-          )}
-        </label>
-        <input
-          type="text"
-          name="lastName"
-          value={this.state.lastName}
-          onChange={this.handleChange}
-        />
-        <br />
-
+          <label>
+            Last Name
+            {!this.state.lastName.trim() && (
+              <p className="warning">(required)</p>
+            )}
+          </label>
+          <input
+            type="text"
+            name="lastName"
+            value={this.state.lastName}
+            onChange={this.handleChange}
+          />
+          <br />
+        </div>
         <label>
           Email
           {!this.state.email.trim() && (
-            <span className="warning">(Field is required!)</span>
+            <span className="warning">(required)</span>
           )}
         </label>
         <input
@@ -68,7 +69,7 @@ class Signup extends Component {
         <label>
           Password
           {!this.state.password.trim() && (
-            <span className="warning">(Field is required!)</span>
+            <span className="warning">(required)</span>
           )}
         </label>
         <input
