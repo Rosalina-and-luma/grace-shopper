@@ -1,21 +1,57 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {deleteFromServer} from '../../reducer/allProds'
+import './AllProducts.css'
 
 const AllProductsUI = props => {
-  const {product} = props
+  const {product, isAdmin} = props
+
   return (
-    <div>
+    <div className="products">
       <NavLink to={`/products/${product.id}`}>
-        <img src={product.imgUrl} height="50px" />
+        <img src={product.imgUrl} />
       </NavLink>
-      <p>{product.name}</p>
-      <p>{product.price}</p>
-      <NavLink to={`/products/${product.id}`}>
+
+      <div className="item-info">
+        <span className="name">{product.name}</span>
+        <span className="price">{product.price}</span>
+      </div>
+
+      {/* <NavLink to={`/products/${product.id}`}>
         <button type="button">View Details</button>
-      </NavLink>
-      <button>Buy</button>
+      </NavLink> */}
+
+      <div className="item-buy">
+        <button type="button" className="buy-button">
+          Add to Cart
+        </button>
+      </div>
+
+      {isAdmin && (
+        <div>
+          <NavLink to={`/products/${product.id}/update`}>
+            <button type="button">Edit</button>
+          </NavLink>
+          <NavLink to="/products">
+            <button
+              type="button"
+              onClick={() => {
+                props.deleteProduct(product.id)
+              }}
+            >
+              Delete
+            </button>
+          </NavLink>
+        </div>
+      )}
     </div>
   )
 }
 
-export default AllProductsUI
+const mapDispatchToProps = dispatch => {
+  return {
+    deleteProduct: id => dispatch(deleteFromServer(id))
+  }
+}
+export default connect(null, mapDispatchToProps)(AllProductsUI)

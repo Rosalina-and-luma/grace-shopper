@@ -6,12 +6,10 @@ import {Login, UserHome} from './components'
 import SingleProduct from './components/singleProduct'
 import {me} from './store'
 import AllProducts from './components/AllProducts/AllProducts'
-import Brooms from './components/Brooms/brooms'
-import Wands from './components/Wands/wands'
-import Robes from './components/Robes/robes'
-import Misc from './components/Misc/misc'
+import EditProduct from './components/EditProduct/editProduct'
 import Signup from './components/Signup/signup'
-import Homepage from './components/Homepage/Homepage'
+import Homepage from './components/Homepage/homePage'
+import User from './components/User/User'
 
 /**
  * COMPONENT
@@ -29,14 +27,17 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route exact path="/" component={Homepage} />
         <Route exact path="/products" component={AllProducts} />
-        <Route exact path="/brooms" component={Brooms} />
-        <Route exact path="/wands" component={Wands} />
-        <Route exact path="/robes" component={Robes} />
-        <Route exact path="/misc" component={Misc} />
-        <Route path="/signup" component={Signup} />
+        <Route exact path="/products/:productId" component={SingleProduct} />
+        <Route
+          exact
+          path="/products/:productId/update"
+          component={EditProduct}
+        />
 
+        <Route path="/user" component={User} />
+
+        <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
-        <Route path="/products/:productId" component={SingleProduct} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
@@ -53,13 +54,13 @@ class Routes extends Component {
 /**
  * CONTAINER
  */
-// const mapState = state => {
-//   return {
-//     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
-//     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-//     // isLoggedIn: !!state.user.id
-//   }
-// }
+const mapState = state => {
+  return {
+    // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
+    // Otherwise, state.user will be an empty object, and state.user.id will be falsey
+    // isLoggedIn: !!state.user.id
+  }
+}
 
 const mapDispatch = dispatch => {
   return {

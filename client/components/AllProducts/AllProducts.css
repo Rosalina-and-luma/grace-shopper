@@ -1,0 +1,53 @@
+h1 {
+  color: white;
+}
+
+.products-landing-page h1 {
+  text-align: center;
+}
+
+.products-section {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.products {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(182, 182, 182, 0.5);
+  margin: 10px 20px;
+  text-align: center;
+}
+
+.products img {
+  height: 200px;
+  width: 200px;
+  padding: 20px;
+}
+
+.name {
+  font-size: 20px;
+  font-weight: bold;
+  padding-left: 10px;
+  padding-bottom: 10px;
+}
+
+.price {
+  padding-bottom: 10px;
+  padding-right: 10px;
+}
+
+.item-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.item-buy {
+  display: flex;
+  justify-content: center;
+}
+
+.buy-button {
+  align-items: center;
+  width: 100px;
+}
