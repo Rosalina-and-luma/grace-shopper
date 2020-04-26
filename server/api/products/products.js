@@ -8,7 +8,7 @@ async function isAdmin(req, res, next) {
       return next()
     }
   }
-  res.redirect('../products')
+  res.status(403).send('access denied')
 }
 
 router.get('/', async (req, res, next) => {

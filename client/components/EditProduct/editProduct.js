@@ -51,7 +51,7 @@ class EditProduct extends Component {
     console.log(this.state)
     return (
       <div className="edit-form">
-        <h1>Product will be edited here</h1>
+        <h1>Edit Product</h1>
         <label>Name</label>
         <input
           type="text"
@@ -112,8 +112,8 @@ class EditProduct extends Component {
 
         <button
           type="button"
-          onClick={() => {
-            this.props.updateProduct({
+          onClick={async () => {
+            await this.props.updateProduct({
               id: this.state.id,
               name: this.state.name,
               imgUrl: this.state.imgUrl,
