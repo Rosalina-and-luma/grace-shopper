@@ -30,7 +30,7 @@ class SingleProduct extends Component {
             <img src={selectedProduct.imgUrl} height="50px" />
             <p>{selectedProduct.name}</p>
             <p>{selectedProduct.description}</p>
-            <p>{selectedProduct.price}</p>
+            <p>${selectedProduct.price}</p>
             <button type="button">Buy</button>
             {user.isAdmin && (
               <div>
