@@ -44,7 +44,7 @@ router.get('/:productId', async (req, res, next) => {
   }
 })
 
-router.put('/:productId', async (req, res, next) => {
+router.put('/:productId', isAdmin, async (req, res, next) => {
   const {id, name, imgUrl, description, inventory, price, categoryId} = req.body
   const {productId} = req.params
 
@@ -75,7 +75,7 @@ router.put('/:productId', async (req, res, next) => {
   }
 })
 
-router.delete('/:productId', async (req, res, next) => {
+router.delete('/:productId', isAdmin, async (req, res, next) => {
   try {
     let selectedProduct = await Product.findByPk(req.params.productId)
     if (selectedProduct) {

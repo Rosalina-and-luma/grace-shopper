@@ -110,25 +110,24 @@ class EditProduct extends Component {
         />
         <br />
 
-        <NavLink to="/products">
-          <button
-            type="button"
-            onClick={() => {
-              this.props.updateProduct({
-                id: this.state.id,
-                name: this.state.name,
-                imgUrl: this.state.imgUrl,
-                description: this.state.description,
-                price: this.state.price,
-                categoryId: parseInt(this.state.categoryId, 10),
-                inventory: this.state.inventory
-              })
-            }}
-          >
-            {' '}
-            Update Product{' '}
-          </button>
-        </NavLink>
+        <button
+          type="button"
+          onClick={() => {
+            this.props.updateProduct({
+              id: this.state.id,
+              name: this.state.name,
+              imgUrl: this.state.imgUrl,
+              description: this.state.description,
+              price: this.state.price,
+              categoryId: parseInt(this.state.categoryId, 10),
+              inventory: this.state.inventory
+            })
+
+            this.props.history.push('/products')
+          }}
+        >
+          Update Product
+        </button>
       </div>
     )
   }
