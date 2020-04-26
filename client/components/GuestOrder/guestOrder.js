@@ -2,15 +2,10 @@ import React, {Component} from 'react'
 import '../Orders/orders.css'
 
 class GuestOrder extends Component {
-  // console.log(JSON.parse(localStorage.getItem('products')))
-  // let localData = JSON.parse(localStorage.getItem('products'))
   constructor() {
     super()
     this.state = {
       allProducts: JSON.parse(localStorage.getItem('products')),
-      // total: this.allProducts.reduce((total, prod) => {
-      //   total += prod.subTotal
-      // }, 0)
       total: 0
     }
   }
@@ -65,11 +60,8 @@ class GuestOrder extends Component {
     updatedProducts.forEach((prod, index) => {
       if (prod.quantity === 0) {
         updatedProducts.splice(index, 1)
-        console.log('updatedProdAfterDelete', updatedProducts)
       }
     })
-
-    console.log('updatedProdAfterDelete', updatedProducts)
 
     this.setState({
       allProducts: [...updatedProducts]
@@ -77,18 +69,13 @@ class GuestOrder extends Component {
 
     this.getTotal()
 
-    console.log('this.state', this.state)
-
     localStorage.setItem('products', JSON.stringify(updatedProducts))
-    console.log('state after subtract', this.state)
   }
 
   removeProduct = id => {
     let oldProducts = [...this.state.allProducts]
 
     let updatedTotal = this.state.total
-
-    console.log('updated total  after remove', updatedTotal)
 
     let updatedProducts = oldProducts.filter(prod => {
       if (prod.id === id) {
@@ -107,8 +94,6 @@ class GuestOrder extends Component {
   }
 
   render() {
-    // this.getTotal()
-    console.log('guest state', this.state)
     return (
       <div>
         <h1>In guest cart</h1>

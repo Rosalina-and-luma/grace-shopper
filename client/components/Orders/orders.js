@@ -7,6 +7,7 @@ import {
 } from '../../reducer/order/order'
 import GuestOrder from '../GuestOrder/guestOrder'
 import './orders.css'
+import {NavLink} from 'react-router-dom'
 
 class Orders extends Component {
   constructor() {
@@ -96,8 +97,10 @@ class Orders extends Component {
 
     newProds.forEach((prod, index) => {
       if (prod.quantity === 0) {
-        let data = {orderId: prod.orderId, productId: prod.id}
-        this.props.deleteProdFromOrder(data)
+        this.props.deleteProdFromOrder({
+          orderId: prod.orderId,
+          productId: prod.id
+        })
         newProds.splice(index, 1)
       }
     })
@@ -179,6 +182,9 @@ class Orders extends Component {
           <GuestOrder />
         )}
         <span>Total: {this.state.total}</span>
+        <NavLink to="/checkout">
+          <button type="button"> Checkout </button>
+        </NavLink>
       </div>
     )
   }

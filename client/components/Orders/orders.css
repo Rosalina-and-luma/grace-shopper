@@ -1,5 +1,14 @@
+.orders-section {
+  display: flex;
+}
+
 .orders-section img {
   height: 100px;
+}
+
+.orders-section button {
+  height: 30px;
+  margin: 0 10px;
 }
 
 .name,

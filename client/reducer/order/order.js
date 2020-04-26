@@ -56,15 +56,6 @@ export const getOrdersFromServer = userId => {
   }
 }
 
-// export const removeItemFromCart = itemId => {
-//   return async dispatch => {
-//     try {
-
-//     } catch (error) {
-//       console.error(error)
-//     }
-//   }
-// }
 export const deleteProdFromOrderServer = data => {
   console.log('server data', data)
   return async dispatch => {
