@@ -114,7 +114,7 @@ class GuestOrder extends Component {
                 <NavLink to={`/products/${product.id}`}>
                   <span className="name"> {product.name}</span>
                 </NavLink>
-                <span className="unitPrice">{product.price}</span>
+                <span className="unitPrice">${product.price}</span>
                 <button
                   type="button"
                   onClick={() => {
@@ -123,7 +123,7 @@ class GuestOrder extends Component {
                 >
                   +
                 </button>
-                <label className="quantity">{product.quantity}</label>
+                <label className="quantity">Quantity: {product.quantity}</label>
                 <button
                   type="button"
                   onClick={() => {
@@ -150,6 +150,7 @@ class GuestOrder extends Component {
         {this.state.total > 0 && (
           <div>
             <span>Total: {this.state.total}</span>
+            <br />
             <NavLink to="/checkout">
               <button type="button" onClick={this.checkout}>
                 {' '}

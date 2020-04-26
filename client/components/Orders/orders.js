@@ -166,8 +166,7 @@ class Orders extends Component {
                   <NavLink to={`/products/${product.id}`}>
                     <span className="name">{product.name}</span>
                   </NavLink>
-                  <span className="unitPrice">{product.unitPrice}</span>
-                  <span className="quantity">{product.quantity}</span>
+                  <span className="unitPrice">${product.unitPrice}</span>
                   <button
                     type="button"
                     onClick={() => {
@@ -177,6 +176,8 @@ class Orders extends Component {
                     +
                   </button>
                   <label className="quantity" name="quantity">
+                    {' '}
+                    Quantity:
                     {product.quantity}
                   </label>
                   <button
@@ -205,6 +206,7 @@ class Orders extends Component {
             {this.state.total > 0 && (
               <div>
                 <span>Total: {this.state.total}</span>
+                <br />
                 <NavLink to="/checkout">
                   <button type="button"> Checkout </button>
                 </NavLink>

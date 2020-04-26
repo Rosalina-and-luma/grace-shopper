@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 import {logout} from '../../store'
 import './navbar.css'
 
-const Navbar = ({handleClick, isLoggedIn, isAdmin, user}) => (
+const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
   <div className="nav-page">
     <Link to="/">
       <h1>Diagon E-lley 🧙🏼‍♂️</h1>
