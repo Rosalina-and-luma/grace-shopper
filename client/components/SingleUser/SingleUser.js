@@ -10,11 +10,18 @@ class SingleUser extends React.Component {
       showForm: false
     }
     this.showForm = this.showForm.bind(this)
+    this.hideForm = this.hideForm.bind(this)
   }
 
   showForm() {
     this.setState({
       showForm: true
+    })
+  }
+
+  hideForm() {
+    this.setState({
+      showForm: false
     })
   }
 
@@ -31,7 +38,7 @@ class SingleUser extends React.Component {
         </p>
         <p>email: {user.email}</p>
         {this.state.showForm ? (
-          <UpdateUser user={user} />
+          <UpdateUser user={user} hideForm={this.hideForm} />
         ) : (
           <button type="button" onClick={this.showForm}>
             Edit My Info
