@@ -26,7 +26,7 @@ class AllProducts extends React.Component {
     return (
       <div className="products-landing-page">
         <div>
-          <p>hello {user.id ? user.firstName + '!' : 'guest!'} </p>
+          <h1>Hello {user.id ? user.firstName + '!' : 'guest!'} </h1>
           <h1>
             {category
               ? category[0].toUpperCase() + category.slice(1)
