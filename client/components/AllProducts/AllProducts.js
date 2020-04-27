@@ -12,7 +12,6 @@ class AllProducts extends React.Component {
   }
 
   render() {
-
     const {products, isLoading, user, location} = this.props
     const query = queryString.parse(location.search)
     const category = query ? query.category : ''
@@ -22,8 +21,9 @@ class AllProducts extends React.Component {
 
     console.log('products to render: ', allProds)
 
-
     if (isLoading) return <h1>loading....</h1>
+
+    console.log('Logged in user id', user.id)
 
     return (
       <div className="products-landing-page">
@@ -35,6 +35,18 @@ class AllProducts extends React.Component {
               : 'All Products'}
           </h1>
 
+          {user.isAdmin ? (
+            <div className="products_nav">
+              <button
+                type="button"
+                onClick={() => this.props.history.push('/products/add')}
+              >
+                Add Product
+              </button>
+            </div>
+          ) : (
+            <div />
+          )}
 
           <div className="products-section">
             {allProds.map(product => {
