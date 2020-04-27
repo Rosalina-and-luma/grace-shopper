@@ -2,12 +2,20 @@ import axios from 'axios'
 
 //action type
 const GET_SINGLE_PRODUCT = 'GET_SINGLE_PRODUCT'
+const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 
 //action creator
 const getSingleProduct = product => {
   console.log('data in getSingleProduct', product)
   return {
     type: GET_SINGLE_PRODUCT,
+    product
+  }
+}
+
+const updateProduct = product => {
+  return {
+    type: UPDATE_PRODUCT,
     product
   }
 }
@@ -20,6 +28,17 @@ export const fetchSingleProduct = id => {
       dispatch(getSingleProduct(data))
     } catch (error) {
       console.error(error)
+    }
+  }
+}
+
+export const updateProductOnServer = product => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.put(`/api/products/${product.id}`, product)
+      dispatch(updateProduct(data))
+    } catch (err) {
+      console.error(err.message)
     }
   }
 }
@@ -39,6 +58,8 @@ const singleProductReducer = (state = initialState, action) => {
         selectedProduct: action.product,
         isLoading: false
       }
+    case UPDATE_PRODUCT:
+      return {...state, selectedProduct: action.product}
     default:
       return state
   }

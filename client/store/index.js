@@ -4,7 +4,7 @@ import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 // import user from './user'
 import appReducer from '../reducer'
-// import {updateProductOnServer} from '../reducer/allProds'
+import {updateProductOnServer} from '../reducer/singleProduct'
 
 const reducer = appReducer
 const middleware = composeWithDevTools(
@@ -12,13 +12,15 @@ const middleware = composeWithDevTools(
 )
 const store = createStore(reducer, middleware)
 
-// store.dispatch(updateProductOnServer({
-//   id: 2,
-//   name: 'George Wand',
-//   price: 200,
-//   inventory: 20,
-//   categoryId: 1
-// }))
+store.dispatch(
+  updateProductOnServer({
+    id: 2,
+    name: 'Fred Wand',
+    price: 500,
+    inventory: 20,
+    categoryId: 1
+  })
+)
 
 // console.log('store', store)
 
