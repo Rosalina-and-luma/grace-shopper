@@ -2,7 +2,10 @@ import React from 'react'
 import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {deleteFromServer} from '../../reducer/allProds'
-import {addToCartServer} from '../../reducer/order/order'
+import {
+  addToCartServer,
+  updateInventoryToServer
+} from '../../reducer/order/order'
 import './AllProducts.css'
 
 const AllProductsUI = props => {
@@ -51,6 +54,14 @@ const AllProductsUI = props => {
     console.log('local cart', JSON.parse(localStorage.getItem('products')))
   }
 
+  const handleUserBuy = data => {
+    props.addToCart({productId: data.productId, quantity: 1})
+    props.updateInventory({
+      productId: data.productId,
+      inventory: data.inventory - 1
+    })
+  }
+
   return (
     <div className="products">
       <NavLink to={`/products/${product.id}`}>
@@ -64,11 +75,18 @@ const AllProductsUI = props => {
       {Object.keys(user).length ? (
         <button
           type="button"
+          // onClick={() => {
+          //   props.addToCart({
+          //     // userId: props.user.id,
+          //     productId: props.product.id,
+          //     quantity: 1,
+          //   })
+          // }}
           onClick={() => {
-            props.addToCart({
-              // userId: props.user.id,
+            handleUserBuy({
               productId: props.product.id,
-              quantity: 1
+              quantity: 1,
+              inventory: props.product.inventory
             })
           }}
         >
@@ -122,7 +140,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     addToCart: order => dispatch(addToCartServer(order)),
-    deleteProduct: id => dispatch(deleteFromServer(id))
+    deleteProduct: id => dispatch(deleteFromServer(id)),
+    updateInventory: data => dispatch(updateInventoryToServer(data))
   }
 }
 

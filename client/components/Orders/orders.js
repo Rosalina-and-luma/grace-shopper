@@ -1,9 +1,11 @@
+/* eslint-disable complexity */
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {
   getOrdersFromServer,
   addToCartServer,
-  deleteProdFromOrderServer
+  deleteProdFromOrderServer,
+  updateInventoryToServer
 } from '../../reducer/order/order'
 import GuestOrder from '../GuestOrder/guestOrder'
 import './orders.css'
@@ -14,25 +16,28 @@ class Orders extends Component {
     super()
     this.state = {
       allProducts: [],
-      total: 0
+      total: 0,
+      cart: ''
     }
   }
   componentDidMount = async () => {
-    console.log('user', this.props.user)
+    // console.log('user', this.props.user)
     // if (this.props.user.id) {
     await this.props.getOrders()
     let products = {allProducts: [], total: 0}
-    console.log('-------------->props.orders', this.props.orders)
     if (this.props.orders && this.props.orders.length) {
       this.props.orders.map(order => {
         if (!order.purchased) {
           for (let i = 0; i < order.products.length; i++) {
             let prod = order.products[i]
+            console.log('-----single product-------', prod)
+            // this.props.updateInventory({id: prod.id, inventory: prod.inventory-1})
             products.allProducts.push({
               orderId: order.id,
               id: prod.id,
               imgUrl: prod.imgUrl,
               name: prod.name,
+              inventory: prod.inventory,
               unitPrice: prod.order_product.unitPrice,
               quantity: prod.order_product.quantity,
               subTotal: prod.order_product.subTotal
@@ -43,18 +48,19 @@ class Orders extends Component {
       })
     }
 
-    console.log('products', products)
     this.setState({
       allProducts: products.allProducts.map(prod => ({
         orderId: prod.orderId,
         id: prod.id,
         imgUrl: prod.imgUrl,
         name: prod.name,
+        inventory: prod.inventory,
         unitPrice: prod.unitPrice,
         quantity: prod.quantity,
         subTotal: prod.subTotal
       })),
-      total: products.total
+      total: products.total,
+      cart: this.props.user.id ? 'user' : 'guest'
     })
     // }
   }
@@ -80,7 +86,6 @@ class Orders extends Component {
     })
 
     this.props.updateOrders({
-      // userId: this.props.user.id,
       productId: id,
       quantity: updatedQuantity
     })
@@ -118,7 +123,6 @@ class Orders extends Component {
 
     if (updatedQuantity !== 0) {
       this.props.updateOrders({
-        // userId: this.props.user.id,
         productId: id,
         quantity: updatedQuantity
       })
@@ -146,18 +150,88 @@ class Orders extends Component {
   }
 
   render() {
+    console.log('!!!!!!!state', this.state)
     return (
       <div>
         <span>Hello {this.props.user.firstName}!!</span>
-        {console.log('user in render', this.props.user)}
-        {this.state.total > 0 && this.props.user.id ? (
+        {/* {console.log('********render', this.state.allProducts.length || this.props.user.id)} */}
+
+        {this.state.cart === 'user' ? (
+          this.state.allProducts.length && this.props.user.id ? (
+            <div>
+              <h1>Here are your orders</h1>
+              {this.state.allProducts.map(product => {
+                return (
+                  <div key={product.id} className="orders-section">
+                    <NavLink to={`/products/${product.id}`}>
+                      <img src={product.imgUrl} />
+                    </NavLink>
+                    <NavLink to={`/products/${product.id}`}>
+                      <span className="name">{product.name}</span>
+                    </NavLink>
+                    <span>Inventory: {product.inventory}</span>
+                    <span className="unitPrice">${product.unitPrice}</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        this.addQuantity(product.id)
+                      }}
+                    >
+                      +
+                    </button>
+                    <label className="quantity" name="quantity">
+                      {' '}
+                      Quantity:
+                      {product.quantity}
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        this.subtractQuantity(product.id)
+                      }}
+                    >
+                      -
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        this.onDelete({
+                          orderId: product.orderId,
+                          productId: product.id
+                        })
+                      }}
+                    >
+                      Remove
+                    </button>
+                    <span>SubTotal: {product.subTotal}</span>
+                  </div>
+                )
+              })}
+              {this.state.total > 0 && (
+                <div>
+                  <span>Total: {this.state.total}</span>
+                  <br />
+                  <NavLink to="/checkout">
+                    <button type="button"> Checkout </button>
+                  </NavLink>
+                </div>
+              )}
+            </div>
+          ) : (
+            <h1>Your cart is empty</h1>
+          )
+        ) : (
+          <GuestOrder />
+        )}
+
+        {/* {(this.state.allProducts.length && this.props.user.id) ? (
           <h1>Here are your orders</h1>
         ) : (
           this.props.user.id && <h1>Your cart is empty!</h1>
         )}
         {this.state.allProducts.length && this.props.user.id ? (
           <div>
-            {this.state.allProducts.map(product => {
+            {this.state.allProducts.map((product) => {
               return (
                 <div key={product.id} className="orders-section">
                   <NavLink to={`/products/${product.id}`}>
@@ -166,6 +240,7 @@ class Orders extends Component {
                   <NavLink to={`/products/${product.id}`}>
                     <span className="name">{product.name}</span>
                   </NavLink>
+                  <span>Inventory: {product.inventory}</span>
                   <span className="unitPrice">${product.unitPrice}</span>
                   <button
                     type="button"
@@ -193,13 +268,13 @@ class Orders extends Component {
                     onClick={() => {
                       this.onDelete({
                         orderId: product.orderId,
-                        productId: product.id
+                        productId: product.id,
                       })
                     }}
                   >
                     Remove
                   </button>
-                  <span>{product.subTotal}</span>
+                  <span>SubTotal: {product.subTotal}</span>
                 </div>
               )
             })}
@@ -214,8 +289,8 @@ class Orders extends Component {
             )}
           </div>
         ) : (
-          <GuestOrder />
-        )}
+          <h1>Your cart is empty!</h1>
+        )} */}
       </div>
     )
   }
@@ -234,7 +309,8 @@ const mapDispatchToProps = dispatch => {
     updateOrders: order => dispatch(addToCartServer(order)),
     deleteProdFromOrder: data => {
       dispatch(deleteProdFromOrderServer(data))
-    }
+    },
+    updateInventory: data => dispatch(updateInventoryToServer(data))
   }
 }
 

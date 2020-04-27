@@ -7,6 +7,7 @@ const ADD_TO_CART = 'ADD_TO_CART'
 const GET_ORDERS = 'GET_ORDERS'
 const UPDATE_ORDER = 'UPDATE_ORDER'
 const DELETE_PROD_FROM_ORDER = 'DELETE_PROD_FROM_ORDER'
+// const UPDATE_INVENTORY = 'UPDATE_INVENTORY'
 
 //action creators
 
@@ -35,6 +36,12 @@ const deleteProdFromOrder = () => {
     type: DELETE_PROD_FROM_ORDER
   }
 }
+
+// const updateInventory = () => {
+//   return {
+//     type: UPDATE_INVENTORY
+//   }
+// }
 
 //thunk creators
 
@@ -90,6 +97,20 @@ export const deleteProdFromOrderServer = data => {
         }
       })
       dispatch(deleteProdFromOrder())
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
+export const updateInventoryToServer = data => {
+  console.log('------inventory reducer called-------')
+  return async disptach => {
+    try {
+      await axios.put('api/orders/inventory', {
+        productId: data.id,
+        inventory: data.inventory
+      })
     } catch (error) {
       console.error(error)
     }
