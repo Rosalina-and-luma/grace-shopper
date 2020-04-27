@@ -53,13 +53,17 @@ export const addToCartServer = order => {
   console.log('order placed', order)
   return async dispatch => {
     try {
-      const {data} = await axios.post('/api/orders', {
-        // userId: order.userId,
-        productId: order.productId,
-        quantity: order.quantity
-      })
-      console.log('returned data', data)
-      dispatch(addToCart(data))
+      if (order.orderId) {
+        await axios.put('/api/orders/quantity', {quantiyt: order.quantity})
+      } else {
+        const {data} = await axios.post('/api/orders', {
+          // userId: order.userId,
+          productId: order.productId,
+          quantity: order.quantity
+        })
+        console.log('returned data', data)
+        dispatch(addToCart(data))
+      }
     } catch (error) {
       console.error(error)
     }

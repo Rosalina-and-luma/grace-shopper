@@ -47,8 +47,6 @@ const AllProductsUI = props => {
     } else {
       localStorage.setItem('products', JSON.stringify([newOrder]))
     }
-
-    console.log('local cart', JSON.parse(localStorage.getItem('products')))
   }
 
   return (
@@ -66,7 +64,6 @@ const AllProductsUI = props => {
           type="button"
           onClick={() => {
             props.addToCart({
-              // userId: props.user.id,
               productId: props.product.id,
               quantity: 1
             })
