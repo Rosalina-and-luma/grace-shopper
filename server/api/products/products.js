@@ -73,6 +73,7 @@ router.put('/:productId', isAdmin, async (req, res, next) => {
   const {productId} = req.params
 
   try {
+    //refactor
     const [updates, selectedProduct] = await Promise.all([
       Product.update(
         {
@@ -99,15 +100,16 @@ router.put('/:productId', isAdmin, async (req, res, next) => {
   }
 })
 
+//refactor so code is not redundant
 router.delete('/:productId', isAdmin, async (req, res, next) => {
   try {
-    let selectedProduct = await Product.findByPk(req.params.productId)
+    let selectedProduct = await Product.findByPk(req.params.productId) //don't need this
     if (selectedProduct) {
       await Product.destroy({
         where: {
           id: selectedProduct.id
         }
-      })
+      }) //will return 0 if nothing was destroyed
       res.sendStatus(204)
     }
   } catch (error) {
