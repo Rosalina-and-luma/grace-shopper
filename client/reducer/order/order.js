@@ -104,11 +104,11 @@ export const deleteProdFromOrderServer = data => {
 }
 
 export const updateInventoryToServer = data => {
-  console.log('------inventory reducer called-------')
+  console.log('------inventory reducer called-------', data)
   return async disptach => {
     try {
-      await axios.put('api/orders/inventory', {
-        productId: data.id,
+      await axios.put('/api/orders/inventory', {
+        productId: data.productId,
         inventory: data.inventory
       })
     } catch (error) {
