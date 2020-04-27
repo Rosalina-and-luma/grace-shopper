@@ -100,6 +100,47 @@ export const deleteProdFromOrderServer = data => {
   }
 }
 
+export const handleLocalStorage = data => {
+  let updateExistingFlag = false
+  let newOrder = {
+    id: data.productId,
+    name: data.name,
+    imgUrl: data.imgUrl,
+    quantity: data.quantity,
+    description: data.description,
+    price: data.price,
+    subTotal: data.price * data.quantity
+  }
+  //checking if products already exists in localStorage
+  if (
+    localStorage.getItem('products') &&
+    localStorage.getItem('products').length
+  ) {
+    let currentOrders = JSON.parse(localStorage.getItem('products'))
+
+    //checking if the product user is trying to buy is already in storage, if it is already there, increase the quantity by 1
+    let updatedExisitngOrder = currentOrders.map(order => {
+      if (order.id === data.productId) {
+        order.quantity += 1
+        order.subTotal = order.quantity * order.price
+        updateExistingFlag = true
+      }
+      return order
+    })
+    if (updateExistingFlag) {
+      localStorage.setItem(
+        'products',
+        JSON.stringify([...updatedExisitngOrder])
+      )
+    } else {
+      let result = [...currentOrders, newOrder]
+      localStorage.setItem('products', JSON.stringify(result))
+    }
+  } else {
+    localStorage.setItem('products', JSON.stringify([newOrder]))
+  }
+}
+
 //reducer
 
 const initialState = {
