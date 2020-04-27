@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import '../Orders/orders.css'
+import {NavLink} from 'react-router-dom'
 
 class GuestOrder extends Component {
   constructor() {
@@ -94,6 +95,11 @@ class GuestOrder extends Component {
     localStorage.setItem('products', JSON.stringify(updatedProducts))
   }
 
+  checkout = () => {
+    console.log('incheckout')
+    localStorage.removeItem('products')
+  }
+
   render() {
     return (
       <div>
@@ -102,9 +108,13 @@ class GuestOrder extends Component {
           this.state.allProducts.map(product => {
             return (
               <div key={product.id} className="orders-section">
-                <img src={product.imgUrl} />
-                <span className="name"> {product.name}</span>
-                <span className="unitPrice">{product.price}</span>
+                <NavLink to={`/products/${product.id}`}>
+                  <img src={product.imgUrl} />
+                </NavLink>
+                <NavLink to={`/products/${product.id}`}>
+                  <span className="name"> {product.name}</span>
+                </NavLink>
+                <span className="unitPrice">${product.price}</span>
                 <button
                   type="button"
                   onClick={() => {
@@ -113,7 +123,7 @@ class GuestOrder extends Component {
                 >
                   +
                 </button>
-                <label className="quantity">{product.quantity}</label>
+                <label className="quantity">Quantity: {product.quantity}</label>
                 <button
                   type="button"
                   onClick={() => {
@@ -137,7 +147,18 @@ class GuestOrder extends Component {
         ) : (
           <h1> Your cart is empty</h1>
         )}
-        {this.state.total > 0 && <span>Total: {this.state.total}</span>}
+        {this.state.total > 0 && (
+          <div>
+            <span>Total: {this.state.total}</span>
+            <br />
+            <NavLink to="/checkout">
+              <button type="button" onClick={this.checkout}>
+                {' '}
+                Checkout{' '}
+              </button>
+            </NavLink>
+          </div>
+        )}
       </div>
     )
   }

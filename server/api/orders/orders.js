@@ -4,36 +4,38 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    if (req.session.userId) {
-      const orders = await Order.findAll({
-        where: {
-          userId: req.session.userId
-        }
-      })
-      const orderIds = orders.map(order => order.id)
+    // if (req.session.userId) {
+    const orders = await Order.findAll({
+      where: {
+        userId: req.session.userId
+      }
+    })
+    const orderIds = orders.map(order => order.id)
 
-      const products = await Order.findAll({
-        include: [{model: Product}, {model: OrderProduct}],
-        where: {
-          id: orderIds
-        }
-      })
+    const products = await Order.findAll({
+      include: [{model: Product}, {model: OrderProduct}],
+      where: {
+        id: orderIds
+      }
+    })
 
-      products.forEach(order => {
-        let total = 0
+    products.forEach(order => {
+      let total = 0
 
-        order.products.forEach(prod => {
-          let curr = prod.order_product
-          let subTotal = curr.quantity * curr.unitPrice
-          curr.dataValues.subTotal = subTotal
-          total += subTotal
-        })
-
-        order.dataValues.total = total
+      order.products.forEach(prod => {
+        let curr = prod.order_product
+        let subTotal = curr.quantity * curr.unitPrice
+        curr.dataValues.subTotal = subTotal
+        total += subTotal
       })
 
-      res.json(products)
-    }
+      order.dataValues.total = total
+    })
+
+    res.json(products)
+    // } else {
+    //   console.log('No user found')
+    // }
   } catch (error) {
     next(error)
   }
@@ -76,21 +78,7 @@ router.post('/', async (req, res, next) => {
         unitPrice: product.price
       })
     }
-    res.json(updatedOrder)
-  } catch (error) {
-    next(error)
-  }
-})
-
-router.delete('/', async (req, res, next) => {
-  try {
-    await OrderProduct.destroy({
-      where: {
-        orderId: req.body.orderId,
-        productId: req.body.productId
-      }
-    })
-    res.sendStatus(204)
+    res.status(201).json(updatedOrder)
   } catch (error) {
     next(error)
   }
@@ -105,6 +93,20 @@ router.put('/', async (req, res, next) => {
       })
     }
     res.sendStatus(200)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.delete('/', async (req, res, next) => {
+  try {
+    await OrderProduct.destroy({
+      where: {
+        orderId: req.body.orderId,
+        productId: req.body.productId
+      }
+    })
+    res.sendStatus(204)
   } catch (error) {
     next(error)
   }
