@@ -6,15 +6,15 @@ import {Login, UserHome} from './components'
 import SingleProduct from './components/singleProduct'
 import {me} from './store'
 import AllProducts from './components/AllProducts/AllProducts'
-import Brooms from './components/Brooms/brooms'
-import Wands from './components/Wands/wands'
-import Robes from './components/Robes/robes'
-import Misc from './components/Misc/misc'
 import EditProduct from './components/EditProduct/editProduct'
+import AddProduct from './components/AddProduct/AddProduct'
 import Signup from './components/Signup/signup'
 import Homepage from './components/Homepage/homePage'
 import User from './components/User/User'
 import SingleUser from './components/SingleUser/SingleUser'
+import Orders from './components/Orders/orders'
+import Checkout from './components/Checkout/checkout'
+import OrderHistory from './components/OrderHistory/orderHistory'
 
 /**
  * COMPONENT
@@ -37,15 +37,20 @@ class Routes extends Component {
         <Route exact path="/robes" component={Robes} />
         <Route exact path="/misc" component={Misc} />
         <Route path="/signup" component={Signup} />
+        <Route exact path="/products/add" component={AddProduct} />
+        <Route exact path="/checkout" component={Checkout} />
+        <Route exact path="/orders" component={Orders} />
+        <Route exact path="/order-history" component={OrderHistory} />
+        <Route exact path="/products/:productId" component={SingleProduct} />
         <Route
           exact
-          path="/products/updateProduct/:productId"
+          path="/products/:productId/update"
           component={EditProduct}
         />
-        <Route path="/login" component={Login} />
-        <Route path="/products/:productId" component={SingleProduct} />
         <Route path="/account" component={SingleUser} />
         <Route path="/user" component={User} />
+        <Route path="/signup" component={Signup} />
+        <Route path="/login" component={Login} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
@@ -62,13 +67,13 @@ class Routes extends Component {
 /**
  * CONTAINER
  */
-// const mapState = state => {
-//   return {
-//     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
-//     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-//     // isLoggedIn: !!state.user.id
-//   }
-// }
+const mapState = state => {
+  return {
+    // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
+    // Otherwise, state.user will be an empty object, and state.user.id will be falsey
+    // isLoggedIn: !!state.user.id
+  }
+}
 
 const mapDispatch = dispatch => {
   return {

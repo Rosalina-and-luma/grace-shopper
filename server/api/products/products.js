@@ -8,65 +8,28 @@ async function isAdmin(req, res, next) {
       return next()
     }
   }
-  res.redirect('../products')
+  res.status(403).send('access denied')
 }
 
 router.get('/', async (req, res, next) => {
-  try {
-    const products = await Product.findAll({include: Category})
-    res.json(products)
-  } catch (err) {
-    next(err)
-  }
-})
+  const {category} = req.query
 
-router.get('/brooms', async (req, res, next) => {
-  try {
-    const products = await Product.findAll({
-      where: {
-        categoryId: 2
-      }
-    })
-    res.json(products)
-  } catch (err) {
-    next(err)
-  }
-})
+  //to get a specific category, the route path needs to be `/api/products?category=${categoryName}`
 
-router.get('/wands', async (req, res, next) => {
   try {
-    const products = await Product.findAll({
-      where: {
-        categoryId: 1
-      }
-    })
-    res.json(products)
-  } catch (err) {
-    next(err)
-  }
-})
+    //take out later if not needed
+    if (category) {
+      const {products} = await Category.findOne({
+        where: {name: category},
+        include: [{model: Product}]
+      })
 
-router.get('/robes', async (req, res, next) => {
-  try {
-    const products = await Product.findAll({
-      where: {
-        categoryId: 3
-      }
-    })
-    res.json(products)
-  } catch (err) {
-    next(err)
-  }
-})
+      res.json(products)
+    } else {
+      const allProducts = await Product.findAll({include: Category})
 
-router.get('/misc', async (req, res, next) => {
-  try {
-    const products = await Product.findAll({
-      where: {
-        categoryId: 4
-      }
-    })
-    res.json(products)
+      res.json(allProducts)
+    }
   } catch (err) {
     next(err)
   }
@@ -81,20 +44,52 @@ router.get('/:productId', async (req, res, next) => {
   }
 })
 
-router.put('/updateProduct/:productId', isAdmin, async (req, res, next) => {
+router.post('/', isAdmin, async (req, res, next) => {
+  const {name, imgUrl, description, inventory, price, categoryId} = req.body
+
   try {
-    const selectedProduct = await Product.findByPk(req.params.productId)
+    const product = await Product.create({
+      name,
+      imgUrl,
+      description,
+      inventory,
+      price,
+      categoryId
+    })
+
+    const {dataValues} = await product.getCategory()
+    product.dataValues.category = dataValues
+
+    // console.log('product: ', product)
+
+    res.status(201).json(product)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.put('/:productId', isAdmin, async (req, res, next) => {
+  const {id, name, imgUrl, description, inventory, price, categoryId} = req.body
+  const {productId} = req.params
+
+  try {
+    const [updates, selectedProduct] = await Promise.all([
+      Product.update(
+        {
+          id,
+          name,
+          imgUrl,
+          description,
+          inventory,
+          price,
+          categoryId
+        },
+        {where: {id: productId}}
+      ),
+      Product.findByPk(req.params.productId, {include: Category})
+    ])
 
     if (selectedProduct) {
-      await selectedProduct.update({
-        id: req.body.id,
-        name: req.body.name,
-        imgUrl: req.body.imgUrl,
-        description: req.body.description,
-        inventory: req.body.inventory,
-        price: req.body.price,
-        categoryId: req.body.category
-      })
       res.json(selectedProduct)
     } else {
       res.sendStatus(404)
@@ -104,7 +99,7 @@ router.put('/updateProduct/:productId', isAdmin, async (req, res, next) => {
   }
 })
 
-router.delete('/:productId', async (req, res, next) => {
+router.delete('/:productId', isAdmin, async (req, res, next) => {
   try {
     let selectedProduct = await Product.findByPk(req.params.productId)
     if (selectedProduct) {

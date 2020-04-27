@@ -30,13 +30,21 @@ class SingleProduct extends Component {
             <img src={selectedProduct.imgUrl} height="50px" />
             <p>{selectedProduct.name}</p>
             <p>{selectedProduct.description}</p>
-            <p>{selectedProduct.price}</p>
+            <p>${selectedProduct.price}</p>
             <button type="button">Buy</button>
             {user.isAdmin && (
               <div>
-                <NavLink to={`/products/updateProduct/${selectedProduct.id}`}>
-                  <button type="button">Edit</button>
-                </NavLink>
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.props.history.push(
+                      `/products/${selectedProduct.id}/update`
+                    )
+                  }}
+                >
+                  Edit
+                </button>
+
                 <button
                   type="button"
                   onClick={() => {
