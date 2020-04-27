@@ -44,7 +44,7 @@ router.get('/:productId', async (req, res, next) => {
   }
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/', isAdmin, async (req, res, next) => {
   const {name, imgUrl, description, inventory, price, categoryId} = req.body
 
   try {
