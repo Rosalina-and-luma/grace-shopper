@@ -48,7 +48,6 @@ class AllProducts extends React.Component {
             <div />
           )}
 
-
           <div className="products-section">
             {allProds.map(product => {
               return (

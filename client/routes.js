@@ -13,6 +13,7 @@ import Homepage from './components/Homepage/homePage'
 import User from './components/User/User'
 import Orders from './components/Orders/orders'
 import Checkout from './components/Checkout/checkout'
+import OrderHistory from './components/OrderHistory/orderHistory'
 
 /**
  * COMPONENT
@@ -34,6 +35,7 @@ class Routes extends Component {
 
         <Route exact path="/checkout" component={Checkout} />
         <Route exact path="/orders" component={Orders} />
+        <Route exact path="/order-history" component={OrderHistory} />
 
         <Route exact path="/products/:productId" component={SingleProduct} />
         <Route
