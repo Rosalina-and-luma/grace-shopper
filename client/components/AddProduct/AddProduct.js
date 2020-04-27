@@ -7,7 +7,6 @@ class AddProduct extends Component {
   constructor() {
     super()
     this.state = {
-      id: 0,
       name: '',
       imgUrl: '',
       description: '',
