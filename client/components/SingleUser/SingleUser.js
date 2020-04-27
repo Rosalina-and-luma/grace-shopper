@@ -30,10 +30,13 @@ class SingleUser extends React.Component {
           Name: {user.firstName} {user.lastName}
         </p>
         <p>email: {user.email}</p>
-        <button type="button" onClick={this.showForm}>
-          Edit My Info
-        </button>
-        {this.state.showForm ? <UpdateUser user={user} /> : null}
+        {this.state.showForm ? (
+          <UpdateUser user={user} />
+        ) : (
+          <button type="button" onClick={this.showForm}>
+            Edit My Info
+          </button>
+        )}
       </div>
     )
   }

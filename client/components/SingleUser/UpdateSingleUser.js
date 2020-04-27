@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {NavLink} from 'react-router-dom'
 import {updateUserInServer} from '../../reducer/singleUser'
 
 class UpdateUser extends React.Component {
@@ -35,11 +36,11 @@ class UpdateUser extends React.Component {
     const {user, updateUser} = this.props
     const updatedStudent = this.state
     updateUser(updatedStudent, user.id)
-    this.setState({
-      firstName: '',
-      lastName: '',
-      email: ''
-    })
+    // this.setState({
+    //   firstName: '',
+    //   lastName: '',
+    //   email: ''
+    // })
   }
 
   render() {
