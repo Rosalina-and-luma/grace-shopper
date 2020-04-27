@@ -81,6 +81,7 @@ export const updateUserInServer = (updatedUser, userId) => {
       console.log(data)
       dispatch(updateUser(data, userId))
     } catch (error) {
+      console.log('in error')
       console.error(error)
     }
   }

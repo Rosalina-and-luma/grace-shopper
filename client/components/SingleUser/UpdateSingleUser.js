@@ -30,11 +30,11 @@ class UpdateUser extends React.Component {
     })
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault()
     const {user, updateUser, hideForm} = this.props
-    const updatedStudent = this.state
-    updateUser(updatedStudent, user.id)
+    const updatedUser = this.state
+    await updateUser(updatedUser, user.id)
     hideForm()
   }
 
