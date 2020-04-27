@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import {Redirect} from 'react-router-dom'
 import {updateProductOnServer} from '../../reducer/allProds'
 
 class EditProduct extends Component {
@@ -47,7 +48,11 @@ class EditProduct extends Component {
   }
 
   render() {
-    console.log(this.state)
+    if (!this.props.user.isAdmin) {
+      return <Redirect to="/products" />
+    }
+
+    // console.log(this.state)
     return (
       <div className="edit-form">
         <h1>Edit Product</h1>
@@ -134,7 +139,8 @@ class EditProduct extends Component {
 
 const mapStateToProps = state => {
   return {
-    products: state.allProducts.products
+    products: state.allProducts.products,
+    user: state.user
   }
 }
 

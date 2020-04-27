@@ -1,5 +1,6 @@
-import React, {Component} from 'react'
+import React, {Component, useReducer} from 'react'
 import {connect} from 'react-redux'
+import {Redirect} from 'react-router-dom'
 import {createProductOnServer} from '../../reducer/allProds'
 
 class AddProduct extends Component {
@@ -41,7 +42,10 @@ class AddProduct extends Component {
   }
 
   render() {
-    console.log(this.state)
+    if (!this.props.user.isAdmin) {
+      return <Redirect to="/products" />
+    }
+    // console.log(this.state)
     return (
       <div className="edit-form">
         <h1>Add New Product</h1>
@@ -111,10 +115,16 @@ class AddProduct extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
     addProduct: product => dispatch(createProductOnServer(product))
   }
 }
 
-export default connect(null, mapDispatchToProps)(AddProduct)
+export default connect(mapStateToProps, mapDispatchToProps)(AddProduct)
