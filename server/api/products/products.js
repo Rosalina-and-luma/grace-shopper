@@ -2,6 +2,8 @@ const router = require('express').Router()
 const {Product, Category, User} = require('../../db/models')
 const isAdmin = require('../utilities')
 
+router.use(isAdmin)
+
 router.get('/', async (req, res, next) => {
   const {category} = req.query
 
