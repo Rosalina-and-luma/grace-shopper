@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
 import {updateProductOnServer} from '../../reducer/allProds'
+import './editProduct.css'
 
 class EditProduct extends Component {
   constructor() {
@@ -51,7 +52,7 @@ class EditProduct extends Component {
     console.log(this.state)
     return (
       <div className="edit-form">
-        <h1>Product will be edited here</h1>
+        <h1>Update Product Info</h1>
         <label>Name</label>
         <input
           type="text"
