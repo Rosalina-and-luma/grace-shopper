@@ -1,10 +1,22 @@
+h1 {
+  text-align: center;
+}
+
 .signup-form {
   text-align: center;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+  padding: 10px;
   margin: 10px 20%;
-  background-color: white;
+  background-color: rgb(182, 182, 182, 0.9);
+}
+
+.name-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 15px;
 }
 
 .signup-name {
