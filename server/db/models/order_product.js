@@ -18,6 +18,9 @@ const OrderProduct = db.define('order_product', {
     get() {
       const pennies = this.getDataValue('unitPrice')
       return pennies / 100
+    },
+    set(unitPrice) {
+      this.setDataValue('unitPrice', unitPrice * 100)
     }
   }
 })

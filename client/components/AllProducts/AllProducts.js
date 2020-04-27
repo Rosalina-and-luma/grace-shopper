@@ -23,6 +23,8 @@ class AllProducts extends React.Component {
 
     if (isLoading) return <h1>loading....</h1>
 
+    console.log('Logged in user id', user.id)
+
     return (
       <div className="products-landing-page">
         <div>
@@ -45,6 +47,7 @@ class AllProducts extends React.Component {
           ) : (
             <div />
           )}
+
 
           <div className="products-section">
             {allProds.map(product => {
