@@ -11,34 +11,33 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
       <h1>Diagon E-lley 🧙🏼‍♂️</h1>
     </Link>
     <nav className="nav-bar">
-      <div className="nav-products">
-        <Link to="/products">All Products</Link>
-        <Link to="/products?category=robes">Robes</Link>
-        <Link to="/products?category=wands">Wands</Link>
-        <Link to="/products?category=brooms">Brooms</Link>
-        <Link to="/products?category=misc">Misc</Link>
-      </div>
+      <Link to="/products">All Products</Link>
+      <Link to="/products?category=robes">Robes</Link>
+      <Link to="/products?category=wands">Wands</Link>
+      <Link to="/products?category=brooms">Brooms</Link>
+      <Link to="/products?category=misc">Misc</Link>
+      <Link to="/orders">Orders</Link>
+      <Link to="/order-history">Order History</Link>
 
-      <div className="nav-actions">
-        {isLoggedIn ? (
-          <div>
-            <Link to="/home">Home</Link>
-            <a href="#" onClick={handleClick}>
-              Logout
-            </a>
-          </div>
-        ) : (
-          <div>
-            <Link to="/login">Login</Link>
-            <Link to="/signup">Sign Up</Link>
-          </div>
-        )}
-        {isAdmin ? (
-          <div>
-            <Link to="/user">Users</Link>
-          </div>
-        ) : null}
-      </div>
+      {isLoggedIn ? (
+        <div>
+          <Link to="/home">Home</Link>
+          <Link to="/account">My Account</Link>
+          <a href="#" onClick={handleClick}>
+            Logout
+          </a>
+        </div>
+      ) : (
+        <div>
+          <Link to="/login">Login</Link>
+          <Link to="/signup">Sign Up</Link>
+        </div>
+      )}
+      {isAdmin ? (
+        <div>
+          <Link to="/user">Users</Link>
+        </div>
+      ) : null}
     </nav>
     <hr />
   </div>
@@ -50,7 +49,8 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
 const mapState = state => {
   return {
     isLoggedIn: !!state.user.id,
-    isAdmin: state.user.isAdmin
+    isAdmin: state.user.isAdmin,
+    userId: state.user.id
   }
 }
 

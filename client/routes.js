@@ -6,10 +6,15 @@ import {Login, UserHome} from './components'
 import SingleProduct from './components/singleProduct'
 import {me} from './store'
 import AllProducts from './components/AllProducts/AllProducts'
-import EditProduct from './components/EditProduct/EditProduct'
+import EditProduct from './components/EditProduct/editProduct'
+import AddProduct from './components/AddProduct/AddProduct'
 import Signup from './components/Signup/signup'
 import Homepage from './components/Homepage/homePage'
 import User from './components/User/User'
+import SingleUser from './components/SingleUser/SingleUser'
+import Orders from './components/Orders/orders'
+import Checkout from './components/Checkout/checkout'
+import OrderHistory from './components/OrderHistory/orderHistory'
 
 /**
  * COMPONENT
@@ -27,21 +32,25 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route exact path="/" component={Homepage} />
         <Route exact path="/products" component={AllProducts} />
+        <Route path="/signup" component={Signup} />
+        <Route exact path="/products/add" component={AddProduct} />
+        <Route exact path="/checkout" component={Checkout} />
+        <Route exact path="/orders" component={Orders} />
+        <Route exact path="/order-history" component={OrderHistory} />
         <Route exact path="/products/:productId" component={SingleProduct} />
         <Route
           exact
           path="/products/:productId/update"
           component={EditProduct}
         />
-
+        <Route path="/account" component={SingleUser} />
         <Route path="/user" component={User} />
-
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={UserHome} />
+            <Route exact path="/home" component={UserHome} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

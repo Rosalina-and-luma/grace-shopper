@@ -23,6 +23,8 @@ class AllProducts extends React.Component {
 
     if (isLoading) return <h1>loading....</h1>
 
+    console.log('Logged in user id', user.id)
+
     return (
       <div className="products-landing-page">
         <div>
@@ -32,6 +34,19 @@ class AllProducts extends React.Component {
               ? category[0].toUpperCase() + category.slice(1)
               : 'All Products'}
           </h1>
+
+          {user.isAdmin ? (
+            <div className="products_nav">
+              <button
+                type="button"
+                onClick={() => this.props.history.push('/products/add')}
+              >
+                Add Product
+              </button>
+            </div>
+          ) : (
+            <div />
+          )}
 
           <div className="products-section">
             {allProds.map(product => {

@@ -3,6 +3,7 @@ import axios from 'axios'
 
 //action types
 const GET_PRODUCTS = 'GET_PRODUCTS'
+const CREATE_PRODUCT = 'CREATE_PRODUCT'
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 const DELETE_PRODUCT = 'DELETE_PRODUCT'
 
@@ -14,8 +15,15 @@ const getProducts = products => {
   }
 }
 
+const createProduct = product => {
+  return {
+    type: CREATE_PRODUCT,
+    product
+  }
+}
+
 const updateProduct = product => {
-  const {id, name, imgUrl, description, price, category, inventory} = product
+  const {id, name, imgUrl, description, price, categoryId, inventory} = product
   return {
     type: UPDATE_PRODUCT,
     id,
@@ -23,7 +31,7 @@ const updateProduct = product => {
     imgUrl,
     description,
     price,
-    category,
+    categoryId,
     inventory
   }
 }
@@ -45,7 +53,18 @@ export const fetchProductsFromServer = categoryName => {
       const {data} = await axios.get(path)
       dispatch(getProducts(data))
     } catch (err) {
-      console.error(err)
+      console.error(err.message)
+    }
+  }
+}
+
+export const createProductOnServer = product => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.post('/api/products', product)
+      dispatch(createProduct(data))
+    } catch (err) {
+      console.error(err.message)
     }
   }
 }
@@ -63,8 +82,8 @@ export const updateProductOnServer = product => {
         inventory
       })
       dispatch(updateProduct(data))
-    } catch (error) {
-      console.error(error)
+    } catch (err) {
+      console.error(err.message)
     }
   }
 }
@@ -74,11 +93,13 @@ export const deleteFromServer = id => {
     try {
       await axios.delete(`api/products/${id}`)
       dispatch(deleteProduct(id))
-    } catch (error) {
-      console.error(error)
+    } catch (err) {
+      console.error(err.message)
     }
   }
 }
+
+//reducer
 
 const initialState = {
   isLoading: true,
@@ -92,6 +113,11 @@ export default function productsReducer(state = initialState, action) {
         ...state,
         isLoading: false,
         products: action.products
+      }
+    case CREATE_PRODUCT:
+      return {
+        ...state,
+        products: [...state.products, action.product]
       }
     case UPDATE_PRODUCT: {
       let oldProducts = [...state.products]
