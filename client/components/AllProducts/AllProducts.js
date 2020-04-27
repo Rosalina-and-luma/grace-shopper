@@ -35,6 +35,20 @@ class AllProducts extends React.Component {
               : 'All Products'}
           </h1>
 
+          {user.isAdmin ? (
+            <div className="products_nav">
+              <button
+                type="button"
+                onClick={() => this.props.history.push('/products/add')}
+              >
+                Add Product
+              </button>
+            </div>
+          ) : (
+            <div />
+          )}
+
+
           <div className="products-section">
             {allProds.map(product => {
               return (
