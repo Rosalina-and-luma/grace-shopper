@@ -68,7 +68,7 @@ router.post('/', isAdmin, async (req, res, next) => {
   }
 })
 
-router.put('/:productId', async (req, res, next) => {
+router.put('/:productId', isAdmin, async (req, res, next) => {
   const {name, imgUrl, description, inventory, price, categoryId} = req.body
   const id = req.params.productId
 
