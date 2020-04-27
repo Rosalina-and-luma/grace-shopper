@@ -73,7 +73,6 @@ router.put('/:productId', isAdmin, async (req, res, next) => {
   const id = req.params.productId
 
   try {
-    //refactor
     const [numUpdated, updatedProduct] = await Product.update(
       {
         name,
@@ -89,6 +88,8 @@ router.put('/:productId', isAdmin, async (req, res, next) => {
         plain: true
       }
     )
+
+    console.log(updatedProduct)
 
     if (updatedProduct) {
       const {dataValues} = await updatedProduct.getCategory()

@@ -72,12 +72,20 @@ export const createProductOnServer = product => {
 export const updateProductOnServer = product => {
   return async dispatch => {
     try {
-      const {name, imgUrl, description, price, categoryId, inventory} = product
-      const {data} = await axios.put(`/api/products/${product.id}`, {
+      const {
+        id,
         name,
         imgUrl,
         description,
-        price: parseInt(price, 10) * 100,
+        price,
+        categoryId,
+        inventory
+      } = product
+      const {data} = await axios.put(`/api/products/${id}`, {
+        name,
+        imgUrl,
+        description,
+        price,
         categoryId,
         inventory
       })
