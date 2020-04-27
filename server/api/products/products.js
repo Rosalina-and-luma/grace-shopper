@@ -69,29 +69,32 @@ router.post('/', isAdmin, async (req, res, next) => {
 })
 
 router.put('/:productId', isAdmin, async (req, res, next) => {
-  const {id, name, imgUrl, description, inventory, price, categoryId} = req.body
-  const {productId} = req.params
+  const {name, imgUrl, description, inventory, price, categoryId} = req.body
+  const id = req.params.productId
 
   try {
     //refactor
-    const [updates, selectedProduct] = await Promise.all([
-      Product.update(
-        {
-          id,
-          name,
-          imgUrl,
-          description,
-          inventory,
-          price,
-          categoryId
-        },
-        {where: {id: productId}}
-      ),
-      Product.findByPk(req.params.productId, {include: Category})
-    ])
+    const [numUpdated, updatedProduct] = await Product.update(
+      {
+        name,
+        imgUrl,
+        description,
+        inventory,
+        price,
+        categoryId
+      },
+      {
+        where: {id},
+        returning: true,
+        plain: true
+      }
+    )
 
-    if (selectedProduct) {
-      res.json(selectedProduct)
+    if (updatedProduct) {
+      const {dataValues} = await updatedProduct.getCategory()
+      updatedProduct.dataValues.category = dataValues
+
+      res.json(updatedProduct)
     } else {
       res.sendStatus(404)
     }
