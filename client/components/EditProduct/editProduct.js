@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {NavLink} from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 import {updateProductOnServer} from '../../reducer/allProds'
 
 class EditProduct extends Component {
@@ -23,7 +23,7 @@ class EditProduct extends Component {
     //   console.log('calling...')
     //   this.props.getProducts()
     // }
-    console.log('products....', this.props.products)
+    // console.log('products....', this.props.products)
     let selectedProduct = this.props.products.filter(product => {
       if (product.id === parseInt(this.props.match.params.productId)) {
         console.log('product', product)
@@ -60,10 +60,6 @@ class EditProduct extends Component {
   }
 
   render() {
-    let categoryName = this.state.categoryName
-    categoryName =
-      categoryName.slice(0, 1).toUpperCase() + categoryName.slice(1)
-
     return (
       <div className="edit-form">
         <h1>Edit Product</h1>
@@ -134,13 +130,13 @@ class EditProduct extends Component {
 
 const mapStateToProps = state => {
   return {
-    products: state.allProducts.products
+    products: state.allProducts.products,
+    user: state.user
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    // getProducts: () => dispatch(fetchProductsFromServer())
     updateProduct: product => dispatch(updateProductOnServer(product))
   }
 }
