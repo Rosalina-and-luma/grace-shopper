@@ -16,7 +16,7 @@ class OrderHistory extends Component {
         {this.props.orders.map(order => {
           if (order.purchased) {
             return (
-              <div className="order-section">
+              <div key={order.id} className="order-section">
                 Orders
                 {order.products.map(product => {
                   return (
