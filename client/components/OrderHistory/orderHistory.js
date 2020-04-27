@@ -1,70 +1,41 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getOrdersFromServer} from '../../reducer/order/order'
+import './orderHistory.css'
 
 class OrderHistory extends Component {
   componentDidMount = async () => {
-    const {getOrders, orders} = this.props
+    const {getOrders} = this.props
     await getOrders()
-    let products = {allProducts: [], total: 0}
-
-    orders.map(order => {
-      let orderItem = {orderId: order.id}
-      let prodDetails = []
-      order.products.map(product => {
-        prodDetails = []
-        prodDetails.push({
-          id: product.id,
-          imgUrl: product.imgUrl,
-          name: product.name,
-          unitPrice: product.unitPrice,
-          quantity: product.unitPrice,
-          subTotal: product.subTotal
-        })
-      })
-      orderItem.allProducts = prodDetails
-      orderItem.total = order.total
-      products.push(orderItem)
-    })
-    // this.props.orders.map((order) => {
-    //   if (order.purchased) {
-    //     for (let i = 0; i < order.products.length; i++) {
-    //       let prod = order.products[i]
-    //       products.allProducts.push({
-    //         orderId: order.id,
-    //         id: prod.id,
-    //         imgUrl: prod.imgUrl,
-    //         name: prod.name,
-    //         unitPrice: prod.order_product.unitPrice,
-    //         quantity: prod.order_product.quantity,
-    //         subTotal: prod.order_product.subTotal,
-    //       })
-    //     }
-    //     products.total = order.total
-    //   }
-    // })
-
-    console.log('order history', products)
-    // this.setState({
-    //   allProducts: products.allProducts.map((prod) => ({
-    //     orderId: prod.orderId,
-    //     id: prod.id,
-    //     imgUrl: prod.imgUrl,
-    //     name: prod.name,
-    //     unitPrice: prod.unitPrice,
-    //     quantity: prod.quantity,
-    //     subTotal: prod.subTotal,
-    //   })),
-    //   total: products.total,
-    // })
-    // }
-    // }
   }
 
   render() {
     return (
       <div>
         <h1> Here is your order history </h1>
+        {this.props.orders.map(order => {
+          if (order.purchased) {
+            return (
+              <div className="order-section">
+                Orders
+                {order.products.map(product => {
+                  return (
+                    <div key={product.id} className="product">
+                      <img src={product.imgUrl} />
+                      <div className="product-details">
+                        <span>{product.name}</span>
+                        <span>${product.order_product.unitPrice}</span>
+                        <span>Quantity: {product.order_product.quantity}</span>
+                        <span>SubTotal: {product.order_product.subTotal}</span>
+                      </div>
+                    </div>
+                  )
+                })}
+                <span>Total: {order.total}</span>
+              </div>
+            )
+          }
+        })}
       </div>
     )
   }
