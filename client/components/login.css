@@ -4,6 +4,10 @@
   flex-direction: column;
   flex-wrap: wrap;
   padding: 10px;
-  margin: 20px 20%;
+  margin: 30px 30%;
   background-color: rgb(182, 182, 182, 0.9);
+}
+
+.google-logo {
+  height: 25px;
 }

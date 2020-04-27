@@ -36,34 +36,34 @@ class SingleProduct extends Component {
               <p className="product-description">
                 {selectedProduct.description}
               </p>
-              <p>{selectedProduct.price}</p>
+              <p>${selectedProduct.price}</p>
               <button type="button">Buy</button>
+
+              {user.isAdmin && (
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      this.props.history.push(
+                        `/products/${selectedProduct.id}/update`
+                      )
+                    }}
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      deleteProduct(selectedProduct.id)
+                      this.props.history.push('/products')
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
             </div>
-
-            {user.isAdmin && (
-              <div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    this.props.history.push(
-                      `/products/${selectedProduct.id}/update`
-                    )
-                  }}
-                >
-                  Edit
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    deleteProduct(selectedProduct.id)
-                    this.props.history.push('/products')
-                  }}
-                >
-                  Delete
-                </button>
-              </div>
-            )}
           </div>
         )}
       </div>

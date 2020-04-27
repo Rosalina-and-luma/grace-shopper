@@ -12,7 +12,7 @@ const AuthForm = props => {
   return (
     <div>
       <div className="title">
-        <h1>Login to Diagon E-lley Account</h1>
+        <h1>Login to Diagon E-lley</h1>
       </div>
       <div className="login-form">
         <form onSubmit={handleSubmit} name={name}>
@@ -33,7 +33,14 @@ const AuthForm = props => {
           </div>
           {error && error.response && <div> {error.response.data} </div>}
         </form>
-        <a href="/auth/google">{displayName} with Google</a>
+
+        <a href="/auth/google">
+          <img
+            src="https://i.pinimg.com/originals/20/1d/17/201d17590b3a7bc8939ca37e577bbbd8.png"
+            className="google-logo"
+            alt="google-logo"
+          />
+        </a>
       </div>
     </div>
   )

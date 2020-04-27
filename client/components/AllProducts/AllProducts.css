@@ -20,6 +20,7 @@ h1 {
   margin: 10px 20px;
   padding-bottom: 10px;
   text-align: center;
+  border: white 2px solid;
 }
 
 .products img {
@@ -53,4 +54,10 @@ h1 {
 .buy-button {
   align-items: center;
   width: 100px;
+}
+
+.delete-button,
+.edit-button {
+  margin: 10px;
+  width: 75px;
 }

@@ -15,7 +15,7 @@ const AllProductsUI = props => {
 
       <div className="item-info">
         <span className="name">{product.name}</span>
-        <span className="price">{product.price}</span>
+        <span className="price">${product.price}</span>
       </div>
 
       {/* <NavLink to={`/products/${product.id}`}>
@@ -31,11 +31,14 @@ const AllProductsUI = props => {
       {isAdmin && (
         <div>
           <NavLink to={`/products/${product.id}/update`}>
-            <button type="button">Edit</button>
+            <button type="button" className="edit-button">
+              Edit
+            </button>
           </NavLink>
           <NavLink to="/products">
             <button
               type="button"
+              className="delete-button"
               onClick={() => {
                 props.deleteProduct(product.id)
               }}
