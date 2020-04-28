@@ -23,7 +23,8 @@ router.post('/', async (req, res, next) => {
       email,
       password
     })
-    res.json(newUser)
+    // res.redirect(307, '/login')
+    req.login(newUser, err => (err ? next(err) : res.json(newUser)))
   } catch (error) {
     next(error)
   }
