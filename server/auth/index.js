@@ -2,19 +2,26 @@ const router = require('express').Router()
 const User = require('../db/models/user')
 module.exports = router
 
-const userNotFound = next => {
-  const err = new Error('User Not Found')
-  err.status = 404
-  next(err)
-}
+router.use('/google', require('./google'))
 
 router.get('/me', async (req, res, next) => {
-  if (!req.user) {
-    userNotFound(next)
-  } else {
-    User.findByPk(req.user.id)
-      .then(user => (user ? res.json(req.user) : userNotFound(next)))
-      .catch(next)
+  try {
+    if (!req.session.userId) {
+      if (req.user) {
+        res.json(req.user)
+      } else {
+        res.sendStatus(401)
+      }
+    } else {
+      const user = await User.findById(req.session.userId)
+      if (!user) {
+        res.sendStatus(401)
+      } else {
+        res.json(user)
+      }
+    }
+  } catch (error) {
+    next(error)
   }
 })
 
@@ -53,12 +60,9 @@ router.post('/signup', async (req, res, next) => {
 })
 
 router.delete('/logout', (req, res, next) => {
-  req.logout()
-  req.session.destroy(err => {
-    if (err) return next(err)
-    res.status(204).end()
-  })
-  // res.redirect('/')
+  delete req.session.userId
+  if (req.user) {
+    req.logout()
+  }
+  res.sendStatus(204)
 })
-
-router.use('/google', require('./google'))
