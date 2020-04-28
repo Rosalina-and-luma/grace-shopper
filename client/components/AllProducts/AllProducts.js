@@ -33,21 +33,21 @@ class AllProducts extends React.Component {
             {category
               ? category[0].toUpperCase() + category.slice(1)
               : 'All Products'}
-
-            {user.isAdmin ? (
-              <div className="products_nav">
-                <button
-                  className="add-product-button"
-                  type="button"
-                  onClick={() => this.props.history.push('/products/add')}
-                >
-                  Add Product
-                </button>
-              </div>
-            ) : (
-              <div />
-            )}
           </h1>
+
+          {user.isAdmin ? (
+            <div className="products_nav">
+              <button
+                className="add-product-button"
+                type="button"
+                onClick={() => this.props.history.push('/products/add')}
+              >
+                Add Product
+              </button>
+            </div>
+          ) : (
+            <div />
+          )}
 
           <div className="products-section">
             {allProds.map(product => {

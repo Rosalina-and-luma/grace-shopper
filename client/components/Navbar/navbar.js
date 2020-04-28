@@ -21,7 +21,7 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
 
       <div className="navbar-right">
         <div>
-          <Link to="/orders">Orders</Link>
+          <Link to="/cart">Cart</Link>
         </div>
         <div className="admin-view">
           <div>
