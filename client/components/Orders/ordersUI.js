@@ -7,8 +7,8 @@ const OrdersUI = props => {
       <img src={product.imgUrl} />
       <span className="name">{product.name}</span>
       <span>Inventory: {product.inventory}</span>
-      <span className="unitPrice">{product.unitPrice}</span>
-      <span className="quantity">{product.quantity}</span>
+      <span className="unitPrice">${product.unitPrice}</span>
+      <span className="quantity">Quantity{product.quantity}</span>
       <button
         type="button"
         onClick={() => {
@@ -45,7 +45,7 @@ const OrdersUI = props => {
       >
         Remove
       </button>
-      <span>{product.subTotal}</span>
+      <span>SubTotal: {product.subTotal}</span>
     </div>
   )
 }

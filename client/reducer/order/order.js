@@ -49,19 +49,19 @@ export const updateOrderToServer = id => {
   }
 }
 
-export const updateInventoryToServer = data => {
-  console.log('------inventory reducer called-------', data)
-  return async disptach => {
-    try {
-      await axios.put('/api/orders/inventory', {
-        productId: data.productId,
-        inventory: data.inventory
-      })
-    } catch (error) {
-      console.error(error)
-    }
-  }
-}
+// export const updateInventoryToServer = data => {
+//   console.log('------inventory reducer called-------', data)
+//   return async disptach => {
+//     try {
+//       await axios.put('/api/orders/inventory', {
+//         productId: data.productId,
+//         inventory: data.inventory
+//       })
+//     } catch (error) {
+//       console.error(error)
+//     }
+//   }
+// }
 
 export const updateOrderQuantityToServer = data => {
   return async dispatch => {
@@ -94,26 +94,26 @@ export const addToCartServer = order => {
   console.log('*****order placed*****', order)
   return async dispatch => {
     try {
-      if (order.orderId) {
-        await axios.put('/api/orders/quantity', {
-          orderId: order.orderId,
-          productId: order.productId,
-          quantity: order.quantity
-        })
-        await axios.put('/api/orders/inventory', {
-          productId: order.productId,
-          inventory: order.inventory
-        })
-        // updateInventoryToServer({productId: order.productId, inventory: order.inventory})
-      } else {
-        const {data} = await axios.post('/api/orders', {
-          // userId: order.userId,
-          productId: order.productId,
-          quantity: order.quantity
-        })
-        console.log('returned data', data)
-        dispatch(addToCart(data))
-      }
+      // if (order.orderId) {
+      //   await axios.put('/api/orders/quantity', {
+      //     orderId: order.orderId,
+      //     productId: order.productId,
+      //     quantity: order.quantity
+      //   })
+      //   await axios.put('/api/orders/inventory', {
+      //     productId: order.productId,
+      //     inventory: order.inventory
+      //   })
+      //   // updateInventoryToServer({productId: order.productId, inventory: order.inventory})
+      // } else {
+      const {data} = await axios.post('/api/orders', {
+        // userId: order.userId,
+        productId: order.productId,
+        quantity: order.quantity
+      })
+      console.log('returned data', data)
+      dispatch(addToCart(data))
+      // }
     } catch (error) {
       console.error(error)
     }
@@ -151,6 +151,7 @@ export const deleteProdFromOrderServer = data => {
 }
 
 export const handleLocalStorage = data => {
+  console.log('inventory in handleLocalStorage', data)
   let updateExistingFlag = false
   let newOrder = {
     id: data.productId,
@@ -159,6 +160,7 @@ export const handleLocalStorage = data => {
     quantity: data.quantity,
     description: data.description,
     price: data.price,
+    inventory: data.inventory - 1,
     subTotal: data.price * data.quantity
   }
   //checking if products already exists in localStorage
@@ -170,9 +172,11 @@ export const handleLocalStorage = data => {
 
     //checking if the product user is trying to buy is already in storage, if it is already there, increase the quantity by 1
     let updatedExisitngOrder = currentOrders.map(order => {
+      console.log('in exiting order', order)
       if (order.id === data.productId) {
         order.quantity += 1
         order.subTotal = order.quantity * order.price
+        order.inventory -= 1
         updateExistingFlag = true
       }
       return order

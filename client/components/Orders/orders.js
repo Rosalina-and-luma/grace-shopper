@@ -4,7 +4,8 @@ import {
   getOrdersFromServer,
   addToCartServer,
   deleteProdFromOrderServer,
-  updateProductInventoryToServer
+  updateProductInventoryToServer,
+  updateOrderQuantityToServer
 } from '../../reducer/order/order'
 import GuestOrder from '../GuestOrder/guestOrder'
 import OrdersUI from './ordersUI'
@@ -79,6 +80,7 @@ class Orders extends Component {
           newProds.push(prod)
         } else {
           alert(`There is no more inventory for ${prod.name}!`)
+          newProds.push(prod)
         }
       } else {
         newProds.push(prod)
@@ -112,12 +114,24 @@ class Orders extends Component {
       }, 0)
     })
 
-    this.props.updateOrders({
-      orderId: data.orderId,
-      productId: data.productId,
-      quantity: updatedQuantity,
-      inventory: updatedInventory
-    })
+    if (updatedInventory >= 0) {
+      this.props.updateQuantity({
+        orderId: data.orderId,
+        productId: data.productId,
+        quantity: updatedQuantity
+      })
+
+      this.props.updateInventory({
+        productId: data.productId,
+        inventory: updatedInventory
+      })
+    }
+    // this.props.updateOrders({
+    //   orderId: data.orderId,
+    //   productId: data.productId,
+    //   quantity: updatedQuantity,
+    //   inventory: updatedInventory
+    // })
   }
 
   subtractQuantity = data => {
@@ -139,10 +153,15 @@ class Orders extends Component {
 
     newProds.forEach((prod, index) => {
       if (prod.quantity === 0) {
-        this.props.updateOrders({
+        // this.props.updateOrders({
+        //   orderId: data.orderId,
+        //   productId: data.productId,
+        //   quantity: updatedQuantity,
+        //   inventory: updatedInventory
+        // })
+
+        this.props.updateInventory({
           orderId: data.orderId,
-          productId: data.productId,
-          quantity: updatedQuantity,
           inventory: updatedInventory
         })
 
@@ -164,12 +183,22 @@ class Orders extends Component {
     })
 
     if (updatedQuantity !== 0) {
-      this.props.updateOrders({
+      this.props.updateQuantity({
         orderId: data.orderId,
         productId: data.productId,
-        quantity: updatedQuantity,
+        quantity: updatedQuantity
+      })
+
+      this.props.updateInventory({
+        productId: data.productId,
         inventory: updatedInventory
       })
+      // this.props.updateOrders({
+      //   orderId: data.orderId,
+      //   productId: data.productId,
+      //   quantity: updatedQuantity,
+      //   inventory: updatedInventory
+      // })
     }
   }
 
@@ -189,7 +218,7 @@ class Orders extends Component {
         //   quantity: prod.quantity,
         //   inventory: prod.inventory + prod.quantity
         // })
-        this.props.updateProductInventory({
+        this.props.updateInventory({
           productId: data.productId,
           inventory: prod.inventory + prod.quantity
         })
@@ -262,8 +291,8 @@ const mapDispatchToProps = dispatch => {
     deleteProdFromOrder: data => {
       dispatch(deleteProdFromOrderServer(data))
     },
-    updateProductInventory: data =>
-      dispatch(updateProductInventoryToServer(data))
+    updateInventory: data => dispatch(updateProductInventoryToServer(data)),
+    updateQuantity: data => dispatch(updateOrderQuantityToServer(data))
   }
 }
 

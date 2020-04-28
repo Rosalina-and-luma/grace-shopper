@@ -3,6 +3,7 @@ import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {deleteFromServer} from '../../reducer/allProds'
 import {fetchSingleProduct} from '../../reducer/singleProduct'
+import {handleLocalStorage} from '../../reducer/order/order'
 
 class SingleProduct extends Component {
   componentDidMount() {
@@ -32,7 +33,26 @@ class SingleProduct extends Component {
             <p>{selectedProduct.description}</p>
             <p>${selectedProduct.price}</p>
             {selectedProduct.inventory ? (
-              <button type="button">Buy</button>
+              Object.keys(user).length ? (
+                <button type="button">Buy</button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() =>
+                    handleLocalStorage({
+                      productId: selectedProduct.id,
+                      name: selectedProduct.name,
+                      imgUrl: selectedProduct.imgUrl,
+                      description: selectedProduct.description,
+                      price: selectedProduct.price,
+                      inventory: selectedProduct.inventory,
+                      quantity: 1
+                    })
+                  }
+                >
+                  Buy
+                </button>
+              )
             ) : (
               <label>Out of stock</label>
             )}

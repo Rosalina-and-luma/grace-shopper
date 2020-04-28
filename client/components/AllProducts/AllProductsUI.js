@@ -4,13 +4,20 @@ import {connect} from 'react-redux'
 import {deleteFromServer} from '../../reducer/allProds'
 import {
   addToCartServer,
-  updateInventoryToServer,
+  updateProductInventoryToServer,
+  updateOrderQuantityToServer,
   handleLocalStorage,
   getOrdersFromServer
 } from '../../reducer/order/order'
 import './AllProducts.css'
 
 class AllProductsUI extends Component {
+  constructor() {
+    super()
+    this.state = {
+      products: []
+    }
+  }
   // componentDidMount = async () =>{
   //   console.log('component did mount in productUI')
   //   if (this.props.user.id) {
@@ -28,62 +35,47 @@ class AllProductsUI extends Component {
 
   handleUserBuy = data => {
     console.log('handleUserBuy', this.props.currentOrder)
+    console.log('handleUserBuy data', data)
     if (Object.keys(this.props.currentOrder).length) {
+      console.log('updated product', this.props.currentOrder.order_products)
       let product = this.props.currentOrder.order_products.filter(
+        // console.log('every prod', prod, prod.productId)
         prod => prod.productId === data.productId
       )
       console.log('handleUserBuy product', product)
       if (product.length) {
         console.log('handleUserBuy 1')
-        this.props.addToCart({
+        // this.props.addToCart({
+        //   productId: data.productId,
+        //   quantity: product[0].quantity + 1,
+        //   orderId: this.props.currentOrder.id
+        // })
+
+        product[0].quantity += 1
+        product[0].inventory -= 1
+
+        this.props.updateQuantity({
           productId: data.productId,
-          quantity: product[0].quantity + 1,
+          quantity: product[0].quantity,
           orderId: this.props.currentOrder.id
+        })
+        this.props.updateInventory({
+          productId: data.productId,
+          inventory: product[0].inventory
         })
       } else {
         console.log('handleUserBuy 2')
         this.props.addToCart({productId: data.productId, quantity: 1})
+        this.props.currentOrder.order_products.push({
+          productId: data.productId,
+          quantity: 1
+        })
       }
     } else {
       console.log('handleUserBuy 3')
       this.props.addToCart({productId: data.productId, quantity: 1})
     }
-    // let productExists = false
-    // let cart = this.props.orders.filter( order => order.id === this.state.orderId)[0];
-
-    // console.log('cart', cart)
-    // let existingProduct = cart.products.filter( product => product.id === data.productId)[0]
-
-    // console.log('existingProd', existingProduct)
-    // if(existingProduct.length) {
-    //     this.props.addToCart({
-    //     orderId: this.state.orderId,
-    //     productId: data.productId,
-    //     quantity: existingProduct.products.order_product.quantity+1
-    //   })
-    // }
-
-    // this.props.updateInventory({
-    //   productId: data.productId,
-    //   inventory: data.inventory - 1
-    // })
-    // console.log('productExists', productExists)
-
-    // if(productExists) {
-    //   this.props.addToCart({
-    //     orderId: this.state.orderId,
-    //     productId: data.productId,
-    //     quantity: existingProduct.order_product.quantity+1
-    //   })
-    // } else {
-    //   this.props.addToCart({productId: data.productId, quantity: 1})
-    // }
-
-    // this.props.updateInventory({
-    //   productId: data.productId,
-    //   inventory: data.inventory - 1
-    // })
-
+    this.props.product.inventory -= 1
     this.props.updateInventory({
       productId: data.productId,
       inventory: data.inventory - 1
@@ -128,6 +120,7 @@ class AllProductsUI extends Component {
                   imgUrl: this.props.product.imgUrl,
                   description: this.props.product.description,
                   price: this.props.product.price,
+                  inventory: this.props.product.inventory,
                   quantity: 1
                 })
               }}
@@ -203,7 +196,8 @@ const mapDispatchToProps = dispatch => {
   return {
     addToCart: order => dispatch(addToCartServer(order)),
     deleteProduct: id => dispatch(deleteFromServer(id)),
-    updateInventory: data => dispatch(updateInventoryToServer(data)),
+    updateInventory: data => dispatch(updateProductInventoryToServer(data)),
+    updateQuantity: data => dispatch(updateOrderQuantityToServer(data)),
     getOrders: () => dispatch(getOrdersFromServer())
   }
 }
