@@ -7,3 +7,26 @@
   margin: 30px 30%;
   background-color: rgb(182, 182, 182, 0.9);
 }
+
+.edit-user-button,
+.edit-user-form,
+.n {
+  display: flex;
+  justify-content: center;
+}
+
+.edit-user-form {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding: 10px;
+  margin: 25px 25%;
+  border: white 2px solid;
+  background-color: rgb(182, 182, 182, 0.9);
+}
+
+.name-container {
+  display: flex;
+  justify-content: space-between;
+}

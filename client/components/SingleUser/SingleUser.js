@@ -38,13 +38,15 @@ class SingleUser extends React.Component {
           Name: {user.firstName} {user.lastName}
         </p>
         <p>email: {user.email}</p>
-        {this.state.showForm ? (
-          <UpdateUser user={user} hideForm={this.hideForm} />
-        ) : (
-          <button type="button" onClick={this.showForm}>
-            Edit My Info
-          </button>
-        )}
+        <div className="edit-user-button">
+          {this.state.showForm ? (
+            <UpdateUser user={user} hideForm={this.hideForm} />
+          ) : (
+            <button type="button" onClick={this.showForm}>
+              Edit My Info
+            </button>
+          )}
+        </div>
       </div>
     )
   }

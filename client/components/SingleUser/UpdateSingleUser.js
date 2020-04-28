@@ -42,30 +42,40 @@ class UpdateUser extends React.Component {
     const {firstName, lastName, email} = this.state
 
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label htmlFor="firstName">First Name:</label>
-        <input
-          name="firstName"
-          type="text"
-          onChange={this.handleChange}
-          value={firstName}
-        />
-        <label htmlFor="lastName">Last Name:</label>
-        <input
-          name="lastName"
-          type="text"
-          onChange={this.handleChange}
-          value={lastName}
-        />
-        <label htmlFor="email">Email:</label>
-        <input
-          name="email"
-          type="text"
-          onChange={this.handleChange}
-          value={email}
-        />
-        <button type="submit">Update</button>
-      </form>
+      <div className="edit-user-form">
+        <form onSubmit={this.handleSubmit}>
+          <div className="name-container">
+            <label htmlFor="firstName">First Name:</label>
+            <input
+              name="firstName"
+              type="text"
+              onChange={this.handleChange}
+              value={firstName}
+            />
+          </div>
+
+          <div className="name-container">
+            <label htmlFor="lastName">Last Name:</label>
+            <input
+              name="lastName"
+              type="text"
+              onChange={this.handleChange}
+              value={lastName}
+            />
+          </div>
+
+          <div className="name-container">
+            <label htmlFor="email">Email:</label>
+            <input
+              name="email"
+              type="text"
+              onChange={this.handleChange}
+              value={email}
+            />
+          </div>
+          <button type="submit">Update</button>
+        </form>
+      </div>
     )
   }
 }
