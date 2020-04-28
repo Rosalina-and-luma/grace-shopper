@@ -26,7 +26,6 @@ class EditProduct extends Component {
     await this.props.getSelectedProduct(productId)
 
     if (this.props.selectedProduct) {
-      // console.log(this.props.selectedProduct)
       const {
         id,
         name,
@@ -50,7 +49,6 @@ class EditProduct extends Component {
   }
 
   handleChange = e => {
-    console.log(this.state)
     this.setState({
       [e.target.name]: e.target.value
     })
@@ -73,7 +71,9 @@ class EditProduct extends Component {
       <div className="edit-form">
         <h1>Edit Product</h1>
         <form onSubmit={this.handleSubmit}>
-          <label>Name</label>
+          <label>
+            Name {!this.state.name.trim() && <span>(required)</span>}
+          </label>
           <input
             type="text"
             name="name"
@@ -98,7 +98,7 @@ class EditProduct extends Component {
           />
           <br />
 
-          <label>Price</label>
+          <label>Price {!this.state.price && <span>(required)</span>}</label>
           <input
             type="text"
             name="price"
@@ -120,7 +120,9 @@ class EditProduct extends Component {
           </select>
           <br />
 
-          <label>Inventory</label>
+          <label>
+            Inventory {!this.state.inventory && <span>(required)</span>}
+          </label>
           <input
             type="text"
             name="inventory"
