@@ -31,7 +31,12 @@ class SingleProduct extends Component {
             <p>{selectedProduct.name}</p>
             <p>{selectedProduct.description}</p>
             <p>${selectedProduct.price}</p>
-            <button type="button">Buy</button>
+            {selectedProduct.inventory ? (
+              <button type="button">Buy</button>
+            ) : (
+              <label>Out of stock</label>
+            )}
+
             {user.isAdmin && (
               <div>
                 <button

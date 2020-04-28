@@ -6,6 +6,7 @@ const OrdersUI = props => {
     <div>
       <img src={product.imgUrl} />
       <span className="name">{product.name}</span>
+      <span>Inventory: {product.inventory}</span>
       <span className="unitPrice">{product.unitPrice}</span>
       <span className="quantity">{product.quantity}</span>
       <button

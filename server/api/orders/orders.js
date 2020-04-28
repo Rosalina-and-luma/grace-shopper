@@ -107,6 +107,25 @@ router.put('/quantity', async (req, res, next) => {
   }
 })
 
+router.put('/inventory', async (req, res, next) => {
+  console.log(
+    '----------------------inventory update called------------------',
+    req.body.productId,
+    req.body.inventory
+  )
+  try {
+    const product = await Product.findByPk(req.body.productId)
+    if (product) {
+      product.update({
+        inventory: req.body.inventory
+      })
+    }
+    res.sendStatus(200)
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.delete('/', async (req, res, next) => {
   try {
     await OrderProduct.destroy({
