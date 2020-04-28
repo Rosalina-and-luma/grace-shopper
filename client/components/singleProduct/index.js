@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {deleteFromServer} from '../../reducer/allProds'
 import {fetchSingleProduct} from '../../reducer/singleProduct'
@@ -7,7 +6,7 @@ import './singleProduct.css'
 
 class SingleProduct extends Component {
   componentDidMount() {
-    console.log('id from URL', this.props.match.params.productId)
+    // console.log('id from URL', this.props.match.params.productId)
     this.props.getSelectedProduct(this.props.match.params.productId)
   }
   render() {

@@ -22,13 +22,16 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
       <div className="navbar-right">
         <div>
           <Link to="/cart">Cart</Link>
+          <a href="#" onClick={handleClick}>
+            Logout
+          </a>
         </div>
         <div className="admin-view">
           <div>
             {isLoggedIn ? (
               <div>
-                <Link to="/home">Home</Link>
                 <Link to="/order-history">Order History</Link>
+                <Link to="/account">My Account</Link>
                 <a href="#" onClick={handleClick}>
                   Logout
                 </a>

@@ -1,4 +1,4 @@
-// /* global describe beforeEach it */
+/* global describe beforeEach it */
 
 // const {expect} = require('chai')
 // const request = require('supertest')
@@ -7,18 +7,18 @@
 // const User = db.model('user')
 
 // describe('User routes', () => {
-// beforeEach(() => {
-//   return db.sync({force: true})
-// })
-
-// describe('/api/users/', () => {
-//   const codysEmail = 'cody@puppybook.com'
-
-// beforeEach(() => {
-//   return User.create({
-//     email: codysEmail
+//   beforeEach(() => {
+//     return db.sync({force: true})
 //   })
-// })
+
+//   describe('/api/users/', () => {
+//     const codysEmail = 'cody@puppybook.com'
+
+//     beforeEach(() => {
+//       return User.create({
+//         email: codysEmail
+//       })
+//     })
 
 //     it('GET /api/users', async () => {
 //       const res = await request(app)
