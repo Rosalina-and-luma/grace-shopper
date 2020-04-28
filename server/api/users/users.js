@@ -37,34 +37,3 @@ router.post('/', async (req, res, next) => {
     next(error)
   }
 })
-
-router.get('/:userId', async (req, res, next) => {
-  try {
-    const user = await User.findByPk(req.params.userId)
-    res.json(user)
-  } catch (error) {
-    next(error)
-  }
-})
-
-router.put('/:userId', async (req, res, next) => {
-  try {
-    const {userId} = req.params
-    const {firstName, lastName, email} = req.body
-    const [affectedRows, updatedUser] = await User.update(
-      {
-        firstName: firstName,
-        lastName: lastName,
-        email: email
-      },
-      {
-        where: {id: userId},
-        returning: true,
-        plain: true
-      }
-    )
-    res.json(updatedUser.dataValues)
-  } catch (error) {
-    next(error)
-  }
-})
