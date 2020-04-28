@@ -1,15 +1,8 @@
 const router = require('express').Router()
 const {Product, Category, User} = require('../../db/models')
+const isAdmin = require('../utilities')
 
-async function isAdmin(req, res, next) {
-  if (req.session.userId) {
-    const user = await User.findByPk(req.session.userId)
-    if (user.isAdmin) {
-      return next()
-    }
-  }
-  res.status(403).send('access denied')
-}
+router.use(isAdmin)
 
 router.get('/', async (req, res, next) => {
   const {category} = req.query

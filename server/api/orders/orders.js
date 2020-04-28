@@ -3,11 +3,13 @@ const {Order, OrderProduct, Product} = require('../../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
+  const user = Object.values(req.session.passport)[0]
+
   try {
     // if (req.session.userId) {
     const orders = await Order.findAll({
       where: {
-        userId: req.session.userId
+        userId: user
       }
     })
     const orderIds = orders.map(order => order.id)
@@ -44,15 +46,21 @@ router.get('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     let order
+    const user = Object.values(req.session.passport)[0]
+    // console.log('req.user.id', req.user.id)
+    // console.log(
+    //   'Object.values(req.session.passport)[0]',
+    //   Object.values(req.session.passport)[0]
+    // )
     order = await Order.findOne({
       where: {
-        userId: req.session.userId,
+        userId: user,
         purchased: false
       }
     })
     if (!order) {
       order = await Order.create({
-        userId: req.session.userId
+        userId: user
       })
     }
     let product = await Product.findOne({
