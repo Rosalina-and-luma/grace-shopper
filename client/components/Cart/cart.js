@@ -8,7 +8,7 @@ class Cart extends React.Component {
     return (
       <div id="shopping-cart">
         <Link to="/cart">
-          <span className="p1 fa-stack fa-2x has-badge" data-count={5}>
+          <span className="p1 fa-stack fa-2x has-badge" data-count="#">
             <i className="p3 fa fa-shopping-cart fa-stack-1x fa-inverse" />
           </span>
         </Link>
