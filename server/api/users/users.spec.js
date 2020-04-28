@@ -12,21 +12,31 @@ describe('User routes', () => {
   })
 
   describe('/api/users/', () => {
-    const codysEmail = 'cody@puppybook.com'
+    // const codysEmail = 'cody@puppybook.com'
 
-    beforeEach(() => {
-      return User.create({
-        email: codysEmail
-      })
-    })
+    // beforeEach(() => {
+    //   return User.create({
+    //     email: codysEmail
+    //   })
+    // })
 
-    it('GET /api/users', async () => {
+    it('unable to acess users api if not an admin', async () => {
       const res = await request(app)
         .get('/api/users')
+        .expect(403)
+    })
+
+    it('POST method creates a new user in the db', async () => {
+      const res = await request(app)
+        .post('/api/users', {
+          firstName: 'harry',
+          lastName: 'potter',
+          email: 'hp@hogwarts.com',
+          password: 'snitch'
+        })
         .expect(200)
 
-      expect(res.body).to.be.an('array')
-      expect(res.body[0].email).to.be.equal(codysEmail)
+      expect(res.body).to.be.an('object')
     })
   }) // end describe('/api/users')
 }) // end describe('User routes')

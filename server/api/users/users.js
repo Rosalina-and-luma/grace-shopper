@@ -3,8 +3,6 @@ const {User} = require('../../db/models')
 const isAdmin = require('../utilities')
 module.exports = router
 
-router.use(isAdmin)
-
 router.get('/', isAdmin, async (req, res, next) => {
   try {
     console.log(isAdmin)
