@@ -1,8 +1,6 @@
 const router = require('express').Router()
-const {Product, Category, User} = require('../../db/models')
+const {Product, Category} = require('../../db/models')
 const isAdmin = require('../utilities')
-
-router.use(isAdmin)
 
 router.get('/', async (req, res, next) => {
   const {category} = req.query
@@ -82,7 +80,7 @@ router.put('/:productId', isAdmin, async (req, res, next) => {
       }
     )
 
-    console.log(updatedProduct)
+    // console.log(updatedProduct)
 
     if (updatedProduct) {
       const {dataValues} = await updatedProduct.getCategory()
