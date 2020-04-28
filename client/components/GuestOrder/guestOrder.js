@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import '../Orders/orders.css'
+import './guestOrder.css'
 import {NavLink} from 'react-router-dom'
 
 class GuestOrder extends Component {
@@ -114,7 +114,7 @@ class GuestOrder extends Component {
                 <NavLink to={`/products/${product.id}`}>
                   <span className="name"> {product.name}</span>
                 </NavLink>
-                <span className="unitPrice">${product.price}</span>
+                <span className="unitPrice">Unit Price: ${product.price}</span>
                 <button
                   type="button"
                   onClick={() => {
@@ -140,7 +140,7 @@ class GuestOrder extends Component {
                 >
                   Remove
                 </button>
-                <span>SubTotal: {product.subTotal}</span>
+                <span className="subtotal">Subtotal: ${product.subTotal}</span>
               </div>
             )
           })
