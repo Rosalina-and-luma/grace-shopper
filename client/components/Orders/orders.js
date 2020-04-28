@@ -19,9 +19,9 @@ class Orders extends Component {
     }
   }
   componentDidMount = async () => {
-    console.log('user', this.props.user)
     // if (this.props.user.id) {
     await this.props.getOrders()
+    console.log('ORDERS', this.props.orders)
     let products = {allProducts: [], total: 0}
     if (this.props.orders && this.props.orders.length) {
       this.props.orders.map(order => {
@@ -61,10 +61,13 @@ class Orders extends Component {
   }
 
   addQuantity = data => {
+    console.log('data in addQuantity', data)
     let updatedQuantity
     let updatedInventory
     let oldProds = [...this.state.allProducts]
-    let newProds = oldProds.map(prod => {
+    let newProds = []
+    oldProds.forEach(prod => {
+      console.log('......prods.....', prod)
       if (prod.id === data.productId) {
         if (prod.inventory > 0) {
           prod.quantity += 1
@@ -72,10 +75,10 @@ class Orders extends Component {
           prod.inventory -= 1
           updatedInventory = prod.inventory
           prod.subTotal = prod.quantity * prod.unitPrice
+          newProds.push(prod)
         } else {
           alert(`There is no more inventory for ${prod.name}!`)
         }
-        return prod
       }
     })
 
@@ -96,9 +99,11 @@ class Orders extends Component {
     //   }
     // })
 
+    console.log('newProds', newProds)
     this.setState({
       allProducts: [...newProds],
       total: newProds.reduce((sum, prod) => {
+        console.log('^^^^^^^^', sum, prod)
         sum += prod.subTotal
         return sum
       }, 0)
@@ -193,6 +198,7 @@ class Orders extends Component {
   }
 
   render() {
+    console.log('orders state', this.state)
     return (
       <div>
         <span>Hello {this.props.user.firstName}!!</span>
