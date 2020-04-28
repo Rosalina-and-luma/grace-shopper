@@ -66,11 +66,9 @@ const AllProductsUI = props => {
         <button type="button">View Details</button>
       </NavLink> */}
 
-      <div className="item-buy">
-        <button type="button" className="buy-button">
-          Add to Cart
-        </button>
-      </div>
+      {/*
+
+      </div> */}
 
       {/* {isAdmin && (
         <div>
@@ -84,46 +82,52 @@ const AllProductsUI = props => {
         <button type="button">View Details</button>
       </NavLink> */}
 
-      {Object.keys(user).length ? (
-        <button
-          type="button"
-          onClick={() => {
-            props.addToCart({
-              // userId: props.user.id,
-              productId: props.product.id,
-              quantity: 1
-            })
-          }}
-        >
-          Buy
-        </button>
-      ) : (
-        <button
-          type="button"
-          onClick={() => {
-            handleLocalStorage({
-              productId: props.product.id,
-              name: props.product.name,
-              imgUrl: props.product.imgUrl,
-              description: props.product.description,
-              price: props.product.price,
-              quantity: 1
-            })
-          }}
-        >
-          {' '}
-          Buy
-        </button>
-      )}
+      <div className="item-buy">
+        {Object.keys(user).length ? (
+          <button
+            type="button"
+            className="buy-button"
+            onClick={() => {
+              props.addToCart({
+                // userId: props.user.id,
+                productId: props.product.id,
+                quantity: 1
+              })
+            }}
+          >
+            Add to Cart
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => {
+              handleLocalStorage({
+                productId: props.product.id,
+                name: props.product.name,
+                imgUrl: props.product.imgUrl,
+                description: props.product.description,
+                price: props.product.price,
+                quantity: 1
+              })
+            }}
+          >
+            {' '}
+            Add To Cart
+          </button>
+        )}
+      </div>
 
       {isAdmin && (
         <div>
           <NavLink to={`/products/${product.id}/update`}>
-            <button type="button">Edit</button>
+            <button type="button" className="edit-button">
+              Edit
+            </button>
           </NavLink>
           <NavLink to="/products">
             <button
               type="button"
+              className="delete-button"
               onClick={() => {
                 props.deleteProduct(product.id)
               }}
