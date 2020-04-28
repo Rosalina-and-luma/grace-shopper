@@ -31,6 +31,99 @@ async function seed() {
       email: 'hagrid@hogwarts.edu',
       password: 'feefifofum',
       isAdmin: true
+    }),
+    User.create({
+      firstName: 'Hermione',
+      lastName: 'Granger',
+      email: 'hgranger@hogwarts.edu',
+      password: 'iAmSmaRt',
+      isAdmin: true
+    }),
+    User.create({
+      firstName: 'Helga',
+      lastName: 'Hufflepuff',
+      email: 'h@hufflepuff.com',
+      password: 'hufflepuff'
+    }),
+    User.create({
+      firstName: 'Draco',
+      lastName: 'Malfoy',
+      email: 'draco@malfoy.com',
+      password: 'slytherinrulez'
+    }),
+    User.create({
+      firstName: 'Gregory',
+      lastName: 'Goyle',
+      email: 'ggoyle@goyle.com',
+      password: '54321'
+    }),
+    User.create({
+      firstName: 'Cho',
+      lastName: 'Chang',
+      email: 'cchange@cho.com',
+      password: '1234567'
+    }),
+    User.create({
+      firstName: 'Lavender',
+      lastName: 'Brown',
+      email: 'lavender@brown.com',
+      password: 'flowerpower'
+    }),
+    User.create({
+      firstName: 'Amelia',
+      lastName: 'Bones',
+      email: 'amelia@bones.com',
+      password: 'bonesAmelia',
+      isAdmin: true
+    }),
+    User.create({
+      firstName: 'Susan',
+      lastName: 'Bones',
+      email: 'susan@bones.com',
+      password: 'magic124'
+    }),
+    User.create({
+      firstName: 'Colin',
+      lastName: 'Creevey',
+      email: 'thecreeves@creevey.com',
+      password: 'dumbledore'
+    }),
+    User.create({
+      firstName: 'Dennis',
+      lastName: 'Creevey',
+      email: 'dennis@hogwarts.edu',
+      password: '597486305'
+    }),
+    User.create({
+      firstName: 'Dirk',
+      lastName: 'Cresswell',
+      email: 'creswell@dirk.com',
+      password: 'dirk1298'
+    }),
+    User.create({
+      firstName: 'Cedric',
+      lastName: 'Diggory',
+      email: 'cdigg@digg.net',
+      password: 'canYouDiggIt'
+    }),
+    User.create({
+      firstName: 'Albus',
+      lastName: 'Dumbledore',
+      email: 'albus@hogwarts.edu',
+      password: 'Transfig2',
+      isAdmin: true
+    }),
+    User.create({
+      firstName: 'Dudley',
+      lastName: 'Dursley',
+      email: 'dudley@dursley.com',
+      password: 'dursley09472'
+    }),
+    User.create({
+      firstName: 'Cornelius',
+      lastName: 'Fudge',
+      email: 'fudge@fudge.com',
+      password: 'CornFudge1'
     })
   ])
 
@@ -49,7 +142,7 @@ async function seed() {
       description: '35.5cm, the finest elderwood',
       price: 500 * 100,
       categoryId: 1,
-      inventory: 50
+      inventory: 52
     }),
     Product.create({
       name: 'Fred Wand',
@@ -58,7 +151,124 @@ async function seed() {
       description: '34.5cm, guaranteed by Fred and George for all your pranks',
       price: 125 * 100,
       categoryId: 1,
-      inventory: 700
+      inventory: 139
+    }),
+    Product.create({
+      name: 'George Wand',
+      imgUrl:
+        'https://vignette.wikia.nocookie.net/hpwands/images/d/db/GWwand.jpg/revision/latest/scale-to-width-down/340?cb=20141103054542',
+      description: '35cm',
+      price: 225 * 100,
+      categoryId: 1,
+      inventory: 122
+    }),
+    Product.create({
+      name: 'Harry Wand',
+      imgUrl:
+        'https://cdn.shopify.com/s/files/1/2597/5112/products/hpnbwand_1_1024x1024@2x.jpg?v=1575933194',
+      description: '33.5cm',
+      price: 525 * 100,
+      categoryId: 1,
+      inventory: 42
+    }),
+    Product.create({
+      name: 'Luna Wand',
+      imgUrl:
+        'https://www.renderhub.com/dmitriykotliar/wand-of-luna-lovegood-from-the-movie-harry-potter/wand-of-luna-lovegood-from-the-movie-harry-potter-04.jpg',
+      description: '34.5cm',
+      price: 225 * 100,
+      categoryId: 1,
+      inventory: 184
+    }),
+    Product.create({
+      name: 'Graves Wand',
+      imgUrl:
+        'https://vignette.wikia.nocookie.net/harrypotter/images/c/c6/Percival_Graves_wand.png/revision/latest?cb=20161128064141',
+      description: '36.5cm',
+      price: 125 * 100,
+      categoryId: 1,
+      inventory: 103
+    }),
+    Product.create({
+      name: 'Ron Wand',
+      imgUrl:
+        'https://cdn.giftsdigest.com/wp-content/uploads/2018/12/ron-weasley-s-wand.jpg',
+      description: '34.5cm',
+      price: 155 * 100,
+      categoryId: 1,
+      inventory: 86
+    }),
+    Product.create({
+      name: 'Hermione Wand',
+      imgUrl:
+        'https://images-na.ssl-images-amazon.com/images/I/61uMOXYj4RL._AC_SL1500_.jpg',
+      description: '38cm',
+      price: 175 * 100,
+      categoryId: 1,
+      inventory: 77
+    }),
+    Product.create({
+      name: 'Cedric Wand',
+      imgUrl:
+        'https://cdn11.bigcommerce.com/s-z5x6hb/images/stencil/1280x1280/products/13923/16834/b25d4895-b184-4a50-94bb-7ec66bdf0f89__56515.1529076234.jpg?c=2?imbypass=on',
+      description: '37cm',
+      price: 145 * 100,
+      categoryId: 1,
+      inventory: 28
+    }),
+    Product.create({
+      name: 'Ginny Wand',
+      imgUrl:
+        'https://cdn.shopify.com/s/files/1/2597/5112/products/hpnbwandgin_300x300.jpg?v=1575933194',
+      description: '36.5cm',
+      price: 145 * 100,
+      categoryId: 1,
+      inventory: 27
+    }),
+    Product.create({
+      name: 'McGonogall Wand',
+      imgUrl:
+        'https://vignette.wikia.nocookie.net/hpwands/images/1/17/MMwand.jpg/revision/latest/scale-to-width-down/340?cb=20141103234937',
+      description: '35cm',
+      price: 75 * 100,
+      categoryId: 1,
+      inventory: 34
+    }),
+    Product.create({
+      name: 'LongBottom Wand',
+      imgUrl:
+        'https://cdn.shopify.com/s/files/1/2597/5112/products/hpnbwandnl02_1_1024x1024@2x.jpg?v=1575933195',
+      description: '34cm',
+      price: 75 * 100,
+      categoryId: 1,
+      inventory: 29
+    }),
+    Product.create({
+      name: 'Malfoy Wand',
+      imgUrl:
+        'https://images-na.ssl-images-amazon.com/images/I/41BILH8YS4L._AC_SL1080_.jpg',
+      description: '36.5cm',
+      price: 175 * 100,
+      categoryId: 1,
+      inventory: 52
+    }),
+    Product.create({
+      name: 'Snape Wand',
+      imgUrl:
+        'https://vignette.wikia.nocookie.net/harrypotter/images/3/30/Severus_Snape_wand.png/revision/latest?cb=20161128052653',
+      description: '38cm',
+      price: 205 * 100,
+      categoryId: 1,
+      inventory: 12
+    }),
+    Product.create({
+      name: 'Sirus Wand',
+      imgUrl:
+        'https://vignette.wikia.nocookie.net/harrypotter/images/9/9e/Sirius_Black_wand.png/revision/latest?cb=20161128052654',
+      description: '40cm',
+      price: 75 * 100,
+      categoryId: 1,
+      inventory: 28
     }),
     Product.create({
       name: 'Nimbus 2000',
@@ -76,6 +286,15 @@ async function seed() {
       price: 16000 * 100,
       categoryId: 2,
       inventory: 10
+    }),
+    Product.create({
+      name: 'Harry Potter Wand',
+      imgUrl:
+        'https://images-na.ssl-images-amazon.com/images/I/31PgXGkd04L._AC_.jpg',
+      description: 'fly like Mr. Potter himself',
+      price: 15000 * 100,
+      categoryId: 2,
+      inventory: 5
     }),
     Product.create({
       name: 'Gryffindor robe',
@@ -96,6 +315,24 @@ async function seed() {
       inventory: 120
     }),
     Product.create({
+      name: 'Hufflepuff Robe',
+      imgUrl:
+        'https://cdn.shopify.com/s/files/1/1541/8579/products/Robe-Kids-Hufflepuff-HarryPotter-Product-_5_118f1f7e-0201-40de-939a-f702d64a751a.jpg?v=1543301078',
+      description: 'The official robe of the Hufflepuff house',
+      price: 200 * 100,
+      categoryId: 3,
+      inventory: 150
+    }),
+    Product.create({
+      name: 'Ravenclaw Robe',
+      imgUrl:
+        ' https://cdn.shopify.com/s/files/1/1541/8579/products/Ravenclaw_Robe_5_grande.jpg?v=1586234574',
+      description: 'for those who are witty and creative',
+      price: 200 * 100,
+      categoryId: 3,
+      inventory: 140
+    }),
+    Product.create({
       name: 'Erised Mirror',
       imgUrl:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRlGeKx8KV6jE2Hc3dVZBI06_z8DheNuE-t4sa5Yhlh2_nOdU6FpskT8TEEsGc8eOIhj-UD7J8&usqp=CAc',
@@ -112,6 +349,15 @@ async function seed() {
       price: 80000 * 100,
       categoryId: 4,
       inventory: 1
+    }),
+    Product.create({
+      name: 'Veritaserum',
+      imgUrl:
+        'https://gamepress.gg/wizardsunite/wizardsunite/sites/wizardsunite/files/2019-05/Veritaserum-foundable.png',
+      description: 'hear the truth with this potion',
+      price: 300 * 100,
+      categoryId: 4,
+      inventory: 1
     })
   ])
 
@@ -126,20 +372,6 @@ async function seed() {
     purchased: false
   })
 
-  await OrderProduct.create({
-    productId: 4,
-    orderId: codyOrder.id,
-    quantity: 2,
-    unitPrice: 16000 * 100
-  })
-
-  await OrderProduct.create({
-    orderId: codyOrder.id,
-    productId: 6,
-    quantity: 4,
-    unitPrice: 200 * 100
-  })
-
   const murphy = await User.findOne({
     where: {
       email: 'murphy@email.com'
@@ -151,13 +383,97 @@ async function seed() {
     purchased: false
   })
 
-  await OrderProduct.create({
-    orderId: murphyOrder.id,
-    productId: 5,
-    quantity: 4,
-    unitPrice: 200 * 100
+  const hagrid = await User.findOne({
+    where: {
+      email: 'hagrid@hogwarts.edu'
+    }
   })
 
+  const hagridOrder = await Order.create({
+    userId: hagrid.id,
+    purchased: false
+  })
+
+  const hagridOrder2 = await Order.create({
+    userId: hagrid.id,
+    purchased: false
+  })
+
+  const hagridOrder3 = await Order.create({
+    userId: hagrid.id,
+    purchased: false
+  })
+
+  const OrderProductData = [
+    {
+      orderId: codyOrder.id,
+      productId: 4,
+      quantity: 2,
+      unitPrice: 16000 * 100
+    },
+    {
+      orderId: codyOrder.id,
+      productId: 2,
+      quantity: 4,
+      unitPrice: 16000 * 100
+    },
+    {
+      orderId: codyOrder.id,
+      productId: 6,
+      quantity: 3,
+      unitPrice: 200 * 100
+    },
+    {
+      orderId: murphyOrder.id,
+      productId: 5,
+      quantity: 4,
+      unitPrice: 200 * 100
+    },
+    {
+      orderId: murphyOrder.id,
+      productId: 1,
+      quantity: 4,
+      unitPrice: 500 * 100
+    },
+    {
+      orderId: hagridOrder.id,
+      productId: 1,
+      quantity: 4,
+      unitPrice: 500 * 100
+    },
+    {
+      orderId: hagridOrder.id,
+      productId: 3,
+      quantity: 4,
+      unitPrice: 7800 * 100
+    },
+    {
+      orderId: hagridOrder2.id,
+      productId: 7,
+      quantity: 8,
+      unitPrice: 40000 * 100
+    },
+    {
+      orderId: hagridOrder2.id,
+      productId: 8,
+      quantity: 2,
+      unitPrice: 80000 * 100
+    },
+    {
+      orderId: hagridOrder3.id,
+      productId: 5,
+      quantity: 4,
+      unitPrice: 16000 * 100
+    },
+    {
+      orderId: hagridOrder3.id,
+      productId: 2,
+      quantity: 2,
+      unitPrice: 500 * 100
+    }
+  ]
+
+  await OrderProduct.bulkCreate(OrderProductData)
   await murphyOrder.update({purchased: true})
 
   const orders = [codyOrder, murphyOrder]
