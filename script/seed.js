@@ -476,7 +476,7 @@ async function seed() {
   await OrderProduct.bulkCreate(OrderProductData)
   await murphyOrder.update({purchased: true})
 
-  const orders = [codyOrder, murphyOrder]
+  const orders = await Order.findAll()
 
   console.log(`seeded ${categories.length} categories`)
   console.log(`seeded ${users.length} users`)
