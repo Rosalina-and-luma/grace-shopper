@@ -80,7 +80,6 @@ export const updateUserInServer = (updatedUser, userId) => {
       const {data} = await axios.put(`api/users/${userId}`, updatedUser)
       dispatch(updateUser(data, userId))
     } catch (error) {
-      console.log('in error')
       console.error(error)
     }
   }

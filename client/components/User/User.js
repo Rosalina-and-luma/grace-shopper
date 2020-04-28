@@ -11,7 +11,6 @@ class Users extends React.Component {
 
   render() {
     const {users, isLoading} = this.props
-    console.log('in render', this.props)
 
     if (isLoading) return <h1> Loading...</h1>
 

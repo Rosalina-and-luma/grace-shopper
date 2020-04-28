@@ -6,12 +6,10 @@ import './singleProduct.css'
 
 class SingleProduct extends Component {
   componentDidMount() {
-    // console.log('id from URL', this.props.match.params.productId)
     this.props.getSelectedProduct(this.props.match.params.productId)
   }
   render() {
     const {isLoading, user, selectedProduct, deleteProduct} = this.props
-    // console.log('State props', selectedProduct, isLoading)
 
     if (isLoading)
       return (
@@ -19,7 +17,6 @@ class SingleProduct extends Component {
           <h1>Loading...</h1>
         </div>
       )
-    // console.log('selected product', selectedProduct)
 
     return (
       <div>

@@ -12,7 +12,6 @@ class GuestOrder extends Component {
   }
 
   componentDidMount() {
-    console.log('ingues cart')
     this.getTotal()
   }
 
@@ -96,7 +95,6 @@ class GuestOrder extends Component {
   }
 
   checkout = () => {
-    console.log('incheckout')
     localStorage.removeItem('products')
   }
 

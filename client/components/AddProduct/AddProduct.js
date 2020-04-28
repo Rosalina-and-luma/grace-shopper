@@ -44,7 +44,7 @@ class AddProduct extends Component {
     if (!this.props.user.isAdmin) {
       return <Redirect to="/products" />
     }
-    // console.log(this.state)
+
     return (
       <div>
         <h1>Add a New Product</h1>

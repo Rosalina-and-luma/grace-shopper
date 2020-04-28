@@ -50,18 +50,15 @@ export const updateOrderToServer = id => {
 }
 
 export const addToCartServer = order => {
-  console.log('order placed', order)
   return async dispatch => {
     try {
       if (order.orderId) {
         await axios.put('/api/orders/quantity', {quantiyt: order.quantity})
       } else {
         const {data} = await axios.post('/api/orders', {
-          // userId: order.userId,
           productId: order.productId,
           quantity: order.quantity
         })
-        console.log('returned data', data)
         dispatch(addToCart(data))
       }
     } catch (error) {
@@ -71,11 +68,9 @@ export const addToCartServer = order => {
 }
 
 export const getOrdersFromServer = () => {
-  console.log('getOrders called')
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/orders`)
-      console.log('data from server', data)
       dispatch(getOrders(data))
     } catch (error) {
       console.error(error)
@@ -84,7 +79,6 @@ export const getOrdersFromServer = () => {
 }
 
 export const deleteProdFromOrderServer = data => {
-  console.log('server data', data)
   return async dispatch => {
     try {
       await axios.delete('/api/orders', {
