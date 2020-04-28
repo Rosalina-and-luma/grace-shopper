@@ -67,6 +67,11 @@ class EditProduct extends Component {
       return <Redirect to="/products" />
     }
 
+    let disabled = true
+    if (this.state.name && this.state.price && this.state.inventory) {
+      disabled = false
+    }
+
     return (
       <div className="edit-form">
         <h1>Edit Product</h1>
@@ -131,7 +136,9 @@ class EditProduct extends Component {
           />
           <br />
 
-          <button type="submit">Update Product</button>
+          <button type="submit" disabled={disabled}>
+            Update Product
+          </button>
         </form>
       </div>
     )
