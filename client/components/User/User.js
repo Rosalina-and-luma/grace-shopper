@@ -10,6 +10,7 @@ class Users extends React.Component {
 
   render() {
     const {users, isLoading} = this.props
+    console.log('in render', this.props)
 
     if (isLoading) return <h1> Loading...</h1>
 
@@ -32,7 +33,7 @@ class Users extends React.Component {
 
 const mapState = state => {
   return {
-    users: state.newUser.users,
+    users: state.newUser.user,
     isLoading: state.newUser.isLoading
   }
 }

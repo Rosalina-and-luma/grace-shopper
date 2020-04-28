@@ -12,11 +12,12 @@ async function isAdmin(req, res, next) {
   res.redirect('../products')
 }
 
-router.get('/', isAdmin, async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const users = await User.findAll({
       attributes: ['id', 'firstName', 'lastName', 'email']
     })
+    console.log(users)
     res.json(users)
   } catch (err) {
     next(err)
