@@ -1,18 +1,69 @@
 import React, {Component} from 'react'
-import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {deleteFromServer} from '../../reducer/allProds'
 import {fetchSingleProduct} from '../../reducer/singleProduct'
-import {handleLocalStorage} from '../../reducer/order/order'
+import {
+  handleLocalStorage,
+  getOrdersFromServer,
+  addToCartServer,
+  updateProductInventoryToServer,
+  updateOrderQuantityToServer
+} from '../../reducer/order/order'
 
 class SingleProduct extends Component {
   componentDidMount() {
-    console.log('id from URL', this.props.match.params.productId)
     this.props.getSelectedProduct(this.props.match.params.productId)
+    this.props.getOrders()
   }
+
+  handleUserBuy = data => {
+    const {selectedProduct, orders} = this.props
+
+    let currentOrder = {}
+    orders.forEach(order => {
+      if (order.purchased === false) {
+        currentOrder = order
+      }
+    })
+
+    if (Object.keys(currentOrder).length) {
+      console.log('updated product', currentOrder.order_products)
+      let product = currentOrder.order_products.filter(
+        prod => prod.productId === data.productId
+      )
+      console.log('handleUserBuy product', product)
+      if (product.length) {
+        product[0].quantity += 1
+        product[0].inventory -= 1
+
+        this.props.updateQuantity({
+          productId: data.productId,
+          quantity: product[0].quantity,
+          orderId: currentOrder.id
+        })
+        this.props.updateInventory({
+          productId: data.productId,
+          inventory: product[0].inventory
+        })
+      } else {
+        this.props.addToCart({productId: data.productId, quantity: 1})
+        currentOrder.order_products.push({
+          productId: data.productId,
+          quantity: 1
+        })
+      }
+    } else {
+      this.props.addToCart({productId: data.productId, quantity: 1})
+    }
+    selectedProduct.inventory -= 1
+    this.props.updateInventory({
+      productId: data.productId,
+      inventory: data.inventory - 1
+    })
+  }
+
   render() {
     const {isLoading, user, selectedProduct, deleteProduct} = this.props
-    // console.log('State props', selectedProduct, isLoading)
 
     if (isLoading)
       return (
@@ -20,7 +71,6 @@ class SingleProduct extends Component {
           <h1>Loading...</h1>
         </div>
       )
-    // console.log('selected product', selectedProduct)
 
     return (
       <div>
@@ -34,7 +84,18 @@ class SingleProduct extends Component {
             <p>${selectedProduct.price}</p>
             {selectedProduct.inventory ? (
               Object.keys(user).length ? (
-                <button type="button">Buy</button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.handleUserBuy({
+                      productId: selectedProduct.id,
+                      quantity: 1,
+                      inventory: selectedProduct.inventory
+                    })
+                  }}
+                >
+                  Buy
+                </button>
               ) : (
                 <button
                   type="button"
@@ -92,6 +153,7 @@ const mapStateToProps = state => {
   return {
     user: state.user,
     selectedProduct: state.singleProduct.selectedProduct,
+    orders: state.order.allOrders,
     isLoading: state.singleProduct.isLoading
   }
 }
@@ -101,7 +163,11 @@ const mapDisptachToProps = dispatch => {
     getSelectedProduct: id => {
       dispatch(fetchSingleProduct(id))
     },
-    deleteProduct: id => dispatch(deleteFromServer(id))
+    deleteProduct: id => dispatch(deleteFromServer(id)),
+    getOrders: () => dispatch(getOrdersFromServer()),
+    addToCart: order => dispatch(addToCartServer(order)),
+    updateInventory: data => dispatch(updateProductInventoryToServer(data)),
+    updateQuantity: data => dispatch(updateOrderQuantityToServer(data))
   }
 }
 
