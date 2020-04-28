@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
 import UpdateUser from './UpdateSingleUser'
+import './singleUser.css'
 
 class SingleUser extends React.Component {
   constructor() {
@@ -31,7 +32,7 @@ class SingleUser extends React.Component {
     if (!user.firstName) return <h1>loading....</h1>
 
     return (
-      <div>
+      <div className="single-user-container">
         <h1>Hi {user.firstName}!</h1>
         <p>
           Name: {user.firstName} {user.lastName}
