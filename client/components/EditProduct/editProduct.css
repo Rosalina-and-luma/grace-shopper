@@ -5,9 +5,15 @@
   align-items: center;
   padding: 10px;
   margin: 45px 40%;
+  justify-content: center;
 }
 
 .edit-condition {
   display: flex;
   justify-content: space-between;
+}
+
+.action-button {
+  display: flex;
+  justify-content: center;
 }

@@ -133,12 +133,15 @@ class EditProduct extends Component {
               <input
                 type="text"
                 name="inventory"
+                className="inventory-dropdown"
                 value={this.state.inventory}
                 onChange={this.handleChange}
               />
             </div>
 
-            <button type="submit">Update Product</button>
+            <div className="action-button">
+              <button type="submit">Update Product</button>
+            </div>
           </form>
         </div>
       </div>
