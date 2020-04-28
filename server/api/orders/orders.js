@@ -6,7 +6,7 @@ router.get('/', async (req, res, next) => {
   const user = Object.values(req.session.passport)[0]
 
   try {
-    // if (req.session.userId) {
+    
     const orders = await Order.findAll({
       where: {
         userId: user
@@ -46,46 +46,35 @@ router.get('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     let order
+
     const user = Object.values(req.session.passport)[0]
-    // console.log('req.user.id', req.user.id)
-    // console.log(
-    //   'Object.values(req.session.passport)[0]',
-    //   Object.values(req.session.passport)[0]
-    // )
+    
     order = await Order.findOne({
       where: {
         userId: user,
         purchased: false
       }
     })
+
     if (!order) {
       order = await Order.create({
         userId: user
       })
     }
+
     let product = await Product.findOne({
       where: {
         id: req.body.productId
       }
     })
-    let updatedOrder
-    updatedOrder = await OrderProduct.findOne({
-      where: {
-        orderId: order.id,
-        productId: req.body.productId
-      }
+
+    let updatedOrder = await OrderProduct.create({
+      orderId: order.id,
+      productId: req.body.productId,
+      quantity: req.body.quantity,
+      unitPrice: product.price
     })
 
-    if (updatedOrder) {
-      await updatedOrder.update({quantity: req.body.quantity})
-    } else {
-      updatedOrder = await OrderProduct.create({
-        orderId: order.id,
-        productId: req.body.productId,
-        quantity: req.body.quantity,
-        unitPrice: product.price
-      })
-    }
     res.status(201).json(updatedOrder)
   } catch (error) {
     next(error)
@@ -103,6 +92,23 @@ router.put('/', async (req, res, next) => {
     res.sendStatus(200)
   } catch (error) {
     next(error)
+  }
+})
+
+router.put('/quantity', async (req, res, next) => {
+  try {
+    const product = await OrderProduct.findOne({
+      where: {
+        orderId: req.body.orderId,
+        productId: req.body.productId
+      }
+    })
+    product.update({
+      quantity: req.body.quantity
+    })
+    res.json(product)
+  } catch (error) {
+    console.error(error)
   }
 })
 

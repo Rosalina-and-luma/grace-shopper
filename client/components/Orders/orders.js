@@ -23,7 +23,6 @@ class Orders extends Component {
     // if (this.props.user.id) {
     await this.props.getOrders()
     let products = {allProducts: [], total: 0}
-    console.log('-------------->props.orders', this.props.orders)
     if (this.props.orders && this.props.orders.length) {
       this.props.orders.map(order => {
         if (!order.purchased) {
@@ -44,7 +43,6 @@ class Orders extends Component {
       })
     }
 
-    console.log('products', products)
     this.setState({
       allProducts: products.allProducts.map(prod => ({
         orderId: prod.orderId,
@@ -60,11 +58,11 @@ class Orders extends Component {
     // }
   }
 
-  addQuantity = id => {
+  addQuantity = data => {
     let updatedQuantity
     let oldProds = [...this.state.allProducts]
     let newProds = oldProds.map(prod => {
-      if (prod.id === id) {
+      if (prod.id === data.productId) {
         prod.quantity += 1
         updatedQuantity = prod.quantity
         prod.subTotal = prod.quantity * prod.unitPrice
@@ -81,17 +79,17 @@ class Orders extends Component {
     })
 
     this.props.updateOrders({
-      // userId: this.props.user.id,
-      productId: id,
+      orderId: data.orderId,
+      productId: data.productId,
       quantity: updatedQuantity
     })
   }
 
-  subtractQuantity = id => {
+  subtractQuantity = data => {
     let updatedQuantity
     let oldProds = [...this.state.allProducts]
     let newProds = oldProds.map(prod => {
-      if (prod.id === id && prod.quantity > 0) {
+      if (prod.id === data.productId && prod.quantity > 0) {
         prod.quantity -= 1
         updatedQuantity = prod.quantity
         prod.subTotal = prod.quantity * prod.unitPrice
@@ -119,8 +117,8 @@ class Orders extends Component {
 
     if (updatedQuantity !== 0) {
       this.props.updateOrders({
-        // userId: this.props.user.id,
-        productId: id,
+        orderId: data.orderId,
+        productId: data.productId,
         quantity: updatedQuantity
       })
     }
@@ -156,7 +154,7 @@ class Orders extends Component {
         ) : (
           this.props.user.id && <h1>Your cart is empty!</h1>
         )}
-        {this.state.allProducts.length && this.props.user.id ? (
+        {this.props.user.id ? (
           <div>
             {this.state.allProducts.map(product => {
               return (
@@ -167,46 +165,10 @@ class Orders extends Component {
                     subtractQuantity={this.subtractQuantity}
                     onDelete={this.onDelete}
                   />
-                  {/* <img src={product.imgUrl} />
-                  <span className="name">{product.name}</span>
-                  <span className="unitPrice">{product.unitPrice}</span>
-                  <span className="quantity">{product.quantity}</span>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      this.addQuantity(product.id)
-                    }}
-                  >
-                    +
-                  </button>
-                  <label className="quantity" name="quantity">
-                    {' '}
-                    Quantity:
-                    {product.quantity}
-                  </label>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      this.subtractQuantity(product.id)
-                    }}
-                  >
-                    -
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      this.onDelete({
-                        orderId: product.orderId,
-                        productId: product.id
-                      })
-                    }}
-                  >
-                    Remove
-                  </button>
-                  <span>{product.subTotal}</span> */}
                 </div>
               )
             })}
+
             {this.state.total > 0 && (
               <div>
                 <span>Total: {this.state.total}</span>

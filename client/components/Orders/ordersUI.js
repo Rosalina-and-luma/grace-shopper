@@ -11,7 +11,10 @@ const OrdersUI = props => {
       <button
         type="button"
         onClick={() => {
-          props.addQuantity(product.id)
+          props.addQuantity({
+            orderId: product.orderId,
+            productId: product.id
+          })
         }}
       >
         +
@@ -22,7 +25,10 @@ const OrdersUI = props => {
       <button
         type="button"
         onClick={() => {
-          props.subtractQuantity(product.id)
+          props.subtractQuantity({
+            orderId: product.orderId,
+            productId: product.id
+          })
         }}
       >
         -
