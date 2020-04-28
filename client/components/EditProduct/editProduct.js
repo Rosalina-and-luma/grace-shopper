@@ -1,65 +1,73 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
-import {updateProductOnServer} from '../../reducer/allProds'
+import {
+  fetchSingleProduct,
+  updateProductOnServer
+} from '../../reducer/singleProduct'
 
 class EditProduct extends Component {
   constructor() {
     super()
     this.state = {
-      id: 0,
+      id: null,
       name: '',
       imgUrl: '',
       description: '',
       price: 0,
       categoryId: 0,
-      inventory: 0,
-      categoryName: ''
+      inventory: 0
     }
-    this.handleSubmit = this.handleSubmit.bind(this)
   }
-  componentDidMount() {
-    // if (!this.props.products.length) {
-    //   console.log('calling...')
-    //   this.props.getProducts()
-    // }
-    // console.log('products....', this.props.products)
-    let selectedProduct = this.props.products.filter(product => {
-      if (product.id === parseInt(this.props.match.params.productId)) {
-        console.log('product', product)
-        return product
-      }
-    })[0]
+  async componentDidMount() {
+    const {productId} = this.props.match.params
 
-    if (selectedProduct) {
+    await this.props.getSelectedProduct(productId)
+
+    if (this.props.selectedProduct) {
+      // console.log(this.props.selectedProduct)
+      const {
+        id,
+        name,
+        imgUrl,
+        description,
+        price,
+        categoryId,
+        inventory
+      } = this.props.selectedProduct
+
       this.setState({
-        id: selectedProduct.id,
-        name: selectedProduct.name,
-        imgUrl: selectedProduct.imgUrl,
-        description: selectedProduct.description,
-        price: selectedProduct.price,
-        categoryId: selectedProduct.categoryId,
-        inventory: selectedProduct.inventory,
-        categoryName: selectedProduct.category.name
+        id,
+        name,
+        imgUrl,
+        description,
+        price,
+        categoryId,
+        inventory
       })
     }
   }
 
   handleChange = e => {
+    console.log(this.state)
     this.setState({
       [e.target.name]: e.target.value
     })
   }
 
-  async handleSubmit() {
+  handleSubmit = async event => {
     event.preventDefault()
-    const updatedProduct = this.state
-    const {updateProduct} = this.props
-    await updateProduct(updatedProduct)
-    this.props.history.push('/products')
+    const {updateProduct, history} = this.props
+
+    await updateProduct(this.state)
+    history.push(`/products/${this.state.id}`)
   }
 
   render() {
+    if (!this.props.user.isAdmin) {
+      return <Redirect to="/products" />
+    }
+
     return (
       <div className="edit-form">
         <h1>Edit Product</h1>
@@ -100,15 +108,14 @@ class EditProduct extends Component {
 
           <label>Category</label>
           <select
-            defaultValue="default"
+            value={this.state.categoryId}
             onChange={this.handleChange}
             name="categoryId"
           >
-            <option value="1">{categoryName}</option>
-            <option value="2">Wands</option>
-            <option value="3">Brooms</option>
-            <option value="4">Robes</option>
-            <option value="5">Misc</option>
+            <option value="1">Wands</option>
+            <option value="2">Brooms</option>
+            <option value="3">Robes</option>
+            <option value="4">Misc</option>
           </select>
           <br />
 
@@ -130,13 +137,14 @@ class EditProduct extends Component {
 
 const mapStateToProps = state => {
   return {
-    products: state.allProducts.products,
+    selectedProduct: state.singleProduct.selectedProduct,
     user: state.user
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
+    getSelectedProduct: id => dispatch(fetchSingleProduct(id)),
     updateProduct: product => dispatch(updateProductOnServer(product))
   }
 }

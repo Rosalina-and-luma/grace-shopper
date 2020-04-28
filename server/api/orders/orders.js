@@ -3,11 +3,13 @@ const {Order, OrderProduct, Product} = require('../../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
+  const user = Object.values(req.session.passport)[0]
+
   try {
-    // if (req.session.userId) {
+    
     const orders = await Order.findAll({
       where: {
-        userId: req.session.userId
+        userId: user
       }
     })
     const orderIds = orders.map(order => order.id)
@@ -45,19 +47,18 @@ router.post('/', async (req, res, next) => {
   try {
     let order
 
-    //how about using Order.findOrCreate instead of doing two calls
-    //https://sequelize-guides.netlify.app/inserting-updating-destroying/
-
+    const user = Object.values(req.session.passport)[0]
+    
     order = await Order.findOne({
       where: {
-        userId: req.session.userId,
+        userId: user,
         purchased: false
       }
     })
 
     if (!order) {
       order = await Order.create({
-        userId: req.session.userId
+        userId: user
       })
     }
 

@@ -2,6 +2,29 @@ const router = require('express').Router()
 const User = require('../db/models/user')
 module.exports = router
 
+router.use('/google', require('./google'))
+
+router.get('/me', async (req, res, next) => {
+  try {
+    if (!req.session.userId) {
+      if (req.user) {
+        res.json(req.user)
+      } else {
+        res.sendStatus(401)
+      }
+    } else {
+      const user = await User.findById(req.session.userId)
+      if (!user) {
+        res.sendStatus(401)
+      } else {
+        res.json(user)
+      }
+    }
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.post('/login', async (req, res, next) => {
   try {
     const user = await User.findOne({
@@ -16,8 +39,7 @@ router.post('/login', async (req, res, next) => {
       console.log('Incorrect password for user:', req.body.email)
       res.status(401).send('Wrong username and/or password')()
     } else {
-      req.session.userId = user.id
-      res.json(user)
+      req.logIn(user, err => (err ? next(err) : res.json(user)))
     }
   } catch (err) {
     next(err)
@@ -37,19 +59,10 @@ router.post('/signup', async (req, res, next) => {
   }
 })
 
-router.post('/logout', (req, res) => {
-  req.logout()
-  req.session.destroy()
-  res.redirect('/')
-})
-
-router.get('/me', async (req, res, next) => {
-  try {
-    const user = await User.findByPk(req.session.userId)
-    res.json(user)
-  } catch (err) {
-    next(err)
+router.delete('/logout', (req, res, next) => {
+  delete req.session.userId
+  if (req.user) {
+    req.logout()
   }
+  res.sendStatus(204)
 })
-
-//router.use('/google', require('./google'))
