@@ -32,7 +32,7 @@ class AddProduct extends Component {
       name,
       imgUrl,
       description,
-      price: price * 100,
+      price: price,
       categoryId: parseInt(categoryId, 10),
       inventory
     })
@@ -44,7 +44,7 @@ class AddProduct extends Component {
     if (!this.props.user.isAdmin) {
       return <Redirect to="/products" />
     }
-    // console.log(this.state)
+
     return (
       <div className="edit-form">
         <h1>Add New Product</h1>

@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React from 'react'
 import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {deleteFromServer} from '../../reducer/allProds'
@@ -11,100 +11,75 @@ import {
 } from '../../reducer/order/order'
 import './AllProducts.css'
 
-class AllProductsUI extends Component {
-  constructor() {
-    super()
-    this.state = {
-      products: []
-    }
-  }
-  // componentDidMount = async () =>{
-  //   console.log('component did mount in productUI')
-  //   if (this.props.user.id) {
-  //     await this.props.getOrders();
-  //     this.props.orders.forEach(order => {
-  //       if(!order.purchased) {
-  //         this.setState({
-  //           order: order
-  //         })
-  //       }
-  //     })
-  //     console.log('allproduct component did mount state order', this.state.order)
-  //   }
-  // }
+const AllProductsUI = props => {
+  const {
+    product,
+    isAdmin,
+    user,
+    updateInventory,
+    updateQuantity,
+    addToCart,
+    currentOrder
+  } = props
 
-  handleUserBuy = data => {
-    console.log('handleUserBuy', this.props.currentOrder)
-    console.log('handleUserBuy data', data)
-    if (Object.keys(this.props.currentOrder).length) {
-      console.log('updated product', this.props.currentOrder.order_products)
-      let product = this.props.currentOrder.order_products.filter(
-        // console.log('every prod', prod, prod.productId)
+  const handleUserBuy = data => {
+    if (Object.keys(currentOrder).length) {
+      let currentProduct = currentOrder.order_products.filter(
         prod => prod.productId === data.productId
       )
-      console.log('handleUserBuy product', product)
-      if (product.length) {
-        console.log('handleUserBuy 1')
-        // this.props.addToCart({
-        //   productId: data.productId,
-        //   quantity: product[0].quantity + 1,
-        //   orderId: this.props.currentOrder.id
-        // })
 
-        product[0].quantity += 1
-        product[0].inventory -= 1
+      if (currentProduct.length) {
+        currentProduct[0].quantity += 1
+        currentProduct[0].inventory -= 1
 
-        this.props.updateQuantity({
+        updateQuantity({
           productId: data.productId,
-          quantity: product[0].quantity,
-          orderId: this.props.currentOrder.id
+          quantity: currentProduct[0].quantity,
+          orderId: currentOrder.id
         })
-        this.props.updateInventory({
+        updateInventory({
           productId: data.productId,
-          inventory: product[0].inventory
+          inventory: currentProduct[0].inventory
         })
       } else {
-        console.log('handleUserBuy 2')
-        this.props.addToCart({productId: data.productId, quantity: 1})
-        this.props.currentOrder.order_products.push({
+        addToCart({productId: data.productId, quantity: 1})
+        currentOrder.order_products.push({
           productId: data.productId,
           quantity: 1
         })
       }
     } else {
-      console.log('handleUserBuy 3')
-      this.props.addToCart({productId: data.productId, quantity: 1})
+      addToCart({productId: data.productId, quantity: 1})
     }
-    this.props.product.inventory -= 1
-    this.props.updateInventory({
+    product.inventory -= 1
+    updateInventory({
       productId: data.productId,
       inventory: data.inventory - 1
     })
   }
 
-  render() {
-    console.log('state in AllProductsUI', this.state)
-    const {product, isAdmin, user} = this.props
+  return (
+    <div className="products">
+      <NavLink to={`/products/${product.id}`}>
+        <img src={product.imgUrl} />
+      </NavLink>
 
-    return (
-      <div className="products">
-        <NavLink to={`/products/${product.id}`}>
-          <img src={product.imgUrl} />
-        </NavLink>
+      <div className="item-info">
         <span className="name">{product.name}</span>
         <span className="price">${product.price}</span>
-        <NavLink to={`/products/${product.id}`}>
-          <button type="button">View Details</button>
-        </NavLink>
+      </div>
+
+      <div className="item-buy">
         {product.inventory ? (
           Object.keys(user).length ? (
             <button
               type="button"
+              className="buy-button"
               onClick={() => {
-                this.handleUserBuy({
-                  productId: this.props.product.id,
+                handleUserBuy({
+                  productId: props.product.id,
                   quantity: 1,
-                  inventory: this.props.product.inventory
+                  inventory: props.product.inventory
                 })
               }}
             >
@@ -115,74 +90,47 @@ class AllProductsUI extends Component {
               type="button"
               onClick={() => {
                 handleLocalStorage({
-                  productId: this.props.product.id,
-                  name: this.props.product.name,
-                  imgUrl: this.props.product.imgUrl,
-                  description: this.props.product.description,
-                  price: this.props.product.price,
-                  inventory: this.props.product.inventory,
+                  productId: props.product.id,
+                  name: props.product.name,
+                  imgUrl: props.product.imgUrl,
+                  description: props.product.description,
+                  price: props.product.price,
+                  inventory: props.product.inventory,
                   quantity: 1
                 })
               }}
             >
               {' '}
-              Buy
+              Add To Cart
             </button>
           )
         ) : (
           <label>Out of stock</label>
         )}
-        {/* {Object.keys(user).length ? (
-          <button
-            type="button"
-            onClick={() => {
-              handleUserBuy({
-                productId: props.product.id,
-                quantity: 1,
-                inventory: props.product.inventory
-              })
-            }}
-          >
-            Buy
-          </button>
-        ) : (
-          <button
-            type="button"
-            onClick={() => {
-              handleLocalStorage({
-                productId: props.product.id,
-                name: props.product.name,
-                imgUrl: props.product.imgUrl,
-                description: props.product.description,
-                price: props.product.price,
-                quantity: 1
-              })
-            }}
-          >
-            {' '}
-            Buy
-          </button>
-        )} */}
-        {isAdmin && (
-          <div>
-            <NavLink to={`/products/${product.id}/update`}>
-              <button type="button">Edit</button>
-            </NavLink>
-            <NavLink to="/products">
-              <button
-                type="button"
-                onClick={() => {
-                  this.props.deleteProduct(product.id)
-                }}
-              >
-                Delete
-              </button>
-            </NavLink>
-          </div>
-        )}
       </div>
-    )
-  }
+
+      {isAdmin && (
+        <div>
+          <NavLink to={`/products/${product.id}/update`}>
+            <button type="button" className="edit-button">
+              Edit
+            </button>
+          </NavLink>
+          <NavLink to="/products">
+            <button
+              type="button"
+              className="delete-button"
+              onClick={() => {
+                props.deleteProduct(product.id)
+              }}
+            >
+              Delete
+            </button>
+          </NavLink>
+        </div>
+      )}
+    </div>
+  )
 }
 
 const mapStateToProps = state => {

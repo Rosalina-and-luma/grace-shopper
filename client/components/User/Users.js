@@ -1,7 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {getAllUsersfromServer} from '../../reducer/users'
-import './user.css'
 
 class Users extends React.Component {
   componentDidMount() {
@@ -16,19 +15,16 @@ class Users extends React.Component {
 
     return (
       <div>
-        <h1>All Users</h1>
-        <div className="user-container">
-          {users.map(user => {
-            return (
-              <div key={user.id} className="user-data">
-                <p>
-                  Name: {user.firstName} {user.lastName}
-                </p>
-                <p>Email: {user.email}</p>
-              </div>
-            )
-          })}
-        </div>
+        {users.map(user => {
+          return (
+            <div key={user.id}>
+              <p>
+                Name: {user.firstName} {user.lastName}
+              </p>
+              <p>Email: {user.email}</p>
+            </div>
+          )
+        })}
       </div>
     )
   }

@@ -21,9 +21,7 @@ class Orders extends Component {
     }
   }
   componentDidMount = async () => {
-    // if (this.props.user.id) {
     await this.props.getOrders()
-    console.log('ORDERS', this.props.orders)
     let products = {allProducts: [], total: 0}
     if (this.props.orders && this.props.orders.length) {
       this.props.orders.map(order => {
@@ -63,13 +61,12 @@ class Orders extends Component {
   }
 
   addQuantity = data => {
-    console.log('data in addQuantity', data)
     let updatedQuantity
     let updatedInventory
     let oldProds = [...this.state.allProducts]
     let newProds = []
+
     oldProds.forEach(prod => {
-      console.log('......prods.....', prod)
       if (prod.id === data.productId) {
         if (prod.inventory > 0) {
           prod.quantity += 1
@@ -87,28 +84,9 @@ class Orders extends Component {
       }
     })
 
-    // newProds.forEach( (prod, index) => {
-    //   if(prod.inventory <= 0) {
-    //     // newProds.splice(index, 1)
-    //     alert(`You just bought the last of ${prod.name}, there are no more left!`)
-    //   }
-    // })
-
-    // newProds.forEach((prod, index) => {
-    //   if (prod.quantity === 0) {
-    //     this.props.deleteProdFromOrder({
-    //       orderId: prod.orderId,
-    //       productId: prod.id
-    //     })
-    //     newProds.splice(index, 1)
-    //   }
-    // })
-
-    console.log('newProds', newProds)
     this.setState({
       allProducts: [...newProds],
       total: newProds.reduce((sum, prod) => {
-        console.log('^^^^^^^^', sum, prod)
         sum += prod.subTotal
         return sum
       }, 0)
@@ -126,12 +104,6 @@ class Orders extends Component {
         inventory: updatedInventory
       })
     }
-    // this.props.updateOrders({
-    //   orderId: data.orderId,
-    //   productId: data.productId,
-    //   quantity: updatedQuantity,
-    //   inventory: updatedInventory
-    // })
   }
 
   subtractQuantity = data => {
@@ -140,28 +112,19 @@ class Orders extends Component {
     let oldProds = [...this.state.allProducts]
     let newProds = oldProds.map(prod => {
       if (prod.id === data.productId && prod.quantity > 0) {
-        console.log('subtracting quantity')
         prod.quantity -= 1
         updatedQuantity = prod.quantity
         prod.inventory += 1
         updatedInventory = prod.inventory
         prod.subTotal = prod.quantity * prod.unitPrice
-        console.log('updated prod data', prod)
       }
       return prod
     })
 
     newProds.forEach((prod, index) => {
       if (prod.quantity === 0) {
-        // this.props.updateOrders({
-        //   orderId: data.orderId,
-        //   productId: data.productId,
-        //   quantity: updatedQuantity,
-        //   inventory: updatedInventory
-        // })
-
         this.props.updateInventory({
-          orderId: data.orderId,
+          productId: prod.id,
           inventory: updatedInventory
         })
 
@@ -193,12 +156,6 @@ class Orders extends Component {
         productId: data.productId,
         inventory: updatedInventory
       })
-      // this.props.updateOrders({
-      //   orderId: data.orderId,
-      //   productId: data.productId,
-      //   quantity: updatedQuantity,
-      //   inventory: updatedInventory
-      // })
     }
   }
 
@@ -211,13 +168,6 @@ class Orders extends Component {
     const newProducts = oldProducts.filter(prod => {
       if (prod.id === data.productId) {
         total -= prod.subTotal
-        console.log('before delete updating inventory', prod)
-        // this.props.updateOrders({
-        //   orderId: data.orderId,
-        //   productId: data.productId,
-        //   quantity: prod.quantity,
-        //   inventory: prod.inventory + prod.quantity
-        // })
         this.props.updateInventory({
           productId: data.productId,
           inventory: prod.inventory + prod.quantity
@@ -234,11 +184,8 @@ class Orders extends Component {
   }
 
   render() {
-    console.log('orders state', this.state)
     return (
       <div>
-        <span>Hello {this.props.user.firstName}!!</span>
-        {console.log('user in render', this.props.user)}
         {this.state.total > 0 && this.props.user.id ? (
           <h1>Here are your orders</h1>
         ) : (

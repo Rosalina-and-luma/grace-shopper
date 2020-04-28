@@ -27,11 +27,9 @@ class SingleProduct extends Component {
     })
 
     if (Object.keys(currentOrder).length) {
-      console.log('updated product', currentOrder.order_products)
       let product = currentOrder.order_products.filter(
         prod => prod.productId === data.productId
       )
-      console.log('handleUserBuy product', product)
       if (product.length) {
         product[0].quantity += 1
         product[0].inventory -= 1
@@ -77,8 +75,10 @@ class SingleProduct extends Component {
         <h1>Single Product</h1>
         {isLoading && <div>Data Loading...</div>}
         {selectedProduct && (
-          <div>
-            <img src={selectedProduct.imgUrl} height="50px" />
+          <div className="single-item-conatiner">
+            <div>
+              <img src={selectedProduct.imgUrl} height="350px" />
+            </div>
             <p>{selectedProduct.name}</p>
             <p>{selectedProduct.description}</p>
             <p>${selectedProduct.price}</p>

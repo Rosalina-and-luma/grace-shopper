@@ -10,7 +10,6 @@ import {
 class GuestOrder extends Component {
   constructor() {
     super()
-    console.log('@@@@@@@@@', JSON.parse(localStorage.getItem('products')))
     this.state = {
       allProducts: JSON.parse(localStorage.getItem('products')),
       total: 0
@@ -18,11 +17,9 @@ class GuestOrder extends Component {
   }
 
   componentDidMount() {
-    console.log('ingues cart')
     this.getTotal()
     if (this.state.allProducts && this.state.allProducts.length) {
       this.state.allProducts.forEach(product => {
-        console.log('prod in guest order', product)
         this.props.updateInventory({
           productId: product.id,
           inventory: product.inventory
@@ -45,7 +42,6 @@ class GuestOrder extends Component {
   }
 
   addQuantity = id => {
-    console.log('in add function')
     let updatedInventory
     let oldProducts = [...this.state.allProducts]
     let updatedProducts = oldProducts.filter(product => {
@@ -56,7 +52,6 @@ class GuestOrder extends Component {
           updatedInventory = product.inventory
           product.subTotal = product.quantity * product.price
         } else {
-          console.log('in else')
           alert(`There is no more of ${product.name} left in inventory!`)
         }
       }
@@ -70,6 +65,7 @@ class GuestOrder extends Component {
     this.getTotal()
 
     localStorage.setItem('products', JSON.stringify(this.state.allProducts))
+
     if (updatedInventory >= 0) {
       this.props.updateInventory({
         productId: id,
@@ -139,12 +135,10 @@ class GuestOrder extends Component {
   }
 
   checkout = () => {
-    console.log('incheckout')
     localStorage.removeItem('products')
   }
 
   render() {
-    console.log('this.state guest order', this.state)
     return (
       <div>
         <h1>In guest cart</h1>

@@ -8,19 +8,14 @@ const queryString = require('query-string')
 
 class AllProducts extends React.Component {
   componentDidMount() {
-    const {getProducts, getOrders, user} = this.props
+    const {getProducts, getOrders} = this.props
     getProducts()
-    // if(user.id) {
     getOrders()
-    // }
-    //getOrders()
-    console.log('all products props', this.props)
   }
 
   render() {
     const {products, orders, isLoading, user, location} = this.props
 
-    console.log('allproduct render orders', orders)
     let currentOrder = {}
     orders.forEach(order => {
       if (order.purchased === false) {
@@ -28,23 +23,18 @@ class AllProducts extends React.Component {
       }
     })
 
-    console.log('allproduct render current orders', currentOrder)
     const query = queryString.parse(location.search)
     const category = query ? query.category : ''
     const allProds = category
       ? products.filter(product => product.category.name === category)
       : products
 
-    console.log('products to render: ', allProds)
-
     if (isLoading) return <h1>loading....</h1>
-
-    console.log('Logged in user id', user.id)
 
     return (
       <div className="products-landing-page">
         <div>
-          <p>hello {user.id ? user.firstName + '!' : 'guest!'} </p>
+          <h1>Hello {user.id ? user.firstName + '!' : 'guest!'} </h1>
           <h1>
             {category
               ? category[0].toUpperCase() + category.slice(1)
@@ -54,6 +44,7 @@ class AllProducts extends React.Component {
           {user.isAdmin ? (
             <div className="products_nav">
               <button
+                className="add-product-button"
                 type="button"
                 onClick={() => this.props.history.push('/products/add')}
               >

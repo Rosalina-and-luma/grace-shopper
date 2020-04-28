@@ -1,15 +1,6 @@
 const router = require('express').Router()
-const {Product, Category, User} = require('../../db/models')
-
-async function isAdmin(req, res, next) {
-  if (req.session.userId) {
-    const user = await User.findByPk(req.session.userId)
-    if (user.isAdmin) {
-      return next()
-    }
-  }
-  res.status(403).send('access denied')
-}
+const {Product, Category} = require('../../db/models')
+const isAdmin = require('../utilities')
 
 router.get('/', async (req, res, next) => {
   const {category} = req.query
@@ -60,8 +51,6 @@ router.post('/', isAdmin, async (req, res, next) => {
     const {dataValues} = await product.getCategory()
     product.dataValues.category = dataValues
 
-    // console.log('product: ', product)
-
     res.status(201).json(product)
   } catch (err) {
     next(err)
@@ -69,28 +58,31 @@ router.post('/', isAdmin, async (req, res, next) => {
 })
 
 router.put('/:productId', isAdmin, async (req, res, next) => {
-  const {id, name, imgUrl, description, inventory, price, categoryId} = req.body
-  const {productId} = req.params
+  const {name, imgUrl, description, inventory, price, categoryId} = req.body
+  const id = req.params.productId
 
   try {
-    const [updates, selectedProduct] = await Promise.all([
-      Product.update(
-        {
-          id,
-          name,
-          imgUrl,
-          description,
-          inventory,
-          price,
-          categoryId
-        },
-        {where: {id: productId}}
-      ),
-      Product.findByPk(req.params.productId, {include: Category})
-    ])
+    const [numUpdated, updatedProduct] = await Product.update(
+      {
+        name,
+        imgUrl,
+        description,
+        inventory,
+        price,
+        categoryId
+      },
+      {
+        where: {id},
+        returning: true,
+        plain: true
+      }
+    )
 
-    if (selectedProduct) {
-      res.json(selectedProduct)
+    if (updatedProduct) {
+      const {dataValues} = await updatedProduct.getCategory()
+      updatedProduct.dataValues.category = dataValues
+
+      res.json(updatedProduct)
     } else {
       res.sendStatus(404)
     }

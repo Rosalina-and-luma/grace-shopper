@@ -4,7 +4,6 @@ import axios from 'axios'
 //action types
 const GET_PRODUCTS = 'GET_PRODUCTS'
 const CREATE_PRODUCT = 'CREATE_PRODUCT'
-const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 const DELETE_PRODUCT = 'DELETE_PRODUCT'
 
 //action creators
@@ -19,20 +18,6 @@ const createProduct = product => {
   return {
     type: CREATE_PRODUCT,
     product
-  }
-}
-
-const updateProduct = product => {
-  const {id, name, imgUrl, description, price, categoryId, inventory} = product
-  return {
-    type: UPDATE_PRODUCT,
-    id,
-    name,
-    imgUrl,
-    description,
-    price,
-    categoryId,
-    inventory
   }
 }
 
@@ -63,25 +48,6 @@ export const createProductOnServer = product => {
     try {
       const {data} = await axios.post('/api/products', product)
       dispatch(createProduct(data))
-    } catch (err) {
-      console.error(err.message)
-    }
-  }
-}
-
-export const updateProductOnServer = product => {
-  return async dispatch => {
-    try {
-      const {name, imgUrl, description, price, categoryId, inventory} = product
-      const {data} = await axios.put(`/api/products/${product.id}`, {
-        name,
-        imgUrl,
-        description,
-        price: parseInt(price, 10) * 100,
-        categoryId,
-        inventory
-      })
-      dispatch(updateProduct(data))
     } catch (err) {
       console.error(err.message)
     }
@@ -119,26 +85,6 @@ export default function productsReducer(state = initialState, action) {
         ...state,
         products: [...state.products, action.product]
       }
-    case UPDATE_PRODUCT: {
-      let oldProducts = [...state.products]
-      let updatedProducts = oldProducts.map(product => {
-        if (product.id === action.id) {
-          return {
-            id: action.id,
-            name: action.name,
-            imgUrl: action.imgUrl,
-            description: action.description,
-            price: action.price,
-            categoryId: action.categoryId,
-            inventory: action.inventory
-          }
-        } else return product
-      })
-      return {
-        ...state,
-        products: [...updatedProducts]
-      }
-    }
     case DELETE_PRODUCT: {
       const oldProducts = [...state.products]
       const newProducts = oldProducts.filter(

@@ -1,6 +1,8 @@
 body {
   font-family: sans-serif;
-  background-color: rgb(236, 236, 236);
+  background-color: darkorchid;
+  background-image: url('https://www.fbbchome.org/wp-content/uploads/Background.jpg');
+  color: white;
 }
 
 a {
@@ -19,4 +21,8 @@ nav a {
 form div {
   margin: 1em;
   display: inline-block;
+}
+
+h1 {
+  color: white;
 }
