@@ -17,3 +17,8 @@
 .nav-bar a:hover {
   color: rgb(41, 141, 235);
 }
+
+.navbar-right,
+.admin-view {
+  display: flex;
+}
