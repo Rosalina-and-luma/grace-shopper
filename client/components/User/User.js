@@ -33,7 +33,7 @@ class Users extends React.Component {
 
 const mapState = state => {
   return {
-    users: state.newUser.user,
+    users: state.newUser.users,
     isLoading: state.newUser.isLoading
   }
 }
