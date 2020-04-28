@@ -13,49 +13,78 @@ const AllProductsUI = props => {
       <NavLink to={`/products/${product.id}`}>
         <img src={product.imgUrl} />
       </NavLink>
+
+      <div className="item-info">
+        <span className="name">{product.name}</span>
+        <span className="price">${product.price}</span>
+      </div>
+
+      {/* <NavLink to={`/products/${product.id}`}>
+        <button type="button">View Details</button>
+      </NavLink> */}
+
+      {/*
+
+      </div> */}
+
+      {/* {isAdmin && (
+        <div>
+          <NavLink to={`/products/${product.id}/update`}>
+            <button type="button" className="edit-button">
+              Edit
+            </button>
       <span className="name">{product.name}</span>
       <span className="price">${product.price}</span>
       <NavLink to={`/products/${product.id}`}>
         <button type="button">View Details</button>
-      </NavLink>
-      {Object.keys(user).length ? (
-        <button
-          type="button"
-          onClick={() => {
-            props.addToCart({
-              productId: props.product.id,
-              quantity: 1
-            })
-          }}
-        >
-          Buy
-        </button>
-      ) : (
-        <button
-          type="button"
-          onClick={() => {
-            handleLocalStorage({
-              productId: props.product.id,
-              name: props.product.name,
-              imgUrl: props.product.imgUrl,
-              description: props.product.description,
-              price: props.product.price,
-              quantity: 1
-            })
-          }}
-        >
-          {' '}
-          Buy
-        </button>
-      )}
+      </NavLink> */}
+
+      <div className="item-buy">
+        {Object.keys(user).length ? (
+          <button
+            type="button"
+            className="buy-button"
+            onClick={() => {
+              props.addToCart({
+                // userId: props.user.id,
+                productId: props.product.id,
+                quantity: 1
+              })
+            }}
+          >
+            Add to Cart
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => {
+              handleLocalStorage({
+                productId: props.product.id,
+                name: props.product.name,
+                imgUrl: props.product.imgUrl,
+                description: props.product.description,
+                price: props.product.price,
+                quantity: 1
+              })
+            }}
+          >
+            {' '}
+            Add To Cart
+          </button>
+        )}
+      </div>
+
       {isAdmin && (
         <div>
           <NavLink to={`/products/${product.id}/update`}>
-            <button type="button">Edit</button>
+            <button type="button" className="edit-button">
+              Edit
+            </button>
           </NavLink>
           <NavLink to="/products">
             <button
               type="button"
+              className="delete-button"
               onClick={() => {
                 props.deleteProduct(product.id)
               }}

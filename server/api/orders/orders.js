@@ -6,7 +6,6 @@ router.get('/', async (req, res, next) => {
   const user = Object.values(req.session.passport)[0]
 
   try {
-    
     const orders = await Order.findAll({
       where: {
         userId: user
@@ -48,7 +47,7 @@ router.post('/', async (req, res, next) => {
     let order
 
     const user = Object.values(req.session.passport)[0]
-    
+
     order = await Order.findOne({
       where: {
         userId: user,

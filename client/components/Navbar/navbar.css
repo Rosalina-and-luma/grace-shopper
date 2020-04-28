@@ -1,20 +1,24 @@
 .nav-bar {
-  background-color: rgb(175, 175, 175);
-  text-align: right;
+  display: flex;
+
+  justify-content: space-between;
 }
 
 .nav-page h1 {
   text-align: center;
-  font-family: cursive;
   font-size: 42px;
-  color: rgb(13, 138, 196);
+  color: white;
 }
 
 .nav-bar a {
-  text-decoration: underline;
-  color: black;
+  color: white;
 }
 
 .nav-bar a:hover {
   color: rgb(41, 141, 235);
+}
+
+.navbar-right,
+.admin-view {
+  display: flex;
 }
