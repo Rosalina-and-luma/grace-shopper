@@ -1,0 +1,19 @@
+.order-section {
+  background-color: rgb(177, 177, 177);
+  margin: 20px 10px;
+}
+
+.order-section img {
+  height: 130px;
+  margin: 10px;
+}
+
+.product {
+  display: flex;
+}
+
+.product-details {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
