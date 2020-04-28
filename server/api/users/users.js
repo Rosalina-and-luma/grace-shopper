@@ -10,7 +10,6 @@ router.get('/', isAdmin, async (req, res, next) => {
     const users = await User.findAll({
       attributes: ['id', 'firstName', 'lastName', 'email']
     })
-    console.log(users)
     res.json(users)
   } catch (err) {
     next(err)

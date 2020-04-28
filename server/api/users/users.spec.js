@@ -13,14 +13,6 @@ describe('User routes', () => {
   })
 
   describe('/api/users/', () => {
-    // const codysEmail = 'cody@puppybook.com'
-
-    // beforeEach(() => {
-    //   return User.create({
-    //     email: codysEmail
-    //   })
-    // })
-
     const user = {
       firstName: 'harry',
       lastName: 'potter',
@@ -39,6 +31,10 @@ describe('User routes', () => {
         .expect(200)
 
       expect(res.body).to.be.an('object')
+    })
+
+    it('only User or Admin can update their page', async () => {
+      const res = await agent.put(`/api/users/:userId`).expect(403)
     })
   }) // end describe('/api/users')
 }) // end describe('User routes')
