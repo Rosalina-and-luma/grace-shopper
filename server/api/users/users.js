@@ -2,16 +2,6 @@ const router = require('express').Router()
 const {User} = require('../../db/models')
 module.exports = router
 
-async function isAdmin(req, res, next) {
-  if (req.session.userId) {
-    const user = await User.findByPk(req.session.userId)
-    if (user.isAdmin) {
-      return next()
-    }
-  }
-  res.redirect('../products')
-}
-
 router.get('/', async (req, res, next) => {
   try {
     const users = await User.findAll({
@@ -34,6 +24,37 @@ router.post('/', async (req, res, next) => {
       password
     })
     res.json(newUser)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.get('/:userId', async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.userId)
+    res.json(user)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put('/:userId', async (req, res, next) => {
+  try {
+    const {userId} = req.params
+    const {firstName, lastName, email} = req.body
+    const [affectedRows, updatedUser] = await User.update(
+      {
+        firstName: firstName,
+        lastName: lastName,
+        email: email
+      },
+      {
+        where: {id: userId},
+        returning: true,
+        plain: true
+      }
+    )
+    res.json(updatedUser.dataValues)
   } catch (error) {
     next(error)
   }
