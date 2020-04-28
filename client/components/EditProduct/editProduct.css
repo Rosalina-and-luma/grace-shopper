@@ -2,11 +2,12 @@
   display: flex;
   flex-direction: column;
   background-color: lightgrey;
-  align-items: left;
+  align-items: center;
   padding: 10px;
-  margin: 25px 30%;
+  margin: 45px 40%;
 }
-/*
-h1 {
-  color: black;
-} */
+
+.edit-condition {
+  display: flex;
+  justify-content: space-between;
+}
