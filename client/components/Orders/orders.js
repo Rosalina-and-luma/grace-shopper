@@ -3,7 +3,8 @@ import {connect} from 'react-redux'
 import {
   getOrdersFromServer,
   addToCartServer,
-  deleteProdFromOrderServer
+  deleteProdFromOrderServer,
+  updateProductInventoryToServer
 } from '../../reducer/order/order'
 import GuestOrder from '../GuestOrder/guestOrder'
 import OrdersUI from './ordersUI'
@@ -79,6 +80,8 @@ class Orders extends Component {
         } else {
           alert(`There is no more inventory for ${prod.name}!`)
         }
+      } else {
+        newProds.push(prod)
       }
     })
 
@@ -180,10 +183,14 @@ class Orders extends Component {
       if (prod.id === data.productId) {
         total -= prod.subTotal
         console.log('before delete updating inventory', prod)
-        this.props.updateOrders({
-          orderId: data.orderId,
+        // this.props.updateOrders({
+        //   orderId: data.orderId,
+        //   productId: data.productId,
+        //   quantity: prod.quantity,
+        //   inventory: prod.inventory + prod.quantity
+        // })
+        this.props.updateProductInventory({
           productId: data.productId,
-          quantity: prod.quantity,
           inventory: prod.inventory + prod.quantity
         })
       } else {
@@ -254,7 +261,9 @@ const mapDispatchToProps = dispatch => {
     updateOrders: order => dispatch(addToCartServer(order)),
     deleteProdFromOrder: data => {
       dispatch(deleteProdFromOrderServer(data))
-    }
+    },
+    updateProductInventory: data =>
+      dispatch(updateProductInventoryToServer(data))
   }
 }
 

@@ -3,16 +3,32 @@ import {connect} from 'react-redux'
 import {fetchProductsFromServer} from '../../reducer/allProds'
 import AllProductsUI from './AllProductsUI'
 import './AllProducts.css'
+import {getOrdersFromServer} from '../../reducer/order/order'
 const queryString = require('query-string')
 
 class AllProducts extends React.Component {
   componentDidMount() {
-    const {getProducts} = this.props
+    const {getProducts, getOrders, user} = this.props
     getProducts()
+    // if(user.id) {
+    getOrders()
+    // }
+    //getOrders()
+    console.log('all products props', this.props)
   }
 
   render() {
-    const {products, isLoading, user, location} = this.props
+    const {products, orders, isLoading, user, location} = this.props
+
+    console.log('allproduct render orders', orders)
+    let currentOrder = {}
+    orders.forEach(order => {
+      if (order.purchased === false) {
+        currentOrder = order
+      }
+    })
+
+    console.log('allproduct render current orders', currentOrder)
     const query = queryString.parse(location.search)
     const category = query ? query.category : ''
     const allProds = category
@@ -52,7 +68,11 @@ class AllProducts extends React.Component {
             {allProds.map(product => {
               return (
                 <div key={product.id}>
-                  <AllProductsUI product={product} isAdmin={user.isAdmin} />
+                  <AllProductsUI
+                    product={product}
+                    currentOrder={currentOrder}
+                    isAdmin={user.isAdmin}
+                  />
                 </div>
               )
             })}
@@ -66,6 +86,7 @@ class AllProducts extends React.Component {
 const mapState = state => {
   return {
     products: state.allProducts.products,
+    orders: state.order.allOrders,
     isLoading: state.allProducts.isLoading,
     user: state.user
   }
@@ -73,7 +94,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    getProducts: category => dispatch(fetchProductsFromServer(category))
+    getProducts: category => dispatch(fetchProductsFromServer(category)),
+    getOrders: () => dispatch(getOrdersFromServer())
   }
 }
 

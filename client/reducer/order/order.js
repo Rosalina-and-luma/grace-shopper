@@ -63,6 +63,33 @@ export const updateInventoryToServer = data => {
   }
 }
 
+export const updateOrderQuantityToServer = data => {
+  return async dispatch => {
+    try {
+      await axios.put('/api/orders/quantity', {
+        orderId: data.orderId,
+        productId: data.productId,
+        quantity: data.quantity
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const updateProductInventoryToServer = data => {
+  return async dispatch => {
+    try {
+      await axios.put('/api/orders/inventory', {
+        productId: data.productId,
+        inventory: data.inventory
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 export const addToCartServer = order => {
   console.log('*****order placed*****', order)
   return async dispatch => {
