@@ -32,7 +32,7 @@ class AddProduct extends Component {
       name,
       imgUrl,
       description,
-      price: price * 100,
+      price: price,
       categoryId: parseInt(categoryId, 10),
       inventory
     })
