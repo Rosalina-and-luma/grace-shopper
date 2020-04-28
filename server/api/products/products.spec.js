@@ -33,5 +33,16 @@ describe('Products route', () => {
     it('blocks non-admins from accessing the PUT route', async () => {
       await agent.put('/api/products/1', badReq).expect(403)
     })
+
+    it('blocks non-admins from accessing the POST route', async () => {
+      const res = await agent
+        .post('/api/products', {
+          name: 'malware',
+          price: 50000,
+          inventory: -1,
+          categoryId: -2
+        })
+        .expect(403)
+    })
   })
 })
