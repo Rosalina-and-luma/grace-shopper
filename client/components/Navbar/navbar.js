@@ -11,32 +11,44 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
       <h1>Diagon E-lley 🧙🏼‍♂️</h1>
     </Link>
     <nav className="nav-bar">
-      <Link to="/products">All Products</Link>
-      <Link to="/products?category=robes">Robes</Link>
-      <Link to="/products?category=wands">Wands</Link>
-      <Link to="/products?category=brooms">Brooms</Link>
-      <Link to="/products?category=misc">Misc</Link>
-      <Link to="/orders">Orders</Link>
-      <Link to="/order-history">Order History</Link>
+      <div className="navbar-left">
+        <Link to="/products">All Products</Link>
+        <Link to="/products?category=robes">Robes</Link>
+        <Link to="/products?category=wands">Wands</Link>
+        <Link to="/products?category=brooms">Brooms</Link>
+        <Link to="/products?category=misc">Misc</Link>
+      </div>
 
-      {isLoggedIn ? (
+      <div className="navbar-right">
         <div>
-          <Link to="/">Home</Link>
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
+          <Link to="/cart">Cart</Link>
         </div>
-      ) : (
-        <div>
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
+        <div className="admin-view">
+          <div>
+            {isLoggedIn ? (
+              <div>
+                <Link to="/order-history">Order History</Link>
+                <Link to="/account">My Account</Link>
+                <a href="#" onClick={handleClick}>
+                  Logout
+                </a>
+              </div>
+            ) : (
+              <div>
+                <Link to="/login">Login</Link>
+                <Link to="/signup">Sign Up</Link>
+              </div>
+            )}
+          </div>
+          <div>
+            {isAdmin ? (
+              <div>
+                <Link to="/user">Users</Link>
+              </div>
+            ) : null}
+          </div>
         </div>
-      )}
-      {isAdmin ? (
-        <div>
-          <Link to="/user">Users</Link>
-        </div>
-      ) : null}
+      </div>
     </nav>
     <hr />
   </div>

@@ -14,6 +14,7 @@ import User from './components/User/User'
 import Orders from './components/Orders/orders'
 import Checkout from './components/Checkout/checkout'
 import OrderHistory from './components/OrderHistory/orderHistory'
+import SingleUser from './components/SingleUser/SingleUser'
 
 /**
  * COMPONENT
@@ -32,9 +33,8 @@ class Routes extends Component {
         <Route exact path="/" component={Homepage} />
         <Route exact path="/products" component={AllProducts} />
         <Route exact path="/products/add" component={AddProduct} />
-
         <Route exact path="/checkout" component={Checkout} />
-        <Route exact path="/orders" component={Orders} />
+        <Route exact path="/cart" component={Orders} />
         <Route exact path="/order-history" component={OrderHistory} />
 
         <Route exact path="/products/:productId" component={SingleProduct} />
@@ -43,7 +43,7 @@ class Routes extends Component {
           path="/products/:productId/update"
           component={EditProduct}
         />
-
+        <Route path="/account" component={SingleUser} />
         <Route path="/user" component={User} />
 
         <Route path="/signup" component={Signup} />
