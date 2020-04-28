@@ -49,7 +49,6 @@ class AddProduct extends Component {
     if (this.state.name && this.state.price && this.state.inventory) {
       disabled = false
     }
-    console.log('disabled: ', disabled)
 
     return (
       <div className="edit-form">
