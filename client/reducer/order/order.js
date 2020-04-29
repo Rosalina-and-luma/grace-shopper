@@ -49,18 +49,41 @@ export const updateOrderToServer = id => {
   }
 }
 
+export const updateOrderQuantityToServer = data => {
+  return async dispatch => {
+    try {
+      await axios.put('/api/orders/quantity', {
+        orderId: data.orderId,
+        productId: data.productId,
+        quantity: data.quantity
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
+export const updateProductInventoryToServer = data => {
+  return async dispatch => {
+    try {
+      await axios.put('/api/orders/inventory', {
+        productId: data.productId,
+        inventory: data.inventory
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 export const addToCartServer = order => {
   return async dispatch => {
     try {
-      if (order.orderId) {
-        await axios.put('/api/orders/quantity', {quantiyt: order.quantity})
-      } else {
-        const {data} = await axios.post('/api/orders', {
-          productId: order.productId,
-          quantity: order.quantity
-        })
-        dispatch(addToCart(data))
-      }
+      const {data} = await axios.post('/api/orders', {
+        productId: order.productId,
+        quantity: order.quantity
+      })
+      dispatch(addToCart(data))
     } catch (error) {
       console.error(error)
     }
@@ -103,6 +126,7 @@ export const handleLocalStorage = data => {
     quantity: data.quantity,
     description: data.description,
     price: data.price,
+    inventory: data.inventory - 1,
     subTotal: data.price * data.quantity
   }
   //checking if products already exists in localStorage
@@ -115,8 +139,11 @@ export const handleLocalStorage = data => {
     //checking if the product user is trying to buy is already in storage, if it is already there, increase the quantity by 1
     let updatedExisitngOrder = currentOrders.map(order => {
       if (order.id === data.productId) {
-        order.quantity += 1
-        order.subTotal = order.quantity * order.price
+        if (order.inventory >= 1) {
+          order.quantity += 1
+          order.subTotal = order.quantity * order.price
+          order.inventory -= 1
+        }
         updateExistingFlag = true
       }
       return order

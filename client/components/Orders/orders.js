@@ -3,7 +3,9 @@ import {connect} from 'react-redux'
 import {
   getOrdersFromServer,
   addToCartServer,
-  deleteProdFromOrderServer
+  deleteProdFromOrderServer,
+  updateProductInventoryToServer,
+  updateOrderQuantityToServer
 } from '../../reducer/order/order'
 import GuestOrder from '../GuestOrder/guestOrder'
 import OrdersUI from './ordersUI'
@@ -19,7 +21,6 @@ class Orders extends Component {
     }
   }
   componentDidMount = async () => {
-    // if (this.props.user.id) {
     await this.props.getOrders()
     let products = {allProducts: [], total: 0}
     if (this.props.orders && this.props.orders.length) {
@@ -32,6 +33,7 @@ class Orders extends Component {
               id: prod.id,
               imgUrl: prod.imgUrl,
               name: prod.name,
+              inventory: prod.inventory,
               unitPrice: prod.order_product.unitPrice,
               quantity: prod.order_product.quantity,
               subTotal: prod.order_product.subTotal
@@ -48,25 +50,37 @@ class Orders extends Component {
         id: prod.id,
         imgUrl: prod.imgUrl,
         name: prod.name,
+        inventory: prod.inventory,
         unitPrice: prod.unitPrice,
         quantity: prod.quantity,
         subTotal: prod.subTotal
       })),
       total: products.total
     })
-    // }
   }
 
   addQuantity = data => {
     let updatedQuantity
+    let updatedInventory
     let oldProds = [...this.state.allProducts]
-    let newProds = oldProds.map(prod => {
+    let newProds = []
+
+    oldProds.forEach(prod => {
       if (prod.id === data.productId) {
-        prod.quantity += 1
-        updatedQuantity = prod.quantity
-        prod.subTotal = prod.quantity * prod.unitPrice
+        if (prod.inventory > 0) {
+          prod.quantity += 1
+          updatedQuantity = prod.quantity
+          prod.inventory -= 1
+          updatedInventory = prod.inventory
+          prod.subTotal = prod.quantity * prod.unitPrice
+          newProds.push(prod)
+        } else {
+          alert(`There is no more inventory for ${prod.name}!`)
+          newProds.push(prod)
+        }
+      } else {
+        newProds.push(prod)
       }
-      return prod
     })
 
     this.setState({
@@ -77,20 +91,30 @@ class Orders extends Component {
       }, 0)
     })
 
-    this.props.updateOrders({
-      orderId: data.orderId,
-      productId: data.productId,
-      quantity: updatedQuantity
-    })
+    if (updatedInventory >= 0) {
+      this.props.updateQuantity({
+        orderId: data.orderId,
+        productId: data.productId,
+        quantity: updatedQuantity
+      })
+
+      this.props.updateInventory({
+        productId: data.productId,
+        inventory: updatedInventory
+      })
+    }
   }
 
   subtractQuantity = data => {
     let updatedQuantity
+    let updatedInventory
     let oldProds = [...this.state.allProducts]
     let newProds = oldProds.map(prod => {
       if (prod.id === data.productId && prod.quantity > 0) {
         prod.quantity -= 1
         updatedQuantity = prod.quantity
+        prod.inventory += 1
+        updatedInventory = prod.inventory
         prod.subTotal = prod.quantity * prod.unitPrice
       }
       return prod
@@ -98,10 +122,16 @@ class Orders extends Component {
 
     newProds.forEach((prod, index) => {
       if (prod.quantity === 0) {
+        this.props.updateInventory({
+          productId: prod.id,
+          inventory: updatedInventory
+        })
+
         this.props.deleteProdFromOrder({
           orderId: prod.orderId,
           productId: prod.id
         })
+
         newProds.splice(index, 1)
       }
     })
@@ -115,10 +145,15 @@ class Orders extends Component {
     })
 
     if (updatedQuantity !== 0) {
-      this.props.updateOrders({
+      this.props.updateQuantity({
         orderId: data.orderId,
         productId: data.productId,
         quantity: updatedQuantity
+      })
+
+      this.props.updateInventory({
+        productId: data.productId,
+        inventory: updatedInventory
       })
     }
   }
@@ -132,6 +167,10 @@ class Orders extends Component {
     const newProducts = oldProducts.filter(prod => {
       if (prod.id === data.productId) {
         total -= prod.subTotal
+        this.props.updateInventory({
+          productId: data.productId,
+          inventory: prod.inventory + prod.quantity
+        })
       } else {
         return prod
       }
@@ -146,7 +185,6 @@ class Orders extends Component {
   render() {
     return (
       <div>
-        <span>Hello {this.props.user.firstName}!!</span>
         {this.state.total > 0 && this.props.user.id ? (
           <h1>Here are your orders</h1>
         ) : (
@@ -198,7 +236,9 @@ const mapDispatchToProps = dispatch => {
     updateOrders: order => dispatch(addToCartServer(order)),
     deleteProdFromOrder: data => {
       dispatch(deleteProdFromOrderServer(data))
-    }
+    },
+    updateInventory: data => dispatch(updateProductInventoryToServer(data)),
+    updateQuantity: data => dispatch(updateOrderQuantityToServer(data))
   }
 }
 
