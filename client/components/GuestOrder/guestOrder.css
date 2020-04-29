@@ -1,4 +1,6 @@
-/* .orders-section {
+.orders-section,
+.outer-container,
+.quantity {
   display: flex;
 }
 
@@ -18,5 +20,22 @@
 .quantity,
 .subtotal {
   padding: 10px;
+}
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.inner-info {
+  display: flex;
+}
+
+.page-container {
+  display: flex;
   color: white;
-} */
+  font-weight: bold;
+  font-size: 25px;
+}

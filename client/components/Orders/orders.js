@@ -148,7 +148,7 @@ class Orders extends Component {
       <div>
         <span>Hello {this.props.user.firstName}!!</span>
         {this.state.total > 0 && this.props.user.id ? (
-          <h1>Here are your orders</h1>
+          <h1>Your Cart:</h1>
         ) : (
           this.props.user.id && <h1>Your cart is empty!</h1>
         )}
