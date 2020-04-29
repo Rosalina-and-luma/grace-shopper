@@ -1,9 +1,16 @@
 .orders-section {
   display: flex;
+  background-color: rgb(182, 182, 182, 0.5);
+  align-items: center;
+}
+
+.cart-container {
+  display: flex;
+  align-items: center;
+  background-color: red;
 }
 
 .orders-section img {
-  border: solid purple;
   height: 130px;
   width: 150px;
   margin: 10px;
@@ -19,5 +26,13 @@
 .quantity,
 .subtotal {
   padding: 10px;
-  color: white;
+}
+
+.info-container {
+  display: flex;
+  background-color: green;
+}
+
+.quant-button {
+  margin: 30px;
 }
