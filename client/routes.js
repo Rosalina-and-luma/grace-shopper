@@ -15,6 +15,7 @@ import Orders from './components/Orders/orders'
 import Checkout from './components/Checkout/checkout'
 import OrderHistory from './components/OrderHistory/orderHistory'
 import SingleUser from './components/SingleUser/SingleUser'
+import ErrorPage from './components/Error/error'
 
 /**
  * COMPONENT
@@ -31,10 +32,11 @@ class Routes extends Component {
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route exact path="/" component={Homepage} />
+
         <Route exact path="/products" component={AllProducts} />
         <Route exact path="/products/add" component={AddProduct} />
         <Route exact path="/checkout" component={Checkout} />
-        <Route exact path="/orders" component={Orders} />
+        <Route exact path="/cart" component={Orders} />
         <Route exact path="/order-history" component={OrderHistory} />
 
         <Route exact path="/products/:productId" component={SingleProduct} />
@@ -48,14 +50,8 @@ class Routes extends Component {
 
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
-        {isLoggedIn && (
-          <Switch>
-            {/* Routes placed here are only available after logging in */}
-            <Route exact path="/" component={Homepage} />
-          </Switch>
-        )}
         {/* Displays our Login component as a fallback */}
-        <Route component={Login} />
+        <Route component={ErrorPage} />
       </Switch>
     )
   }

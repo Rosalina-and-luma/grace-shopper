@@ -5,6 +5,7 @@ import {
   fetchSingleProduct,
   updateProductOnServer
 } from '../../reducer/singleProduct'
+import './editProduct.css'
 
 class EditProduct extends Component {
   constructor() {
