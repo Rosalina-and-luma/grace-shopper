@@ -167,15 +167,17 @@ class Orders extends Component {
               )
             })}
 
-            {this.state.total > 0 && (
-              <div>
-                <span>Total: {this.state.total}</span>
-                <br />
-                <NavLink to="/checkout">
-                  <button type="button"> Checkout </button>
-                </NavLink>
-              </div>
-            )}
+            <div className="page-container">
+              {this.state.total > 0 && (
+                <div>
+                  <span>Total: ${this.state.total}</span>
+                  <br />
+                  <NavLink to="/checkout">
+                    <button type="button"> Checkout </button>
+                  </NavLink>
+                </div>
+              )}
+            </div>
           </div>
         ) : (
           <GuestOrder />

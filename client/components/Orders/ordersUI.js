@@ -7,7 +7,7 @@ const OrdersUI = props => {
   return (
     <div>
       <div className="cart-container">
-        <div>
+        <div className="inner-container">
           <img src={product.imgUrl} className="product-image" />
 
           <div className="info-container">
@@ -16,23 +16,6 @@ const OrdersUI = props => {
             {/* <span className="quantity">{product.quantity}</span> */}
           </div>
         </div>
-
-        <button
-          type="button"
-          className="quant-button"
-          onClick={() => {
-            props.addQuantity({
-              orderId: product.orderId,
-              productId: product.id
-            })
-          }}
-        >
-          +
-        </button>
-
-        <label className="quantity" name="quantity">
-          {product.quantity}
-        </label>
 
         <button
           className="quant-button"
@@ -46,7 +29,26 @@ const OrdersUI = props => {
         >
           -
         </button>
+
+        <label className="quantity" name="quantity">
+          {product.quantity}
+        </label>
+
         <button
+          className="quant-button"
+          type="button"
+          onClick={() => {
+            props.addQuantity({
+              orderId: product.orderId,
+              productId: product.id
+            })
+          }}
+        >
+          +
+        </button>
+
+        <button
+          className="remove-button"
           type="button"
           onClick={() => {
             props.onDelete({
