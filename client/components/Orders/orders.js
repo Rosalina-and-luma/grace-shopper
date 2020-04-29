@@ -19,7 +19,6 @@ class Orders extends Component {
     }
   }
   componentDidMount = async () => {
-    console.log('user', this.props.user)
     // if (this.props.user.id) {
     await this.props.getOrders()
     let products = {allProducts: [], total: 0}
@@ -148,7 +147,6 @@ class Orders extends Component {
     return (
       <div>
         <span>Hello {this.props.user.firstName}!!</span>
-        {console.log('user in render', this.props.user)}
         {this.state.total > 0 && this.props.user.id ? (
           <h1>Here are your orders</h1>
         ) : (

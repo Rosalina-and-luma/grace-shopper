@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const {User} = require('../../db/models')
 const isAdmin = require('../utilities')
+const isAuthenticated = require('../utilities')
 module.exports = router
 
 router.get('/', isAdmin, async (req, res, next) => {
@@ -9,7 +10,6 @@ router.get('/', isAdmin, async (req, res, next) => {
     const users = await User.findAll({
       attributes: ['id', 'firstName', 'lastName', 'email']
     })
-    console.log(users)
     res.json(users)
   } catch (err) {
     next(err)
@@ -31,7 +31,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.get('/:userId', async (req, res, next) => {
+router.get('/:userId', isAuthenticated, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userId)
     res.json(user)
@@ -40,7 +40,7 @@ router.get('/:userId', async (req, res, next) => {
   }
 })
 
-router.put('/:userId', async (req, res, next) => {
+router.put('/:userId', isAuthenticated, async (req, res, next) => {
   try {
     const {userId} = req.params
     const {firstName, lastName, email} = req.body

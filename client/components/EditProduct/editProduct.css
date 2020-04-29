@@ -2,11 +2,18 @@
   display: flex;
   flex-direction: column;
   background-color: lightgrey;
-  align-items: left;
+  align-items: center;
   padding: 10px;
-  margin: 25px 30%;
+  margin: 30px 30%;
+  justify-content: center;
 }
-/*
-h1 {
-  color: black;
-} */
+
+.edit-condition {
+  display: flex;
+  justify-content: space-between;
+}
+
+.action-button {
+  display: flex;
+  justify-content: center;
+}
