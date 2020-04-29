@@ -22,7 +22,7 @@ class Checkout extends Component {
   render() {
     return (
       <div>
-        <div classaNme="checkout">
+        <div className="checkout">
           <span className="blurb">
             Thank you for being a valuable customer! Your order has been
             recieved!
