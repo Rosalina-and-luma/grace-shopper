@@ -45,13 +45,20 @@ class AddProduct extends Component {
       return <Redirect to="/products" />
     }
 
+    let disabled = true
+    if (this.state.name && this.state.price && this.state.inventory) {
+      disabled = false
+    }
+
     return (
       <div>
         <h1>Add a New Product</h1>
         <div className="edit-form">
           <form onSubmit={this.handleSubmit}>
             <div className="edit-condition">
-              <label htmlFor="name">Name</label>
+              <label htmlFor="name">
+                Name {!this.state.name.trim() && <span>(required)</span>}
+              </label>
               <input
                 type="text"
                 name="name"
@@ -81,7 +88,9 @@ class AddProduct extends Component {
             </div>
 
             <div className="edit-condition">
-              <label htmlFor="price">Price</label>
+              <label htmlFor="price">
+                Price {!this.state.price && <span>(required)</span>}
+              </label>
               <input
                 type="text"
                 name="price"
@@ -105,7 +114,9 @@ class AddProduct extends Component {
             </div>
 
             <div className="edit-condition">
-              <label htmlFor="inventory">Inventory</label>
+              <label htmlFor="inventory">
+                Inventory {!this.state.inventory && <span>(required)</span>}
+              </label>
               <input
                 type="text"
                 name="inventory"
@@ -115,7 +126,9 @@ class AddProduct extends Component {
             </div>
 
             <div className="action-button">
-              <button type="submit">Add Product</button>
+              <button type="submit" disabled={disabled}>
+                Add Product
+              </button>
             </div>
           </form>
         </div>
