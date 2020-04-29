@@ -44,12 +44,19 @@ class AddProduct extends Component {
     if (!this.props.user.isAdmin) {
       return <Redirect to="/products" />
     }
-    // console.log(this.state)
+
+    let disabled = true
+    if (this.state.name && this.state.price && this.state.inventory) {
+      disabled = false
+    }
+
     return (
       <div className="edit-form">
         <h1>Add New Product</h1>
         <form onSubmit={this.handleSubmit}>
-          <label htmlFor="name">Name</label>
+          <label htmlFor="name">
+            Name {!this.state.name.trim() && <span>(required)</span>}
+          </label>
           <input
             type="text"
             name="name"
@@ -76,7 +83,9 @@ class AddProduct extends Component {
           />
           <br />
 
-          <label htmlFor="price">Price</label>
+          <label htmlFor="price">
+            Price {!this.state.price && <span>(required)</span>}
+          </label>
           <input
             type="text"
             name="price"
@@ -98,7 +107,9 @@ class AddProduct extends Component {
           </select>
           <br />
 
-          <label htmlFor="inventory">Inventory</label>
+          <label htmlFor="inventory">
+            Inventory {!this.state.inventory && <span>(required)</span>}
+          </label>
           <input
             type="text"
             name="inventory"
@@ -107,7 +118,9 @@ class AddProduct extends Component {
           />
           <br />
 
-          <button type="submit">Add Product</button>
+          <button type="submit" disabled={disabled}>
+            Add Product
+          </button>
         </form>
       </div>
     )
