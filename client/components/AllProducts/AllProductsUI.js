@@ -23,14 +23,15 @@ const AllProductsUI = props => {
   } = props
 
   const handleUserBuy = data => {
+    if (product.inventory < 1) {
+      return
+    }
     if (Object.keys(currentOrder).length) {
       let currentProduct = currentOrder.order_products.filter(
         prod => prod.productId === data.productId
       )
-
       if (currentProduct.length) {
         currentProduct[0].quantity += 1
-        currentProduct[0].inventory -= 1
 
         updateQuantity({
           productId: data.productId,
@@ -39,7 +40,7 @@ const AllProductsUI = props => {
         })
         updateInventory({
           productId: data.productId,
-          inventory: currentProduct[0].inventory
+          inventory: product.inventory - 1
         })
       } else {
         addToCart({productId: data.productId, quantity: 1})
@@ -52,9 +53,10 @@ const AllProductsUI = props => {
       addToCart({productId: data.productId, quantity: 1})
     }
     product.inventory -= 1
+
     updateInventory({
       productId: data.productId,
-      inventory: data.inventory - 1
+      inventory: product.inventory
     })
   }
 

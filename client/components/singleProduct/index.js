@@ -18,6 +18,9 @@ class SingleProduct extends Component {
 
   handleUserBuy = data => {
     const {selectedProduct, orders} = this.props
+    console.log('data', data)
+    console.log()
+    if (data.inventory < 1) return
 
     let currentOrder = {}
     orders.forEach(order => {
@@ -32,16 +35,11 @@ class SingleProduct extends Component {
       )
       if (product.length) {
         product[0].quantity += 1
-        product[0].inventory -= 1
 
         this.props.updateQuantity({
           productId: data.productId,
           quantity: product[0].quantity,
           orderId: currentOrder.id
-        })
-        this.props.updateInventory({
-          productId: data.productId,
-          inventory: product[0].inventory
         })
       } else {
         this.props.addToCart({productId: data.productId, quantity: 1})
@@ -53,7 +51,7 @@ class SingleProduct extends Component {
     } else {
       this.props.addToCart({productId: data.productId, quantity: 1})
     }
-    selectedProduct.inventory -= 1
+    selectedProduct.inventory = data.inventory - 1
     this.props.updateInventory({
       productId: data.productId,
       inventory: data.inventory - 1
