@@ -1,5 +1,6 @@
 const router = require('express').Router()
-const {Order, OrderProduct, Product} = require('../../db/models')
+const nodemailer = require('nodemailer')
+const {Order, OrderProduct, Product, User} = require('../../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -84,6 +85,35 @@ router.put('/', async (req, res, next) => {
   try {
     const order = await Order.findByPk(req.body.id)
     if (order) {
+      const userId = Object.values(req.session.passport)[0]
+
+      const user = await User.findByPk(userId)
+
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'diagonelleyshop@gmail.com',
+          pass: 'hogwarts1234'
+        }
+      })
+
+      const mailOptions = {
+        from: 'diagonelleyshop@gmail.com',
+        to: user.email,
+        subject: 'Order Confirmation',
+        text: `Thank you ${
+          user.firstName
+        } for being a valuable customer! Your order has been successfully recieved!`
+      }
+
+      transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+          console.log(error)
+        } else {
+          console.log('Email sent: ' + info.response)
+        }
+      })
+
       order.update({
         purchased: true
       })

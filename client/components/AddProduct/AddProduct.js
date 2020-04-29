@@ -51,77 +51,87 @@ class AddProduct extends Component {
     }
 
     return (
-      <div className="edit-form">
-        <h1>Add New Product</h1>
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="name">
-            Name {!this.state.name.trim() && <span>(required)</span>}
-          </label>
-          <input
-            type="text"
-            name="name"
-            value={this.state.name}
-            onChange={this.handleChange}
-          />
-          <br />
+      <div>
+        <h1>Add a New Product</h1>
+        <div className="edit-form">
+          <form onSubmit={this.handleSubmit}>
+            <div className="edit-condition">
+              <label htmlFor="name">
+                Name {!this.state.name.trim() && <span>(required)</span>}
+              </label>
+              <input
+                type="text"
+                name="name"
+                value={this.state.name}
+                onChange={this.handleChange}
+              />
+            </div>
 
-          <label htmlFor="imgUrl">ImageURL</label>
-          <input
-            type="text"
-            name="imgUrl"
-            value={this.state.imgUrl}
-            onChange={this.handleChange}
-          />
-          <br />
+            <div className="edit-condition">
+              <label htmlFor="imgUrl">ImageURL</label>
+              <input
+                type="text"
+                name="imgUrl"
+                value={this.state.imgUrl}
+                onChange={this.handleChange}
+              />
+            </div>
 
-          <label htmlFor="description">Description</label>
-          <input
-            type="text"
-            name="description"
-            value={this.state.description}
-            onChange={this.handleChange}
-          />
-          <br />
+            <div className="edit-condition">
+              <label htmlFor="description">Description</label>
+              <input
+                type="text"
+                name="description"
+                value={this.state.description}
+                onChange={this.handleChange}
+              />
+            </div>
 
-          <label htmlFor="price">
-            Price {!this.state.price && <span>(required)</span>}
-          </label>
-          <input
-            type="text"
-            name="price"
-            value={this.state.price}
-            onChange={this.handleChange}
-          />
-          <br />
+            <div className="edit-condition">
+              <label htmlFor="price">
+                Price {!this.state.price && <span>(required)</span>}
+              </label>
+              <input
+                type="text"
+                name="price"
+                value={this.state.price}
+                onChange={this.handleChange}
+              />
+            </div>
 
-          <label htmlFor="categoryId">Category</label>
-          <select
-            value={this.state.categoryId}
-            onChange={this.handleChange}
-            name="categoryId"
-          >
-            <option value="1">Wands</option>
-            <option value="2">Brooms</option>
-            <option value="3">Robes</option>
-            <option value="4">Misc</option>
-          </select>
-          <br />
+            <div className="edit-condition">
+              <label htmlFor="categoryId">Category</label>
+              <select
+                value={this.state.categoryId}
+                onChange={this.handleChange}
+                name="categoryId"
+              >
+                <option value="1">Wands</option>
+                <option value="2">Brooms</option>
+                <option value="3">Robes</option>
+                <option value="4">Misc</option>
+              </select>
+            </div>
 
-          <label htmlFor="inventory">
-            Inventory {!this.state.inventory && <span>(required)</span>}
-          </label>
-          <input
-            type="text"
-            name="inventory"
-            value={this.state.inventory}
-            onChange={this.handleChange}
-          />
-          <br />
+            <div className="edit-condition">
+              <label htmlFor="inventory">
+                Inventory {!this.state.inventory && <span>(required)</span>}
+              </label>
+              <input
+                type="text"
+                name="inventory"
+                value={this.state.inventory}
+                onChange={this.handleChange}
+              />
+            </div>
 
-          <button type="submit" disabled={disabled}>
-            Add Product
-          </button>
-        </form>
+            <div className="action-button">
+              <button type="submit" disabled={disabled}>
+                Add Product
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     )
   }

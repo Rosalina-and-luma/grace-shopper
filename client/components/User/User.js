@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {getAllUsersfromServer} from '../../reducer/users'
-import './user.css'
+import './users.css'
 
 class Users extends React.Component {
   componentDidMount() {
@@ -11,7 +11,6 @@ class Users extends React.Component {
 
   render() {
     const {users, isLoading} = this.props
-    console.log('in render', this.props)
 
     if (isLoading) return <h1> Loading...</h1>
 

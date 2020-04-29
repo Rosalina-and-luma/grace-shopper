@@ -1,12 +1,14 @@
 .user-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  background-color: lightgrey;
+  align-items: left;
+  margin: 25px 40%;
 }
 
 .user-data {
-  border: solid black 2px;
-  background-color: lightgrey;
   margin: 10px;
   padding: 5px;
+  background-color: rgb(182, 182, 182, 0.5);
+  border: white 2px solid;
 }

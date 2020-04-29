@@ -12,26 +12,31 @@ class OrderHistory extends Component {
   render() {
     return (
       <div>
-        <h1> Here is your order history </h1>
+        <h1> Order History </h1>
+
         {this.props.orders.map(order => {
           if (order.purchased) {
             return (
               <div key={order.id} className="order-section">
-                Orders
+                <div className="order-number">Order {order.id}</div>
                 {order.products.map(product => {
                   return (
                     <div key={product.id} className="product">
                       <img src={product.imgUrl} />
                       <div className="product-details">
                         <span>{product.name}</span>
-                        <span>${product.order_product.unitPrice}</span>
+                        <span>Price: ${product.order_product.unitPrice}</span>
                         <span>Quantity: {product.order_product.quantity}</span>
-                        <span>SubTotal: {product.order_product.subTotal}</span>
+                        <span>
+                          Item Total: ${product.order_product.subTotal}
+                        </span>
                       </div>
                     </div>
                   )
                 })}
-                <span>Total: {order.total}</span>
+                <div className="order-total">
+                  <span>Order Total: ${order.total}</span>
+                </div>
               </div>
             )
           }
