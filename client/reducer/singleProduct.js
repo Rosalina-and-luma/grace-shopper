@@ -6,7 +6,6 @@ const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 
 //action creator
 const getSingleProduct = product => {
-  console.log('data in getSingleProduct', product)
   return {
     type: GET_SINGLE_PRODUCT,
     product

@@ -26,7 +26,6 @@ class EditProduct extends Component {
     await this.props.getSelectedProduct(productId)
 
     if (this.props.selectedProduct) {
-      // console.log(this.props.selectedProduct)
       const {
         id,
         name,
@@ -50,7 +49,6 @@ class EditProduct extends Component {
   }
 
   handleChange = e => {
-    console.log(this.state)
     this.setState({
       [e.target.name]: e.target.value
     })
@@ -69,68 +67,96 @@ class EditProduct extends Component {
       return <Redirect to="/products" />
     }
 
+    let disabled = true
+    if (this.state.name && this.state.price && this.state.inventory) {
+      disabled = false
+    }
+
     return (
-      <div className="edit-form">
+      <div>
         <h1>Edit Product</h1>
-        <form onSubmit={this.handleSubmit}>
-          <label>Name</label>
-          <input
-            type="text"
-            name="name"
-            value={this.state.name}
-            onChange={this.handleChange}
-          />
-          <label>ImageURL</label>
-          <input
-            type="text"
-            name="imageUrl"
-            value={this.state.imgUrl}
-            onChange={this.handleChange}
-          />
-          <br />
 
-          <label>Description</label>
-          <input
-            type="text"
-            name="description"
-            value={this.state.description}
-            onChange={this.handleChange}
-          />
-          <br />
+        <div className="edit-form">
+          <form onSubmit={this.handleSubmit}>
+            <div className="edit-condition">
+              <label>
+                {' '}
+                Name {!this.state.name.trim() && <span>(required)</span>}
+              </label>
+              <input
+                type="text"
+                name="name"
+                value={this.state.name}
+                onChange={this.handleChange}
+              />
+            </div>
 
-          <label>Price</label>
-          <input
-            type="text"
-            name="price"
-            value={this.state.price}
-            onChange={this.handleChange}
-          />
-          <br />
+            <div className="edit-condition">
+              <label>ImageURL</label>
+              <input
+                type="text"
+                name="imageUrl"
+                value={this.state.imgUrl}
+                onChange={this.handleChange}
+              />
+            </div>
 
-          <label>Category</label>
-          <select
-            value={this.state.categoryId}
-            onChange={this.handleChange}
-            name="categoryId"
-          >
-            <option value="1">Wands</option>
-            <option value="2">Brooms</option>
-            <option value="3">Robes</option>
-            <option value="4">Misc</option>
-          </select>
-          <br />
+            <div className="edit-condition">
+              <label>Description</label>
+              <input
+                type="text"
+                name="description"
+                value={this.state.description}
+                onChange={this.handleChange}
+              />
+            </div>
 
-          <label>Inventory</label>
-          <input
-            type="text"
-            name="inventory"
-            value={this.state.inventory}
-            onChange={this.handleChange}
-          />
-          <br />
+            <div className="edit-condition">
+              <label>
+                Price {!this.state.price && <span>(required)</span>}
+              </label>
+              <input
+                type="text"
+                name="price"
+                value={this.state.price}
+                onChange={this.handleChange}
+              />
+            </div>
 
-          <button type="submit">Update Product</button>
-        </form>
+            <div className="edit-condition">
+              <label>Category</label>
+              <select
+                value={this.state.categoryId}
+                onChange={this.handleChange}
+                name="categoryId"
+              >
+                <option value="1">Wands</option>
+                <option value="2">Brooms</option>
+                <option value="3">Robes</option>
+                <option value="4">Misc</option>
+              </select>
+            </div>
+
+            <div className="edit-condition">
+              <label>
+                Inventory {!this.state.inventory && <span>(required) </span>}
+              </label>
+              <input
+                type="text"
+                name="inventory"
+                className="inventory-dropdown"
+                value={this.state.inventory}
+                onChange={this.handleChange}
+              />
+            </div>
+
+            <div className="action-button">
+              <button type="submit" disabled={disabled}>
+                Update Product
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     )
   }

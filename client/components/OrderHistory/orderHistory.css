@@ -1,6 +1,7 @@
 .order-section {
-  background-color: rgb(177, 177, 177);
-  margin: 20px 10px;
+  background-color: rgb(182, 182, 182, 0.5);
+  margin: 30px 30%;
+  padding: 20px;
 }
 
 .order-section img {
@@ -10,10 +11,25 @@
 
 .product {
   display: flex;
+  border: white;
+  align-items: center;
+  border: white 2px solid;
+  margin: 10px;
+}
+
+.order-number,
+.order-total {
+  font-weight: bold;
+  text-align: center;
 }
 
 .product-details {
   display: flex;
   flex-direction: column;
-  margin: 10px;
+  flex-grow: 2;
+  align-items: left;
+}
+
+.order-total {
+  font-size: 20px;
 }

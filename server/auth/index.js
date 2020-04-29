@@ -4,22 +4,23 @@ module.exports = router
 
 router.use('/google', require('./google'))
 
-router.get('/me', async (req, res, next) => {
+router.get('/me', (req, res, next) => {
   try {
-    if (!req.session.userId) {
-      if (req.user) {
-        res.json(req.user)
-      } else {
-        res.sendStatus(401)
-      }
-    } else {
-      const user = await User.findById(req.session.userId)
-      if (!user) {
-        res.sendStatus(401)
-      } else {
-        res.json(user)
-      }
-    }
+    res.json(req.user)
+    //   if (!req.session.userId) {
+    //     if (req.user) {
+    //       res.json(req.user)
+    //     } else {
+    //       res.sendStatus(401)
+    //     }
+    //   } else {
+    //     const user = await User.findById(req.session.userId)
+    //     if (!user) {
+    //       res.sendStatus(401)
+    //     } else {
+    //       res.json(user)
+    //     }
+    //   }
   } catch (error) {
     next(error)
   }

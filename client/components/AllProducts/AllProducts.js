@@ -19,11 +19,7 @@ class AllProducts extends React.Component {
       ? products.filter(product => product.category.name === category)
       : products
 
-    console.log('products to render: ', allProds)
-
     if (isLoading) return <h1>loading....</h1>
-
-    console.log('Logged in user id', user.id)
 
     return (
       <div className="products-landing-page">
