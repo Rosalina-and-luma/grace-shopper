@@ -51,9 +51,9 @@ describe('Products route', () => {
       await agent.post('/api/products', badReq).expect(403)
     })
 
-    it('blocks non-admins from accessing the POST route', async () => {
-      await agent.post('/api/products', badReq).expect(403)
-    })
+    // it('blocks non-admins from accessing the POST route', async () => {
+    //   await agent.post('/api/products', badReq).expect(403)
+    // })
 
     it('blocks non-admins from accessing the PUT route', async () => {
       await agent.put('/api/products/1', badReq).expect(403)
