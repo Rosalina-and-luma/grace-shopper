@@ -57,7 +57,6 @@ class Orders extends Component {
       })),
       total: products.total
     })
-    // }
   }
 
   addQuantity = data => {

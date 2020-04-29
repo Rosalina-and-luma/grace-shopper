@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {getAllUsersfromServer} from '../../reducer/users'
-import './user.css'
+import './users.css'
 
 class Users extends React.Component {
   componentDidMount() {

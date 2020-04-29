@@ -18,8 +18,6 @@ class SingleProduct extends Component {
 
   handleUserBuy = data => {
     const {selectedProduct, orders} = this.props
-    console.log('data', data)
-    console.log()
     if (data.inventory < 1) return
 
     let currentOrder = {}
