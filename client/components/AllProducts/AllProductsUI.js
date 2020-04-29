@@ -2,11 +2,63 @@ import React from 'react'
 import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {deleteFromServer} from '../../reducer/allProds'
-import {addToCartServer, handleLocalStorage} from '../../reducer/order/order'
+import {
+  addToCartServer,
+  updateProductInventoryToServer,
+  updateOrderQuantityToServer,
+  handleLocalStorage,
+  getOrdersFromServer
+} from '../../reducer/order/order'
 import './AllProducts.css'
 
 const AllProductsUI = props => {
-  const {product, isAdmin, user} = props
+  const {
+    product,
+    isAdmin,
+    user,
+    updateInventory,
+    updateQuantity,
+    addToCart,
+    currentOrder
+  } = props
+
+  const handleUserBuy = data => {
+    if (product.inventory < 1) {
+      return
+    }
+    if (Object.keys(currentOrder).length) {
+      let currentProduct = currentOrder.order_products.filter(
+        prod => prod.productId === data.productId
+      )
+      if (currentProduct.length) {
+        currentProduct[0].quantity += 1
+
+        updateQuantity({
+          productId: data.productId,
+          quantity: currentProduct[0].quantity,
+          orderId: currentOrder.id
+        })
+        updateInventory({
+          productId: data.productId,
+          inventory: product.inventory - 1
+        })
+      } else {
+        addToCart({productId: data.productId, quantity: 1})
+        currentOrder.order_products.push({
+          productId: data.productId,
+          quantity: 1
+        })
+      }
+    } else {
+      addToCart({productId: data.productId, quantity: 1})
+    }
+    product.inventory -= 1
+
+    updateInventory({
+      productId: data.productId,
+      inventory: product.inventory
+    })
+  }
 
   return (
     <div className="products">
@@ -19,58 +71,43 @@ const AllProductsUI = props => {
         <span className="price">${product.price}</span>
       </div>
 
-      {/* <NavLink to={`/products/${product.id}`}>
-        <button type="button">View Details</button>
-      </NavLink> */}
-
-      {/*
-
-      </div> */}
-
-      {/* {isAdmin && (
-        <div>
-          <NavLink to={`/products/${product.id}/update`}>
-            <button type="button" className="edit-button">
-              Edit
-            </button>
-      <span className="name">{product.name}</span>
-      <span className="price">${product.price}</span>
-      <NavLink to={`/products/${product.id}`}>
-        <button type="button">View Details</button>
-      </NavLink> */}
-
       <div className="item-buy">
-        {Object.keys(user).length ? (
-          <button
-            type="button"
-            className="buy-button"
-            onClick={() => {
-              props.addToCart({
-                // userId: props.user.id,
-                productId: props.product.id,
-                quantity: 1
-              })
-            }}
-          >
-            Add to Cart
-          </button>
+        {product.inventory ? (
+          Object.keys(user).length ? (
+            <button
+              type="button"
+              className="buy-button"
+              onClick={() => {
+                handleUserBuy({
+                  productId: props.product.id,
+                  quantity: 1,
+                  inventory: props.product.inventory
+                })
+              }}
+            >
+              Buy
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => {
+                handleLocalStorage({
+                  productId: props.product.id,
+                  name: props.product.name,
+                  imgUrl: props.product.imgUrl,
+                  description: props.product.description,
+                  price: props.product.price,
+                  inventory: props.product.inventory,
+                  quantity: 1
+                })
+              }}
+            >
+              {' '}
+              Add To Cart
+            </button>
+          )
         ) : (
-          <button
-            type="button"
-            onClick={() => {
-              handleLocalStorage({
-                productId: props.product.id,
-                name: props.product.name,
-                imgUrl: props.product.imgUrl,
-                description: props.product.description,
-                price: props.product.price,
-                quantity: 1
-              })
-            }}
-          >
-            {' '}
-            Add To Cart
-          </button>
+          <label>Out of stock</label>
         )}
       </div>
 
@@ -100,14 +137,18 @@ const AllProductsUI = props => {
 
 const mapStateToProps = state => {
   return {
-    user: state.user
+    user: state.user,
+    orders: state.order.allOrders
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     addToCart: order => dispatch(addToCartServer(order)),
-    deleteProduct: id => dispatch(deleteFromServer(id))
+    deleteProduct: id => dispatch(deleteFromServer(id)),
+    updateInventory: data => dispatch(updateProductInventoryToServer(data)),
+    updateQuantity: data => dispatch(updateOrderQuantityToServer(data)),
+    getOrders: () => dispatch(getOrdersFromServer())
   }
 }
 

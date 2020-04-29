@@ -51,8 +51,6 @@ router.post('/', isAdmin, async (req, res, next) => {
     const {dataValues} = await product.getCategory()
     product.dataValues.category = dataValues
 
-    // console.log('product: ', product)
-
     res.status(201).json(product)
   } catch (err) {
     next(err)
@@ -80,8 +78,6 @@ router.put('/:productId', isAdmin, async (req, res, next) => {
       }
     )
 
-    // console.log(updatedProduct)
-
     if (updatedProduct) {
       const {dataValues} = await updatedProduct.getCategory()
       updatedProduct.dataValues.category = dataValues
@@ -95,16 +91,15 @@ router.put('/:productId', isAdmin, async (req, res, next) => {
   }
 })
 
-//refactor so code is not redundant
 router.delete('/:productId', isAdmin, async (req, res, next) => {
   try {
-    let selectedProduct = await Product.findByPk(req.params.productId) //don't need this
+    let selectedProduct = await Product.findByPk(req.params.productId)
     if (selectedProduct) {
       await Product.destroy({
         where: {
           id: selectedProduct.id
         }
-      }) //will return 0 if nothing was destroyed
+      })
       res.sendStatus(204)
     }
   } catch (error) {

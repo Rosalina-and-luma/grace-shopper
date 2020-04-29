@@ -1,6 +1,11 @@
 import React, {Component} from 'react'
 import '../Orders/orders.css'
 import {NavLink} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {
+  updateProductInventoryToServer,
+  updateOrderQuantityToServer
+} from '../../reducer/order/order'
 
 class GuestOrder extends Component {
   constructor() {
@@ -13,6 +18,14 @@ class GuestOrder extends Component {
 
   componentDidMount() {
     this.getTotal()
+    if (this.state.allProducts && this.state.allProducts.length) {
+      this.state.allProducts.forEach(product => {
+        this.props.updateInventory({
+          productId: product.id,
+          inventory: product.inventory
+        })
+      })
+    }
   }
 
   getTotal = () => {
@@ -29,11 +42,18 @@ class GuestOrder extends Component {
   }
 
   addQuantity = id => {
+    let updatedInventory
     let oldProducts = [...this.state.allProducts]
     let updatedProducts = oldProducts.filter(product => {
       if (product.id === id) {
-        product.quantity += 1
-        product.subTotal = product.quantity * product.price
+        if (product.inventory > 0) {
+          product.quantity += 1
+          product.inventory -= 1
+          updatedInventory = product.inventory
+          product.subTotal = product.quantity * product.price
+        } else {
+          alert(`There is no more of ${product.name} left in inventory!`)
+        }
       }
       return product
     })
@@ -45,13 +65,23 @@ class GuestOrder extends Component {
     this.getTotal()
 
     localStorage.setItem('products', JSON.stringify(this.state.allProducts))
+
+    if (updatedInventory >= 0) {
+      this.props.updateInventory({
+        productId: id,
+        inventory: updatedInventory
+      })
+    }
   }
 
   subtractQuantity = id => {
     let oldProducts = [...this.state.allProducts]
+    let updatedInventory
     let updatedProducts = oldProducts.filter(product => {
       if (product.id === id && product.quantity > 0) {
         product.quantity -= 1
+        product.inventory += 1
+        updatedInventory = product.inventory
         product.subTotal = product.quantity * product.price
       }
 
@@ -69,6 +99,10 @@ class GuestOrder extends Component {
     })
 
     this.getTotal()
+    this.props.updateInventory({
+      productId: id,
+      inventory: updatedInventory
+    })
 
     localStorage.setItem('products', JSON.stringify(updatedProducts))
   }
@@ -77,10 +111,12 @@ class GuestOrder extends Component {
     let oldProducts = [...this.state.allProducts]
 
     let updatedTotal = this.state.total
+    let updatedInventory
 
     let updatedProducts = oldProducts.filter(prod => {
       if (prod.id === id) {
         updatedTotal -= prod.subTotal
+        updatedInventory = prod.inventory + prod.quantity
       } else {
         return prod
       }
@@ -92,6 +128,10 @@ class GuestOrder extends Component {
     })
 
     localStorage.setItem('products', JSON.stringify(updatedProducts))
+    this.props.updateInventory({
+      productId: id,
+      inventory: updatedInventory
+    })
   }
 
   checkout = () => {
@@ -112,6 +152,7 @@ class GuestOrder extends Component {
                 <NavLink to={`/products/${product.id}`}>
                   <span className="name"> {product.name}</span>
                 </NavLink>
+                <span>Inventory: {product.inventory}</span>
                 <span className="unitPrice">${product.price}</span>
                 <button
                   type="button"
@@ -162,4 +203,11 @@ class GuestOrder extends Component {
   }
 }
 
-export default GuestOrder
+const mapDispatchToProps = dispatch => {
+  return {
+    updateInventory: data => dispatch(updateProductInventoryToServer(data)),
+    updateQuantity: data => dispatch(updateOrderQuantityToServer(data))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(GuestOrder)
