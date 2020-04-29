@@ -3,7 +3,10 @@ const {Order, OrderProduct, Product} = require('../../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
-  const user = Object.values(req.session.passport)[0]
+  let user
+  if (req.session.passport) {
+    user = Object.values(req.session.passport)[0]
+  }
 
   try {
     const orders = await Order.findAll({
@@ -35,7 +38,7 @@ router.get('/', async (req, res, next) => {
 
     res.json(products)
   } catch (error) {
-    next(error)
+    // next(error)
   }
 })
 

@@ -138,10 +138,13 @@ export const handleLocalStorage = data => {
 
     //checking if the product user is trying to buy is already in storage, if it is already there, increase the quantity by 1
     let updatedExisitngOrder = currentOrders.map(order => {
+      console.log('order', order)
       if (order.id === data.productId) {
-        order.quantity += 1
-        order.subTotal = order.quantity * order.price
-        order.inventory -= 1
+        if (order.inventory >= 1) {
+          order.quantity += 1
+          order.subTotal = order.quantity * order.price
+          order.inventory -= 1
+        }
         updateExistingFlag = true
       }
       return order
