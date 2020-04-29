@@ -4,7 +4,10 @@ const {Order, OrderProduct, Product, User} = require('../../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
-  const user = Object.values(req.session.passport)[0]
+  let user
+  if (req.session.passport) {
+    user = Object.values(req.session.passport)[0]
+  }
 
   try {
     const orders = await Order.findAll({
@@ -35,11 +38,8 @@ router.get('/', async (req, res, next) => {
     })
 
     res.json(products)
-    // } else {
-    //   console.log('No user found')
-    // }
   } catch (error) {
-    next(error)
+    // next(error)
   }
 })
 
@@ -138,6 +138,20 @@ router.put('/quantity', async (req, res, next) => {
     res.json(product)
   } catch (error) {
     console.error(error)
+  }
+})
+
+router.put('/inventory', async (req, res, next) => {
+  try {
+    const product = await Product.findByPk(req.body.productId)
+    if (product) {
+      product.update({
+        inventory: req.body.inventory
+      })
+    }
+    res.sendStatus(200)
+  } catch (error) {
+    next(error)
   }
 })
 

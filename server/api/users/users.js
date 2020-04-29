@@ -6,7 +6,6 @@ module.exports = router
 
 router.get('/', isAdmin, async (req, res, next) => {
   try {
-    console.log(isAdmin)
     const users = await User.findAll({
       attributes: ['id', 'firstName', 'lastName', 'email']
     })

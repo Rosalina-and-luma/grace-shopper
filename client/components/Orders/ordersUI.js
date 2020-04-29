@@ -12,6 +12,7 @@ const OrdersUI = props => {
 
           <div className="info-container">
             <span className="name">{product.name}</span>
+            <span>Inventory: {product.inventory}</span>
             <span className="unitPrice">${product.unitPrice}</span>
             {/* <span className="quantity">{product.quantity}</span> */}
           </div>
