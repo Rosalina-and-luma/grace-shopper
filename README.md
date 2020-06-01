@@ -2,11 +2,11 @@
 
 _A one stop shop for your next year essentials at Hogwards- School of Witchcraft and Wizardry_
 
-Diagon-e-lley is an online shopping website for the students of Hogwards. The user has following abilities:
+Diagon-e-lley is an online shopping website for the students of Hogwards. A user can either be a member of the shopping portal, a guest user or an admin. All the users can:
 
 * to browse all products
 * to view products by categories by choosing the category from navbar
-* to add/view products to cart
+* to add products or view exisitng products in cart
 * update the quanity of products needed in cart
 * checkout and buy products
 
@@ -15,11 +15,14 @@ If the user is admin, he has the following capabilities:
 * can update inventory from front-end
 * can view all the signed up members
 
-It has 3 different users:
+If the user is a member, besides the common abilities he can also:
 
-* members
-* guest
-* admin
+* update his profile
+* view purchase history
+
+Checkout our website [here][diagon-e-lley]
+
+[diagon-e-lley]: http://diagon-e-lley.herokuapp.com/
 
 _Good things come in pairs_
 
