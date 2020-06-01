@@ -1,4 +1,14 @@
-# Boilermaker
+# Diagon-e-lley
+
+_A one stop shop for your next year essentials at Hogwards- School of Witchcraft and Wizardry_
+
+Diagon-e-lley is an online shopping website for the students of Hogwards. The user can browse all products or browse any specific category of prducts from the nav bar.
+
+It has 3 different users:
+
+* members
+* guest
+* admin
 
 _Good things come in pairs_
 
