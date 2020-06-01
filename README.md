@@ -2,7 +2,18 @@
 
 _A one stop shop for your next year essentials at Hogwards- School of Witchcraft and Wizardry_
 
-Diagon-e-lley is an online shopping website for the students of Hogwards. The user can browse all products or browse any specific category of prducts from the nav bar.
+Diagon-e-lley is an online shopping website for the students of Hogwards. The user has following abilities:
+
+* to browse all products
+* to view products by categories by choosing the category from navbar
+* to add/view products to cart
+* update the quanity of products needed in cart
+* checkout and buy products
+
+If the user is admin, he has the following capabilities:
+
+* can update inventory from front-end
+* can view all the signed up members
 
 It has 3 different users:
 
