@@ -10,6 +10,7 @@ The user of the website can either be a member of the shopping portal, a guest o
 
 * browse all products
 * view products by categories by choosing the category from navbar
+* view cart in the previous state it was left
 * add products or view exisitng products in cart
 * update the quanity of products in cart
 * checkout and buy products
