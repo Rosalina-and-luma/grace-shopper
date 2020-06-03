@@ -1,32 +1,37 @@
 # Diagon-e-lley
 
-_A one stop shop for your next year essentials at Hogwards- School of Witchcraft and Wizardry_
+**http://diagon-e-lley.herokuapp.com/**
 
-Diagon-e-lley is an online shopping website for the students of Hogwards.
+_A one stop shop for your next year essentials at Hogwarts School of Witchcraft and Wizardry_
 
-![diaginGif](https://user-images.githubusercontent.com/37169691/83446756-3fd2ae00-a41d-11ea-8b0c-1009759f1151.gif)
+![diagonGif](https://user-images.githubusercontent.com/37169691/83446756-3fd2ae00-a41d-11ea-8b0c-1009759f1151.gif)
 
-The user of the website can either be a member of the shopping portal, a guest or an admin. All the users can:
+Diagon e-lley is a fullstack mock e-commerce site, built around the theme of a Hogwarts campus supply store. This project was built over ten days by [Mohana Bansal](https://github.com/mohanabansal), [Arianna Campesi](https://github.com/ariannacampesi), [Jennifer Li](https://github.com/jli09), and [Nora Lashner](https://github.com/nlashner).
+
+The front end user interface was created with `React` and `Redux`, and also relies on `localStorage`. The backend uses REST API routes set up in `Express`, with data stored in a `PostgreSQL` database via `Sequelize` ORM.
+
+The website supports three different types of user experiences: guest, logged in user, and administrator.
+
+All users can:
 
 * browse all products
-* view products by categories by choosing the category from navbar
-* view cart in the previous state it was left
-* add products or view exisitng products in cart
-* update the quanity of products in cart
-* checkout and buy products
+* filter products by specific categories
+* add products to the cart
+* edit contents of the cart
+* "checkout" and "buy" products
+* have the cart automatically save across page refreshes
 
-If the user is admin, he has the following capabilities:
+Logged-in users can also:
 
-* can update inventory from front-end
-* can view all the signed up members
+* update their profile
+* have cart automatically sync among multiple clients
+* have cart be saved after logout
+* receive a purchase confirmation email
+* view previous purchase history
 
-If the user is a member, besides the common abilities he can also:
+Administrators have these additional capabilities:
 
-* update his profile
-* view purchase history
+* add, update, and delete inventory
+* view all signed up users
 
-This is a fullstack e-commerce website. The front end is built with `ReactJS`, `Redux`, `HTML`, `CSS` and the backend is built using `NodeJS`, `Express`
-
-Click [here][diagon-e-lley] to buy some products from our website.
-
-[diagon-e-lley]: http://diagon-e-lley.herokuapp.com/
+Please checkout our site with the link at the top!
