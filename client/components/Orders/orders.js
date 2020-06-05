@@ -186,7 +186,7 @@ class Orders extends Component {
     return (
       <div>
         {this.state.total > 0 && this.props.user.id ? (
-          <h1>Here are your orders</h1>
+          <h1>Your Cart:</h1>
         ) : (
           this.props.user.id && <h1>Your cart is empty!</h1>
         )}
@@ -205,15 +205,17 @@ class Orders extends Component {
               )
             })}
 
-            {this.state.total > 0 && (
-              <div>
-                <span>Total: {this.state.total}</span>
-                <br />
-                <NavLink to="/checkout">
-                  <button type="button"> Checkout </button>
-                </NavLink>
-              </div>
-            )}
+            <div className="page-container">
+              {this.state.total > 0 && (
+                <div>
+                  <span>Total: ${this.state.total}</span>
+                  <br />
+                  <NavLink to="/checkout">
+                    <button type="button"> Checkout </button>
+                  </NavLink>
+                </div>
+              )}
+            </div>
           </div>
         ) : (
           <GuestOrder />

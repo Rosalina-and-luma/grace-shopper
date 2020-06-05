@@ -4,6 +4,7 @@ import {
   getOrdersFromServer,
   updateOrderToServer
 } from '../../reducer/order/order'
+import './checkout.css'
 
 class Checkout extends Component {
   componentDidMount = async () => {
@@ -21,9 +22,12 @@ class Checkout extends Component {
   render() {
     return (
       <div>
-        <span>
-          Thank you for being a valuable customer! Your order has been recieved!
-        </span>
+        <div className="checkout">
+          <span className="blurb">
+            Thank you for being a valuable customer! Your order has been
+            recieved!
+          </span>
+        </div>
       </div>
     )
   }

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import '../Orders/orders.css'
+import './guestOrder.css'
 import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {
@@ -141,63 +141,81 @@ class GuestOrder extends Component {
   render() {
     return (
       <div>
-        <h1>In guest cart</h1>
-        {this.state.allProducts && this.state.allProducts.length ? (
-          this.state.allProducts.map(product => {
-            return (
-              <div key={product.id} className="orders-section">
-                <NavLink to={`/products/${product.id}`}>
-                  <img src={product.imgUrl} />
-                </NavLink>
-                <NavLink to={`/products/${product.id}`}>
-                  <span className="name"> {product.name}</span>
-                </NavLink>
-                <span>Inventory: {product.inventory}</span>
-                <span className="unitPrice">${product.price}</span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    this.addQuantity(product.id)
-                  }}
-                >
-                  +
+        <h1>Your Cart: </h1>
+
+        <div className="outer-container">
+          {this.state.allProducts && this.state.allProducts.length ? (
+            this.state.allProducts.map(product => {
+              return (
+                <div key={product.id} className="orders-section">
+                  <div className="item-info">
+                    <NavLink to={`/products/${product.id}`}>
+                      <img src={product.imgUrl} />
+                    </NavLink>
+                    <div className="inner-info">
+                      <span className="name"> {product.name}</span>
+                      <span>Inventory: {product.inventory}</span>
+                      <span className="unitPrice">
+                        Unit Price: ${product.price}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="quantity">
+                    <button
+                      className="quant-button"
+                      type="button"
+                      onClick={() => {
+                        this.subtractQuantity(product.id)
+                      }}
+                    >
+                      -
+                    </button>
+                    <label className="quantity">
+                      Quantity: {product.quantity}
+                    </label>
+
+                    <button
+                      className="quant-button"
+                      type="button"
+                      onClick={() => {
+                        this.addQuantity(product.id)
+                      }}
+                    >
+                      +
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        this.removeProduct(product.id)
+                      }}
+                    >
+                      Remove
+                    </button>
+                    <span className="subtotal">Total: ${product.subTotal}</span>
+                  </div>
+                </div>
+              )
+            })
+          ) : (
+            <h1> Your cart is empty</h1>
+          )}
+        </div>
+
+        <div className="page-container">
+          {this.state.total > 0 && (
+            <div>
+              <span>Total: ${this.state.total}</span>
+              <br />
+              <NavLink to="/checkout">
+                <button type="button" onClick={this.checkout}>
+                  {' '}
+                  Checkout{' '}
                 </button>
-                <label className="quantity">Quantity: {product.quantity}</label>
-                <button
-                  type="button"
-                  onClick={() => {
-                    this.subtractQuantity(product.id)
-                  }}
-                >
-                  -
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    this.removeProduct(product.id)
-                  }}
-                >
-                  Remove
-                </button>
-                <span>SubTotal: {product.subTotal}</span>
-              </div>
-            )
-          })
-        ) : (
-          <h1> Your cart is empty</h1>
-        )}
-        {this.state.total > 0 && (
-          <div>
-            <span>Total: {this.state.total}</span>
-            <br />
-            <NavLink to="/checkout">
-              <button type="button" onClick={this.checkout}>
-                {' '}
-                Checkout{' '}
-              </button>
-            </NavLink>
-          </div>
-        )}
+              </NavLink>
+            </div>
+          )}
+        </div>
       </div>
     )
   }
